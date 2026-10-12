@@ -61,8 +61,8 @@ Name the skill after the work: `benchmark-<repo>-<short-task>`, e.g.
 ## 2. Decide where it lives
 
 The skills repo is public. Only benchmarks built from public code may go
-into `~/workspaces/personal/skills/skills/`. For anything from work or other
-private code, ask the user for a private location. Never commit non-public
+into `~/workspaces/personal/skills/skills/felixscherz/`. For anything from
+work or other private code, ask the user for a private location. Never commit non-public
 code, requests, or reviews into the skills repo.
 
 ## 3. Build the fixture

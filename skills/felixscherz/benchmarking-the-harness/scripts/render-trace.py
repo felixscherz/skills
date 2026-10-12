@@ -19,10 +19,10 @@ SANDBOX = re.compile(r"(/private)?/tmp/agent-runs/[0-9a-f]+")
 def environment_names(arena: Path) -> tuple[set[str], set[str]]:
     skills: set[str] = set()
     references: set[str] = set()
-    for skill_dir in arena.glob("layers/*/skills/*"):
-        if skill_dir.is_dir():
-            skills.add(skill_dir.name)
-            references.update(p.name for p in skill_dir.rglob("*") if p.is_file() and p.name != "SKILL.md")
+    for skill_md in arena.glob("layers/*/skills/**/SKILL.md"):
+        skill_dir = skill_md.parent
+        skills.add(skill_dir.name)
+        references.update(p.name for p in skill_dir.rglob("*") if p.is_file() and p.name != "SKILL.md")
     return skills, references
 
 

@@ -15,10 +15,12 @@ Two goals:
 ## Global or project-local
 
 - **Global** - useful across repositories (personal workflow, general
-  practices). Author it in `~/workspaces/personal/skills/skills/<name>/SKILL.md`.
-  That repo's `link.sh` symlinks each skill into `~/.agents/skills/`, which
-  opencode and Codex read, and into `~/.claude/skills/`. Rerun `link.sh` after
-  adding a skill. Remind the user to commit the change in the skills repo.
+  practices). Author it in
+  `~/workspaces/personal/skills/skills/felixscherz/<name>/SKILL.md`. That
+  repo's `link.sh` symlinks the `felixscherz` folder into `~/.agents/skills/`,
+  which opencode and Codex read, and into `~/.claude/skills/`, so a new skill
+  shows up without a rerun. Remind the user to commit the change in the
+  skills repo.
 - **Project-local** - specific to one repository's code, tooling, or
   conventions. Default to `.agents/skills/<name>/SKILL.md`, which most
   harnesses read. If the repo already keeps skills in `.claude/skills` or

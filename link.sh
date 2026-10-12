@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
-# Symlinks every skill in this repo into the global skill directories, so edits
-# here take effect immediately. Rerun after adding or removing a skill.
+# Symlinks each namespace folder under skills/ (such as skills/felixscherz) into
+# the global skill directories, so edits here take effect immediately. Skills
+# added inside a namespace show up without a rerun. Rerun after adding,
+# renaming, or removing a namespace.
 # For a pinned copy instead, install with `npx skills` (see README.md).
 set -e
 source "$(dirname "$0")/lib.sh"
@@ -14,12 +16,14 @@ for target in "${TARGETS[@]}"; do
 	fi
 	mkdir -p "$target"
 
-	for skill in "$SRC"/*/; do
-		skill="${skill%/}"
-		[[ -f "$skill/SKILL.md" ]] || continue
-		dest="$target/$(basename "$skill")"
+	for ns in "$SRC"/*/; do
+		ns="${ns%/}"
+		# Harnesses find skills nested in the linked folder, so a namespace only
+		# needs a SKILL.md somewhere below it.
+		[[ -n "$(find "$ns" -name SKILL.md -print -quit)" ]] || continue
+		dest="$target/$(basename "$ns")"
 		if [[ -L "$dest" ]]; then
-			if [[ "$(readlink "$dest")" == "$skill" ]]; then
+			if [[ "$(readlink "$dest")" == "$ns" ]]; then
 				continue
 			fi
 			if ! is_ours "$dest"; then
@@ -29,15 +33,15 @@ for target in "${TARGETS[@]}"; do
 			fi
 			rm "$dest"
 		elif [[ -e "$dest" ]]; then
-			echo "conflict: $dest exists, remove it first (installed with npx? run: npx skills remove -g $(basename "$skill"))" >&2
+			echo "conflict: $dest exists, remove it first" >&2
 			conflicts=1
 			continue
 		fi
-		ln -s "$skill" "$dest"
+		ln -s "$ns" "$dest"
 		echo "linked $dest"
 	done
 
-	# Drop links to skills that were removed or renamed in this repo.
+	# Drop links to namespaces that were removed or renamed in this repo.
 	for link in "$target"/*; do
 		if is_ours "$link" && [[ ! -e "$link" ]]; then
 			rm "$link"
