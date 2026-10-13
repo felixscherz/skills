@@ -5,7 +5,8 @@
 The source root is split by domain first, then by layer. Each top-level
 package is a module named with a glossary term (`invoicing`, `customers`),
 or a small technical module named for its job (`clock`, `ids`). Inside every
-domain module, the same three layers have the same names:
+domain module, the layers have the same names. A module has only the layers
+it needs, and a missing layer says nothing else about it:
 
 ```text
 src/acme/
@@ -17,7 +18,7 @@ src/acme/
 |   |-- usecases/         does: one file per intent, the ports they consume, fakes
 |   `-- infrastructure/   adapters for the ports, persisted record shapes
 |-- customers/            same shape
-|-- checkout/             coordinating module: usecases/ only
+|-- checkout/             owns a workflow: usecases/, no rules of its own yet
 `-- wiring/               composition root (top layer)
 ```
 

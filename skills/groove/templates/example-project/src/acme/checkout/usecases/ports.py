@@ -1,5 +1,5 @@
-"""The unit of work belongs to the coordinating module, because only it knows
-which repositories must commit together."""
+"""The unit of work belongs to checkout, because the owner of the workflow is the
+only one that knows which repositories must commit together."""
 
 from types import TracebackType
 from typing import Protocol, Self

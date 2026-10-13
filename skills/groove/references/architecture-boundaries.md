@@ -27,14 +27,28 @@ internally into layers (see `module-layout.md`).
 - **One direction per pair.** If invoicing reads from customers, customers
   does not read from invoicing. Links in both directions mean the boundary
   is in the wrong place: merge the modules or move the responsibility.
-- **Changing state in several modules.** A domain module never changes state
-  owned by another domain module. When one operation must change state in
-  several modules all or nothing, it lives in a coordinating module (a use
-  case) one layer up. It depends on all of them and wraps the change in a
-  unit of work. This works only while the modules share a store that can
-  commit together. When they do not, the owning module commits its own
-  change and records an event, and the other module reacts in its own
-  transaction.
+- **Every workflow has an owner.** A module never changes state owned by
+  another module. When one operation changes state in several modules, name
+  the module that owns it: the one whose rule says these changes belong
+  together. Ask in this order:
+  - **One of the modules owns it.** The rule is in that module's language,
+    such as "an issued Invoice is charged" in invoicing. That module runs the
+    workflow: it commits its own change and records an event, and the other
+    module reacts in its own transaction.
+  - **The workflow is a concept of its own.** Neither module's language has
+    the rule, but the glossary has a term for the workflow (Checkout). Then
+    the workflow is a responsibility of its own and gets its own module, one
+    layer above the modules it uses. That module is a domain module like any
+    other: it owns the use case and, when the changes must commit together,
+    the unit of work. It may have no rules yet, and grows a `domain/` once it
+    has one. A unit of work works only while the modules share a store that
+    can commit together; when they do not, fall back to events.
+  - **Neither, but it must commit together.** The boundary is in the wrong
+    place: merge the modules, or find the missing concept and give it a
+    glossary term.
+- **The trigger is not the owner.** What starts a workflow (an API handler,
+  a CLI command, an event subscriber) calls the owner's use case. It does
+  not sequence the steps itself.
 - **Composition root.** One place builds the application: it constructs
   adapters and wires them into use cases. It sits in the top layer.
 
@@ -51,10 +65,12 @@ with a message saying what to do.
 A port owned by the reader keeps the sibling's model out of the reader's use
 cases: a rename in customers breaks one adapter in invoicing, not its rules
 or tests, and the use case is tested with a fake instead of a real
-customers module. Coordinating modules keep domain modules small and
-independent: invoicing does not need to know that checkout exists. The unit
-of work keeps consistency in one place instead of scattered try/except
-blocks.
+customers module. Naming an owner for every workflow puts its sequencing
+and failure handling in one use case, instead of spread across handlers or
+dropped into whichever module the agent opened first. A workflow with a name
+of its own becomes a module, so invoicing does not need to know that
+checkout exists. The unit of work keeps consistency in one place instead of
+scattered try/except blocks.
 
 ## Example
 
@@ -92,7 +108,7 @@ class CustomerRepositoryLookup:
         return True
 ```
 
-Good, changing state in two modules through a coordinating use case
+Good, a workflow that is a concept of its own, owned by its own module
 (`templates/example-project/src/acme/checkout/`):
 
 ```python
@@ -127,11 +143,14 @@ def check_out(
     return invoice
 ```
 
-The unit-of-work protocol belongs to the coordinating module, because only
-it knows which repositories must commit together. Its repositories are
-read-only properties: a mutable protocol attribute is invariant, and pyright
-strict would reject the in-memory fakes. The coordinating module has no
-domain of its own; it calls the rules of the modules it coordinates.
+Checkout is a glossary term whose rule, all or nothing, belongs to neither
+invoicing nor customers, so checkout owns the workflow. The unit-of-work
+protocol belongs to checkout, because only the owner knows which
+repositories must commit together. Its repositories are read-only
+properties: a mutable protocol attribute is invariant, and pyright strict
+would reject the in-memory fakes. checkout has no rules of its own yet, so it
+has no `domain/` and calls the rules of invoicing and customers. A rule of
+Checkout itself would start its `domain/`.
 
 ## Codify it
 
@@ -157,9 +176,10 @@ broken_contract_guidance = """
 A module may import only modules in lower layers, and modules in the same layer are \
 independent. To read from a sibling module, define a port in your module's usecases/ports.py \
 and implement it in an adapter in your infrastructure/, then add that one import to \
-ignore_imports here. If an operation changes state in two modules, move it into a \
-coordinating module like checkout. If the layers are wrong, change them here on purpose \
-and say why in the pull request."""
+ignore_imports here. If an operation changes state in two modules, it belongs to the \
+module whose rule it is, or, when the workflow has a glossary term of its own, to a module \
+of its own one layer up, like checkout. If the layers are wrong, change them here on \
+purpose and say why in the pull request."""
 ```
 
 One `protected` contract per module keeps everything below its `__init__.py`
@@ -203,3 +223,7 @@ API.
 - Does this module now change state that another module is responsible for?
   The layers contract catches imports, not calls passed in through
   callbacks or ports.
+- Does an operation change state in several modules? Name its owner in your
+  reply: one of the modules, or a module of its own for a workflow with a
+  glossary term. An entry point that sequences the steps itself has no
+  owner.

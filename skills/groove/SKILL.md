@@ -47,8 +47,9 @@ when its trigger fires, not up front.
     down declared layers. Both are import-linter contracts.
   - Reading from a sibling goes through a port the reader owns and one
     adapter, declared in the contract.
-  - Operations that change two domain modules live in a coordinating module
-    that uses a unit of work.
+  - An operation that changes state in several modules has one owner: the
+    module whose rule it is, or, for a workflow with its own glossary term,
+    a module of its own one layer up with a unit of work.
 - **Meaningful module names** (`references/meaningful-module-names.md`).
   Creating or renaming a module or file, or looking for a home for code that
   seems shared.
@@ -123,8 +124,8 @@ Copy from `templates/`:
   `GLOSSARY.md`, then adapt the module names. `src/acme/` shows a domain
   module split into layers (`invoicing`), a read from a sibling through an
   owned port (`invoicing/infrastructure/customer_lookup.py`), small port
-  modules (`clock`, `ids`), and a coordinating module with a unit of work
-  (`checkout`).
+  modules (`clock`, `ids`), and a workflow that is its own module, with a
+  unit of work (`checkout`).
 
 In an existing codebase, introduce one principle at a time, starting with
 the check command. Never add a tool or contract unprompted when the user has

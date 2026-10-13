@@ -26,6 +26,11 @@ Recorded in `references/module-layout.md` and
    layers contract.
 5. **No `shared` package.** Code that several modules need goes into a small
    technical module named for its job, in the bottom layer.
+6. **No module types.** Modules are not classified as domain, coordinator,
+   or technical. A module has the layers it needs, and a missing `domain/`
+   says nothing else about it. An operation that changes several modules
+   has one owner: the module whose rule it is, or, when the workflow has a
+   glossary term of its own (Checkout), a module of its own one layer up.
 
 ## Still open
 

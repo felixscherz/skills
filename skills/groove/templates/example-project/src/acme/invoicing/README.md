@@ -17,7 +17,7 @@ issues an Invoice and charges the Customer in one step (`checkout`).
 ## Public API
 
 - `Invoice`, `InvoiceId`, `InvoiceStatus`, `LineItem`: the Invoice values.
-- `draft`, `issue`, `total`: the rules, for coordinating modules.
+- `draft`, `issue`, `total`: the rules, for modules above it such as `checkout`.
 - `draft_invoice`, `issue_invoice`: use cases.
 - `InvoiceRepository`, `CustomerLookup`: ports.
 - `InMemoryInvoiceRepository`, `FakeCustomerLookup`: fakes for tests.

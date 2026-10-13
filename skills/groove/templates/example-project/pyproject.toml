@@ -65,9 +65,10 @@ broken_contract_guidance = """
 A module may import only modules in lower layers, and modules in the same layer are \
 independent. To read from a sibling module, define a port in your module's usecases/ports.py \
 and implement it in an adapter in your infrastructure/, then add that one import to \
-ignore_imports here. If an operation changes state in two modules, move it into a \
-coordinating module like checkout. If the layers are wrong, change them here on purpose \
-and say why in the pull request."""
+ignore_imports here. If an operation changes state in two modules, it belongs to the \
+module whose rule it is, or, when the workflow has a glossary term of its own, to a module \
+of its own one layer up, like checkout. If the layers are wrong, change them here on \
+purpose and say why in the pull request."""
 
 [[tool.importlinter.contracts]]
 name = "Inside every module, infrastructure -> usecases -> domain"
