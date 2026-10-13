@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "id": "inv_01",
+  "customer_id": "cus_01",
+  "line_items": [
+    {"description": "Consulting, March", "amount_cents": 120000}
+  ],
+  "status": "issued",
+  "issued_at": "2026-03-31T12:00:00+00:00"
+}

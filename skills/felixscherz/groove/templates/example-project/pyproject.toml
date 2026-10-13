@@ -1,0 +1,116 @@
+[project]
+name = "acme"
+version = "0.1.0"
+requires-python = ">=3.12"
+
+[dependency-groups]
+dev = ["codespell", "import-linter", "pyright", "pytest", "ruff", "semgrep"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/acme"]
+
+# Types. Strict, so every input to the functional core is visible and checked.
+[tool.pyright]
+typeCheckingMode = "strict"
+pythonVersion = "3.12"
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+# B008 bans calls in default arguments, so `clock: Clock = SystemClock()` cannot hide a port.
+# TID251 bans direct use of external factors, configured below.
+select = ["E", "F", "I", "UP", "B", "DTZ", "TID251"]
+
+# Injected external factors. Every message says what to do instead.
+[tool.ruff.lint.flake8-tidy-imports.banned-api]
+"datetime.datetime.now".msg = "Inject a Clock (acme.clock) and call clock.now()."
+"datetime.datetime.utcnow".msg = "Inject a Clock (acme.clock) and call clock.now()."
+"datetime.date.today".msg = "Inject a Clock (acme.clock) and use clock.now().date()."
+"time.time".msg = "Inject a Clock (acme.clock) and call clock.now()."
+"time.sleep".msg = "Inject a Clock or Sleeper port so tests do not wait."
+"random".msg = "Inject an Rng port and pass it in."
+"secrets".msg = "Inject an Rng or IdGenerator port and pass it in."
+"uuid.uuid4".msg = "Inject an IdGenerator (acme.ids) and call ids.new_id()."
+"os.environ".msg = "Read configuration in the composition root and pass a settings object in."
+"os.getenv".msg = "Read configuration in the composition root and pass a settings object in."
+"unittest.mock.patch".msg = "Pass the fake that ships with the port instead of patching."
+
+# The only places that may touch the real world: adapters, port modules that hold
+# their real implementation, and the composition root. Every entry says why.
+[tool.ruff.lint.per-file-ignores]
+"src/acme/clock/__init__.py" = ["TID251"]  # SystemClock reads the real time
+"src/acme/ids/__init__.py" = ["TID251"]    # UuidIdGenerator generates real UUIDs
+"src/acme/*/infrastructure/*.py" = ["TID251"]  # adapters implement ports against the real world
+
+# Architecture boundaries. Every contract says how to fix a violation.
+[tool.importlinter]
+root_package = "acme"
+
+[[tool.importlinter.contracts]]
+name = "Modules depend down the layers"
+type = "layers"
+containers = ["acme"]
+layers = ["checkout", "invoicing | customers", "clock | ids"]
+ignore_imports = [
+    # invoicing's adapter for its CustomerLookup port; translates customers into invoicing's terms
+    "acme.invoicing.infrastructure.customer_lookup -> acme.customers",
+]
+broken_contract_guidance = """
+A module may import only modules in lower layers, and modules in the same layer are \
+independent. To read from a sibling module, define a port in your module's usecases/ports.py \
+and implement it in an adapter in your infrastructure/, then add that one import to \
+ignore_imports here. If an operation changes state in two modules, move it into a \
+coordinating module like checkout. If the layers are wrong, change them here on purpose \
+and say why in the pull request."""
+
+[[tool.importlinter.contracts]]
+name = "Inside every module, infrastructure -> usecases -> domain"
+type = "layers"
+containers = ["acme.checkout", "acme.customers", "acme.invoicing"]
+layers = ["(infrastructure)", "(usecases)", "(domain)"]
+broken_contract_guidance = """
+domain decides: pure rules on values, no ports. usecases do: load through ports, call the \
+domain, save, commit. infrastructure implements the ports against the real world. Move the \
+code to the layer that matches what it does. A new module is added to containers here."""
+
+[[tool.importlinter.contracts]]
+name = "The domain gets time and IDs as values"
+type = "forbidden"
+source_modules = ["acme.*.domain"]
+forbidden_modules = ["acme.clock", "acme.ids"]
+broken_contract_guidance = """
+Domain code takes the time and new IDs as arguments. Call clock.now() or ids.new_id() in \
+the use case and pass the value in."""
+
+[[tool.importlinter.contracts]]
+name = "invoicing is used through its public API"
+type = "protected"
+protected_modules = ["acme.invoicing.**"]
+allowed_importers = ["acme.invoicing"]
+broken_contract_guidance = """
+Import from acme.invoicing, not from its submodules. If the name you need is missing, \
+add it to __all__ in acme/invoicing/__init__.py."""
+
+[[tool.importlinter.contracts]]
+name = "customers is used through its public API"
+type = "protected"
+protected_modules = ["acme.customers.**"]
+allowed_importers = ["acme.customers"]
+broken_contract_guidance = """
+Import from acme.customers, not from its submodules. If the name you need is missing, \
+add it to __all__ in acme/customers/__init__.py."""
+
+[[tool.importlinter.contracts]]
+name = "checkout is used through its public API"
+type = "protected"
+protected_modules = ["acme.checkout.**"]
+allowed_importers = ["acme.checkout"]
+broken_contract_guidance = """
+Import from acme.checkout, not from its submodules. If the name you need is missing, \
+add it to __all__ in acme/checkout/__init__.py."""

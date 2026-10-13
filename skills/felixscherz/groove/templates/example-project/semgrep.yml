@@ -1,0 +1,34 @@
+# Rules that ruff cannot express. Run with: semgrep scan --metrics=off --config semgrep.yml --error
+rules:
+  - id: io-outside-adapter
+    languages: [python]
+    severity: ERROR
+    message: >-
+      Direct file I/O outside an adapter. Define a port (a Protocol) in the
+      use case's ports.py, implement it in the module's infrastructure/, and
+      pass it in. Tests use the module's fake.
+    pattern-either:
+      - pattern: open(...)
+      - pattern: $PATH.read_text(...)
+      - pattern: $PATH.write_text(...)
+      - pattern: $PATH.read_bytes(...)
+      - pattern: $PATH.write_bytes(...)
+    paths:
+      include: ["/src/"]
+      exclude: ["**/infrastructure/**"]
+
+  - id: exception-without-message
+    languages: [python]
+    severity: ERROR
+    message: >-
+      Exception raised without a message. Say what went wrong and how to fix
+      it, inline or in the exception class's __init__.
+    pattern-either:
+      - pattern: raise $EXC()
+      - patterns:
+          - pattern: raise $EXC
+          - metavariable-regex:
+              metavariable: $EXC
+              regex: ^[A-Z]\w*$
+    paths:
+      include: ["/src/"]

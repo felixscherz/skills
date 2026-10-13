@@ -1,0 +1,131 @@
+---
+name: groove
+description: Use when working in a Python repository whose AGENTS.md or CLAUDE.md says it follows Groove, or when the user asks to apply Groove, design a Python codebase for agentic coding, or turn a codebase convention into a CI check. Covers domain naming via a glossary, module boundaries, module naming, injecting time/randomness/IDs/I/O into a functional core, versioned persistent data, and codifying each rule with ruff, pyright, import-linter, semgrep, and codespell.
+disable-model-invocation: true
+---
+
+# Groove
+
+Groove is a way to design Python codebases that agents work on reliably. It
+borrows its core idea from Lauren Tan's Dune: make the shortcut the only
+correct path. Every concept has one name, every piece of code has one
+obvious home, and every dependency on the outside world is visible in a
+signature.
+
+Groove is a design philosophy, not a tool. It has no runtime, no CLI, and no
+config file of its own. Its principles become real through existing tools
+that run in one check command in CI. A rule that lives only in prose drifts,
+because every agent session reads it a little differently. A rule in CI
+holds, and its error message teaches the fix at the moment it matters.
+
+## Principles
+
+Each reference holds one principle: the rule, why it helps, an example, how
+to codify it, and what still needs review by hand. Read a reference in full
+when its trigger fires, not up front.
+
+- **Codify rules** (`references/codify-rules.md`). Setting up or changing the
+  check command or CI, adding a tool, writing an error message, or noticing a
+  rule that is followed but not checked.
+  - One command runs every check. Every check says how to fix what it finds.
+- **Glossary** (`references/glossary.md`). Naming anything that represents a
+  domain concept, or finding two names for one thing.
+  - One canonical term per concept in `GLOSSARY.md`. Banned synonyms are
+    checked by codespell.
+- **Module layout** (`references/module-layout.md`). Creating a module or
+  file, deciding which layer code belongs in, writing a use case, or adding
+  a unit of work.
+  - Split by domain first, then by layer: every domain module has
+    `domain/` (decides, pure), `usecases/` (does, owns ports and the
+    transaction), and `infrastructure/` (adapters). Checked per module by
+    import-linter.
+- **Architecture boundaries** (`references/architecture-boundaries.md`).
+  Adding an import between modules, creating a module, reading from a
+  sibling module, or writing an operation that changes state in more than
+  one module.
+  - Modules are used only through their `__init__.py`. Dependencies point
+    down declared layers. Both are import-linter contracts.
+  - Reading from a sibling goes through a port the reader owns and one
+    adapter, declared in the contract.
+  - Operations that change two domain modules live in a coordinating module
+    that uses a unit of work.
+- **Meaningful module names** (`references/meaningful-module-names.md`).
+  Creating or renaming a module or file, or looking for a home for code that
+  seems shared.
+  - No `utils`, `helpers`, `common`, `shared`, `misc`, `core`, or similar.
+- **Injected external factors** (`references/injected-external-factors.md`).
+  Writing code that needs the time, randomness, a new ID, configuration, or
+  any I/O.
+  - A functional core in an imperative shell. External factors arrive through
+    injected ports, with fakes next to the port. ruff bans the direct calls.
+- **Versioned persistent data** (`references/versioned-persistent-data.md`).
+  Changing the shape of anything stored and read back later.
+  - A `version` field, a fixture per version, and a test that every fixture
+    loads.
+
+## Working in a Groove codebase
+
+1. Read `AGENTS.md` (or `CLAUDE.md`) for the check command, then
+   `GLOSSARY.md`, then the `README.md` of each module you will change.
+2. Make the change following the principles.
+3. Run the check command and fix everything it reports. Do not report done
+   while it fails, and do not run only a subset.
+4. Review what the tools cannot see (below).
+5. Report back (below).
+
+## Review what the tools cannot see
+
+Tools catch the mechanical part of each rule. These questions cover the rest:
+
+1. **Names.** Does every new identifier, test name, and doc line that names a
+   domain concept use a glossary term? Did a new concept get a `proposed`
+   glossary entry? Did you name a concept with a word that is not banned
+   only because nobody has used it wrongly yet?
+2. **Boundaries.** Did you add a name to a module's `__all__` that exposes
+   an internal detail? Did you change the layers contract or add an
+   `ignore_imports` entry? If so, was that a deliberate design change?
+   Does any new domain code decide only, with the loading and saving in a
+   use case?
+3. **Responsibilities.** Does each module you touched still do one thing its
+   README states? Does any new file or module have a name that passes the
+   check but says nothing?
+4. **Functional core.** Is new domain logic pure, given the same arguments
+   always returning the same result? Did you add a port without a fake, or a
+   `port: Port | None = None` fallback?
+5. **Persistent data.** Did a stored shape change? If so, is the version
+   bumped, with a migration step and a new fixture?
+6. **Codification.** Did you follow a rule here that no check enforces? Then
+   propose the check, or add it if the user asked you to apply Groove.
+
+## Report back
+
+These principles are being tested. At the end of your reply, add a short
+**Groove feedback** section when any of these happened:
+
+- A rule was unclear, or two rules pulled in different directions.
+- A rule cost a lot of effort for little benefit in this change.
+- You added an exception to a check (a per-file ignore, an ignored import).
+  Say which and why.
+- You added or wanted to add a glossary term.
+- You found a rule that could be codified but is not.
+
+Skip the section when none happened. Do not edit this skill unprompted.
+
+## Adopting Groove
+
+Copy from `templates/`:
+
+- `AGENTS.md`: the section that marks a repository as following Groove.
+- `module-README.md`: the README for each new module.
+- `example-project/`: a working project where `make check` enforces every
+  principle. Copy `pyproject.toml` (pyright, ruff, import-linter),
+  `semgrep.yml`, `Makefile`, `scripts/glossary-dictionary.awk`, and
+  `GLOSSARY.md`, then adapt the module names. `src/acme/` shows a domain
+  module split into layers (`invoicing`), a read from a sibling through an
+  owned port (`invoicing/infrastructure/customer_lookup.py`), small port
+  modules (`clock`, `ids`), and a coordinating module with a unit of work
+  (`checkout`).
+
+In an existing codebase, introduce one principle at a time, starting with
+the check command. Never add a tool or contract unprompted when the user has
+not asked to apply Groove: propose it instead.

@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "id": "inv_02",
+  "customer_id": "cus_01",
+  "line_items": [
+    {"description": "Consulting, April", "amount": "1350.50"}
+  ],
+  "status": "draft",
+  "issued_at": null
+}
