@@ -7,8 +7,8 @@ Whether a term is used with the right meaning cannot be checked mechanically; th
 
 Example, run from the repository root as a pre-commit hook:
 
-    python scripts/check_glossary.py --check 'src/*/domain' --check 'src/*/usecases' \
-        --concepts 'src/*/domain/**/entities.py' --concepts 'src/*/domain/**/values.py'
+    python scripts/check_glossary.py --check 'src/*/*/domain' --check 'src/*/*/usecases' \
+        --concepts 'src/*/*/domain/**/entities.py' --concepts 'src/*/*/domain/**/values.py'
 """
 
 import argparse

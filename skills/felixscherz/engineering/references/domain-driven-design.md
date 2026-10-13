@@ -21,12 +21,19 @@ not only entities.
   Adapters translate at the edges.
 - Group things that must change together into an aggregate, and change them
   only through one entry point that enforces the invariants.
-- Orchestrate multi-step intents in use cases named after the intent
-  (`CancelOrder`). A use case loads inputs, calls focused domain behavior,
-  persists results, and owns the transaction boundary. Entry points delegate
-  to one application operation rather than coordinating several services.
-  Do not add a pass-through use case when one focused operation already
-  handles the intent. Use cases do not call other use cases, and domain
+- The domain decides, use cases do. Domain behavior takes values and returns
+  a decision or new state; it never loads, saves, or calls out. A use case
+  named after the intent (`CancelOrder`) loads inputs through ports, lets the
+  domain decide, persists results, and owns the transaction boundary: one use
+  case, one unit of work. Run every rule before the first write. Entry points
+  delegate to one use case. Use cases do not call other use cases, and domain
   services do not orchestrate other services.
 - Draw bounded contexts where the same word means different things. A
   "customer" in billing and in support may be two models, not one.
+- Keep contexts apart in code. A context reads from another only through a
+  port it owns, worded in its own terms and implemented by one adapter that
+  translates the other context's model. Dependencies between two contexts
+  go one way. A change that must reach a context that cannot commit with
+  yours travels as an event, not a shared transaction. Links in both
+  directions or frequent cross-context transactions mean the boundary is
+  wrong.

@@ -59,7 +59,7 @@ Each message names the replacement, so the failure tells the reader what to inje
 "httpx".msg = "Use the injected HttpClient port"
 
 [tool.ruff.lint.per-file-ignores]
-"src/<package>/infrastructure/**" = ["TID251"]  # adapters wrap the real APIs
+"src/<package>/*/infrastructure/**" = ["TID251"]  # adapters wrap the real APIs
 "tests/**" = ["TID251"]  # fixtures may use real values; collaborators still come from fakes
 ```
 
@@ -71,24 +71,49 @@ Each message names the replacement, so the failure tells the reader what to inje
 ## Import contracts
 
 Use import-linter with `include_external_packages = true`, so contracts can forbid frameworks as well as project
-packages. Write each contract `name` as the instruction, because it is what the failure prints.
+packages. Write each contract `name` as the instruction, because it is what the failure prints. For the layout in
+`../fastapi-applications.md` (contexts `bookings` and `billing`), four contracts cover the architecture:
 
 ```toml
 [[tool.importlinter.contracts]]
-name = "Domain depends only on the core"
-type = "forbidden"
-source_modules = ["service.domain"]
-forbidden_modules = ["service.usecases", "service.infrastructure", "service.app", "fastapi", "pydantic"]
+name = "Contexts depend down the layers; read another context only through a port and one adapter"
+type = "layers"
+containers = ["service"]
+layers = ["app", "wiring", "bookings | billing", "clock | ids"]
+ignore_imports = [
+    # billing's adapter for its Stays port; translates bookings into billing's terms
+    "service.billing.infrastructure.bookings_stays -> service.bookings",
+]
 
 [[tool.importlinter.contracts]]
-name = "Use cases are independent: share behaviour through a domain service, not by importing another use case"
+name = "Inside every context: api and infrastructure -> usecases -> domain"
+type = "layers"
+containers = ["service.bookings", "service.billing"]
+layers = ["(api) | (infrastructure)", "usecases", "domain"]
+
+[[tool.importlinter.contracts]]
+name = "The domain decides: no frameworks, no I/O, no async clients"
+type = "forbidden"
+source_modules = ["service.*.domain"]
+forbidden_modules = ["fastapi", "pydantic", "httpx", "sqlalchemy", "asyncio"]
+
+[[tool.importlinter.contracts]]
+name = "Use cases are independent: share behaviour through the domain, not by importing another use case"
 type = "independence"
-modules = ["service.usecases.*"]
+modules = ["service.*.usecases.*"]
 ignore_imports = [
-    # Workflow errors translated by every entry point; contains no workflow logic
-    "service.usecases.* -> service.usecases.errors",
+    # Ports and workflow errors shared by the context's use cases; contain no workflow logic
+    "service.*.usecases.* -> service.*.usecases.ports",
+    "service.*.usecases.* -> service.*.usecases.errors",
 ]
 ```
+
+- Parentheses mark a layer as optional, so a context without routes still passes. `|` makes `api` and
+  `infrastructure` independent: routes reach adapters only through use cases handed over by wiring.
+- Add a `protected` contract per context (`protected_modules = ["service.bookings.**"]`,
+  `allowed_importers = ["service.bookings"]`) when its `__init__.py` defines the public API, so other contexts and
+  wiring cannot reach into its internals.
+- Forbidding `asyncio` in the domain flags async code there: domain code that needs to await is doing I/O.
 
 - Every `ignore_imports` entry carries a comment saying why. A new entry is a design decision; prefer moving the
   shared code to the layer that owns it.
@@ -142,8 +167,8 @@ it as a hook:
 - id: glossary
   name: Domain terms match GLOSSARY.md
   entry: >-
-    uv run --locked python scripts/check_glossary.py --check 'src/*/domain' --check 'src/*/usecases'
-    --concepts 'src/*/domain/**/entities.py' --concepts 'src/*/domain/**/values.py'
+    uv run --locked python scripts/check_glossary.py --check 'src/*/*/domain' --check 'src/*/*/usecases'
+    --concepts 'src/*/*/domain/**/entities.py' --concepts 'src/*/*/domain/**/values.py'
   language: system
   pass_filenames: false
   always_run: true

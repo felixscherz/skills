@@ -18,7 +18,10 @@ the first user of an API, and code that is awkward to test is awkward to use.
 - Let the layout say where code belongs. Every responsibility should have
   one obvious place, so a reader knows where to find a piece of code and
   where to put a new one. Many layouts achieve this; what matters is that
-  the intent is clear and nothing has two plausible homes.
+  the intent is clear and nothing has two plausible homes. My default splits
+  by bounded context first and by layer inside each context (domain, use
+  cases, infrastructure, entry points), so a change to one concept stays in
+  one directory and the boundaries between contexts can be checked.
 - Make dependency direction executable. When the codebase has layers or
   modules that must not depend on each other, check it with an
   import-contract tool (e.g. import-linter for Python, dependency-cruiser for
