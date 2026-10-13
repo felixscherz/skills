@@ -85,7 +85,7 @@ changes. For ambiguous requests such as "review this, it may need updates",
 propose changes and ask before editing.
 
 - The skill lives in
-  `~/workspaces/personal/skills/skills/felixscherz/engineering/`. Remind the
+  `~/workspaces/personal/skills/skills/engineering/`. Remind the
   user to commit changes there.
 - One rule per file in `references/`: an H1 title, a short framing paragraph,
   and a few bullets. No frontmatter: when a rule applies is stated once, in

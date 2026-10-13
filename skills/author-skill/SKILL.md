@@ -1,6 +1,6 @@
 ---
 name: author-skill
-description: How to author, edit, or move an Agent Skill (a SKILL.md) for broad agent compatibility. Use whenever creating or changing a skill, or when record-learnings decides a learning belongs in a skill. Covers where global and project-local skills live, the shared SKILL.md format, and harness-specific settings such as disabling auto-invocation.
+description: How to author, edit, or move an Agent Skill (a SKILL.md) for broad agent compatibility. Use whenever creating or changing a skill, including fixing or updating an installed global skill under ~/.claude/skills or ~/.agents/skills, or when record-learnings decides a learning belongs in a skill. Covers where global and project-local skills live, the shared SKILL.md format, and harness-specific settings such as disabling auto-invocation.
 ---
 
 # Authoring portable agent skills
@@ -15,12 +15,20 @@ Two goals:
 ## Global or project-local
 
 - **Global** - useful across repositories (personal workflow, general
-  practices). Author it in
-  `~/workspaces/personal/skills/skills/felixscherz/<name>/SKILL.md`. That
-  repo's `link.sh` symlinks the `felixscherz` folder into `~/.agents/skills/`,
-  which opencode and Codex read, and into `~/.claude/skills/`, so a new skill
-  shows up without a rerun. Remind the user to commit the change in the
-  skills repo.
+  practices). The source of truth is the skills repo at
+  `~/workspaces/personal/skills`. Author or edit a skill there, in
+  `skills/<name>/SKILL.md`, or `skills/<group>/<name>/SKILL.md` for a group
+  that already exists.
+  - Never edit the installed copies in `~/.agents/skills/` or
+    `~/.claude/skills/`. `npx skills` copies them from the repo, and the next
+    update overwrites any change made there. When a task points you at an
+    installed skill, edit the skill of the same name in the repo instead.
+  - Skill names must be unique across the whole repo, groups included,
+    because every skill is installed flat.
+  - The change reaches the harnesses only after it is committed and pushed
+    and the user runs `npx skills update -g`. A new skill needs the `npx
+    skills add` command from the repo's README instead, since `update` does
+    not pick up new skills. Tell the user which one to run.
 - **Project-local** - specific to one repository's code, tooling, or
   conventions. Default to `.agents/skills/<name>/SKILL.md`, which most
   harnesses read. If the repo already keeps skills in `.claude/skills` or
