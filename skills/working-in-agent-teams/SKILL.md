@@ -29,6 +29,14 @@ Orchestrator.
 Peer-to-peer teams that choreograph work among themselves are out of scope. Do not silently replace the supported
 topology with collaborating peers or nested Orchestrators.
 
+## Reviewable checkpoints
+
+A Saga produces more change than anyone can review at once. Every accepted Episode leaves a checkpoint that can be
+reviewed on its own: a short series of commits, or a PR stacked on the previous Episode's. Work that runs across
+several Episodes without a checkpoint has to be untangled before anyone can review it, so a Saga never piles up
+unreviewed work. The `engineering` skill's "Keep work reviewable" rule
+(`../engineering/references/keep-work-reviewable.md`) covers how to shape the commits and stacked PRs.
+
 ## Workflows and role guides
 
 Identify the current phase and assignment, then read only the relevant guide:

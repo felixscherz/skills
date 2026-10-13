@@ -18,6 +18,12 @@
       "prompt": "You are a Worker assigned to add repository setup while retaining central initialization until a later Episode. A previous Episode removed its central hook and the neighboring code now follows that pattern. Your branch also has an inherited integration failure outside your assigned repository. What do you do, and what do you report to the Orchestrator? Do not spawn agents or expand your assignment.",
       "expected_output": "The Worker follows the explicit preserved invariant rather than copying the earlier removal, reports the inherited failure as a Saga issue with evidence, and requests direction for changes outside its scope. It does not remove central initialization, coordinate peers, spawn agents, or claim that later integration excuses a broken current state.",
       "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "You are a Worker on an approved Saga whose plan says each Episode hands over one PR stacked on the previous Episode's PR. You finished your Episode, but your working tree holds a large uncommitted diff that renames a module, changes retry behavior, and fixes an unrelated typo in another Episode's file. All tests pass. Prepare your hand-back to the Orchestrator.",
+      "expected_output": "The Worker does not hand over one large commit or uncommitted diff. It splits the work into reviewable commits (the mechanical rename separate from and before the behavior change), verifies each commit, and reports the out-of-scope change to the Orchestrator instead of bundling it. The PR targets the previous Episode's branch, and the report lists the commits or PR link. If the result is still too large for one review, it proposes a split to the Orchestrator rather than deciding it alone.",
+      "files": []
     }
   ]
 }

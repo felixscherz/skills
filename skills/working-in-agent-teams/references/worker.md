@@ -27,6 +27,12 @@ own its sequencing, overall design, or conversation with the user.
 - Do not spawn Workers, coordinate peers, change Episode order, or make user-facing scope decisions. Route blockers
   and questions to the Orchestrator, which owns investigation assignments and communication with the user.
 
+## Keep the work reviewable
+
+Follow the `engineering` skill's "Keep work reviewable" rule. Commit at each verified step in the form the plan
+agrees on, so your Episode never ends as one large uncommitted diff. If the work outgrows one review, stop and
+propose a split to the Orchestrator instead of continuing; splitting the Episode is its decision.
+
 ## Verify and hand back the result
 
 Run the agreed verification and inspect the resulting changes. Follow project engineering guidance rather than
@@ -36,8 +42,8 @@ authorized for this assignment.
 Keep the report compact, with detailed evidence in the shared workspace or existing delivery artifacts. Include:
 
 - The Episode/task and outcome, including what changed and the boundaries deliberately left unchanged.
-- The working directory, final revision or equivalent state, delivery/artifact links, and your session identifier
-  when available.
+- The working directory, commit range with one line per commit or the PR link, delivery/artifact links, and your
+  session identifier when available.
 - Exact verification commands and results, including failures, skipped checks, and the state tested. Name tests from
   their output rather than reconstructing their names from memory.
 - Remaining issues or uncertainties, their evidence, and whether they block an acceptance criterion or invariant.

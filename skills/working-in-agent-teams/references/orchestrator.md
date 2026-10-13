@@ -6,11 +6,11 @@ sessions so the Saga can span many Episodes without filling your context with th
 ## Start the run
 
 - Read the Saga workspace README, canonical plan, and existing run state. Confirm the approved scope, permissions,
-  dependency order, baseline, and prerequisites before assigning implementation.
+  review checkpoints, dependency order, baseline, and prerequisites before assigning implementation.
 - If preparation is incomplete, assign a supporting Worker or bring the unresolved decision to the user. Do not
   fill a gap by silently inventing a new design or execution permission.
 - Keep a compact ledger in the shared run state: each Episode's status, assigned Worker session, result/artifact
-  pointer, relevant revision, acceptance evidence, blockers, and next action.
+  pointer, commit range or PR, review status, acceptance evidence, blockers, and next action.
 
 ## Assign work
 
@@ -36,7 +36,11 @@ also need a bounded question and a clear permission boundary, such as read-only 
   even if its focused tests or CI passed. Disclosure does not make the violation acceptable.
 - Check that evidence identifies what ran, the result, and the state tested. Resolve conflicting claims through a
   Worker rather than guessing or repeating an unsupported success claim.
-- Mark the Episode complete only after acceptance, update the ledger, then start its dependent Episode.
+- Accept only a reviewable checkpoint in the agreed form: commits or a PR scoped to this Episode, each with one
+  purpose. Send back a result that mixes Episodes, bundles unrelated changes, or arrives as one large commit or
+  uncommitted diff, and have the Worker split it before acceptance.
+- Mark the Episode complete only after acceptance, update the ledger, then start its dependent Episode. Where the plan
+  says dependents wait for review, do not build on a checkpoint before its review passes.
 
 ## Handle issues through Workers
 
@@ -63,5 +67,7 @@ evidence, the violated invariant, the owning Episode, affected dependents, and a
   sections when necessary, not every Worker's entire history.
 - The Orchestrator is the user-facing agent. Report meaningful progress, blockers, decisions needed, and changes to
   the plan rather than forwarding every Worker update.
+- When the user reviews checkpoints, hand each one over as it is accepted, with its commits or PR link, instead of
+  saving them all for the end of the Saga.
 - End with accepted outcomes, actual verification, remaining issues, and delivery links or artifact paths. Separate
   completed work from work merely attempted, and do not claim the Saga is complete while an Episode remains blocked.

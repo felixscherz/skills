@@ -67,6 +67,10 @@ unless the user asks.
 - **Deliver in small steps** (`references/deliver-in-small-steps.md`). Deciding
   how much to build for a request, when a fix suggests a larger redesign, or
   planning work that spans several changes.
+- **Keep work reviewable** (`references/keep-work-reviewable.md`). Starting
+  work that will span several commits or PRs, uncommitted work growing beyond
+  one purpose, or committing, splitting a diff, or handing work over for
+  review.
 - **Program design** (`references/program-design.md`). Designing a new module,
   API, or model, deciding where code lives, or code that is hard to test.
 - **Type system** (`references/type-system.md`). Designing types, signatures, or
