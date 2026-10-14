@@ -10,7 +10,9 @@ fresh Workers complete their assignments without reconstructing the planning con
   results inform the plan and do not authorize implementation.
 - Record behavior and other invariants that must hold throughout execution, not just in the final state.
 - Record execution permissions, including whether commits, pushes, PRs, or other external changes are authorized.
-  Planning permission alone is not permission to execute or ship.
+  Planning permission alone is not permission to execute or ship. Name the systems Workers must not touch precisely
+  (for example deployed databases) and whether local test infrastructure is allowed.
+- Record where the work happens: a feature branch or a separate worktree, created before the first Episode.
 - Agree on the review checkpoints: what each Episode hands over for review (commits on a shared branch, or one PR per
   Episode stacked in dependency order), who reviews it (the user, a review Worker, or both), and whether a dependent
   Episode waits for that review. Without permission to commit, Episodes cannot leave checkpoints, so raise it with the
@@ -27,6 +29,10 @@ fresh Workers complete their assignments without reconstructing the planning con
   Episode owns each transition. Every intermediate state should satisfy the Saga's preserved invariants.
 - Name ownership of shared changes so Workers do not independently make conflicting edits or each leave the same
   integration work to someone else.
+- Check the order against the code, not only against the design. For each move, rename, or removal, list the
+  modules that import or call the code and assign each to an Episode. For each Episode, check that its acceptance
+  criteria can be met from the state the earlier Episodes leave: a test that needs an injection seam belongs after
+  the Episode that adds it, and a caller switched to new code belongs with the wiring that provides it.
 - Separate implementation Episodes from supporting tasks such as repository preparation, review, or diagnosis.
 - Default to sequential Episodes. Only plan parallel work when dependencies and writable workspaces are independent
   and that execution model is agreed with the user.

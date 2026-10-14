@@ -31,6 +31,13 @@ Recorded in `references/module-layout.md` and
    says nothing else about it. An operation that changes several modules
    has one owner: the module whose rule it is, or, when the workflow has a
    glossary term of its own (Checkout), a module of its own one layer up.
+7. **Composition root and adapters.** A top-level `wiring` module in the
+   top layer builds the adapters. Adapters and entry points are not exported
+   from `__init__.py`; each module's `protected` contract lists `wiring` as
+   its only outside importer, so they are reachable from the composition
+   root alone. The example's `wiring` has no environment reads yet, so no
+   `TID251` ignore; `customers` still has no storage adapter and `checkout`
+   no real unit of work, so `wiring` builds only invoicing.
 
 ## Still open
 
@@ -41,22 +48,12 @@ Recorded in `references/module-layout.md` and
    tests inside each module? Today tests of a module may import its
    internals, while tests of other modules may not; a layout should make
    that boundary visible.
-3. **Composition root.** The location is decided (a top-level `wiring`
-   module in the top layer), but the example project has none yet. Does it
-   get a blanket ruff ignore for `TID251` (it reads the environment) or only
-   for specific calls? Adding it also needs a real unit of work for
-   `checkout` and a real adapter for `CustomerRepository`.
-4. **Adapters in the public API.** The composition root needs adapters, so
-   modules export them, which also makes them importable by other domain
-   modules. A `protected` contract could keep `acme.*.infrastructure`
-   importable only by the composition root, if adapters stop being
-   re-exported from `__init__.py`.
-5. **One protected contract per module.** import-linter needs a contract per
+3. **One protected contract per module.** import-linter needs a contract per
    module to keep submodules private, which is boilerplate that grows with
    the module count. Adding a module now touches three contracts (layers
    between modules, `containers` inside modules, `protected`). tach covers
    the boundary part in one `interfaces` setting. Worth switching, or worth
    a check that every top-level package appears in all three?
-6. **Events between modules.** The boundaries reference says to use an event
+4. **Events between modules.** The boundaries reference says to use an event
    when two modules cannot commit together, but there is no example of
    where events, their handlers, and an outbox live.

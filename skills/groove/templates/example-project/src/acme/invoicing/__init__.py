@@ -1,7 +1,8 @@
 """Invoicing: drafting and issuing Invoices for Customers.
 
 This file is the module's public API. Other modules import only names listed
-in __all__, never from the submodules.
+in __all__, never from the submodules. Adapters in infrastructure/ are not
+exported: only the composition root (acme.wiring) constructs them.
 """
 
 from acme.invoicing.domain.model import (
@@ -15,8 +16,6 @@ from acme.invoicing.domain.model import (
     issue,
     total,
 )
-from acme.invoicing.infrastructure.customer_lookup import CustomerRepositoryLookup
-from acme.invoicing.infrastructure.json_files import JsonFileInvoiceRepository
 from acme.invoicing.usecases.draft_invoice import draft_invoice
 from acme.invoicing.usecases.fakes import FakeCustomerLookup, InMemoryInvoiceRepository
 from acme.invoicing.usecases.issue_invoice import issue_invoice
@@ -29,7 +28,6 @@ from acme.invoicing.usecases.ports import (
 
 __all__ = [
     "CustomerLookup",
-    "CustomerRepositoryLookup",
     "EmptyInvoice",
     "FakeCustomerLookup",
     "InMemoryInvoiceRepository",
@@ -40,7 +38,6 @@ __all__ = [
     "InvoiceNotFound",
     "InvoiceRepository",
     "InvoiceStatus",
-    "JsonFileInvoiceRepository",
     "LineItem",
     "draft",
     "draft_invoice",

@@ -14,6 +14,12 @@ they are dataclasses.
   level, starting at 1.
 - **Bump on every shape change.** Adding, removing, renaming, or retyping a
   field, or changing what a value means, bumps the version.
+- **Tightening is a shape change.** Making a field required, or narrowing
+  its type, writes nothing new, but records written before may not satisfy
+  it. Either migrate old records to the new shape (a version bump with a
+  migration step that fills the field), or show that every stored record
+  already satisfies it, record that evidence in the pull request, and add a
+  fixture of the oldest realistic record so the test loads it.
 - **Stepwise migrations.** `from_record` accepts every version ever written.
   Each version has a pure function that migrates it to the next one, and
   loading applies them in order until it reaches the current version.
@@ -122,4 +128,7 @@ def test_current_invoice_version_has_a_fixture() -> None:
   forgotten bump.
 - Did the meaning of a value change while its type stayed the same (cents
   to euros in the same `int`)? That is a shape change too.
+- Did an optional field become required, or a type get narrower? Then old
+  records need a migration, or evidence that none violates it plus a fixture
+  of the oldest record.
 - Is the module README's persisted data section up to date?

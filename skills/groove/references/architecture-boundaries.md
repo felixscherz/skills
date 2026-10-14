@@ -7,10 +7,14 @@ Code is split into modules, each with one responsibility written in its
 internally into layers (see `module-layout.md`).
 
 - **Public API.** A module's public API is what its `__init__.py` exports in
-  `__all__`. Everything else in the module is internal.
+  `__all__`: its domain values and rules, use cases, ports, errors, and the
+  fakes for its ports. Adapters (`infrastructure/`) and entry points
+  (`api/`, `cli/`) are not exported. Everything else in the module is
+  internal.
 - **Import only the public API.** Code outside a module imports from
   `acme.invoicing`, never from `acme.invoicing.domain.model`. Tests of other
-  modules follow the same rule.
+  modules follow the same rule. A module's own tests may import its
+  internals.
 - **Declared dependencies.** The allowed dependencies between modules are
   declared in one place, as import-linter contracts. Adding a dependency that
   is not allowed means changing the contract, on purpose, in the same change.
@@ -50,7 +54,17 @@ internally into layers (see `module-layout.md`).
   a CLI command, an event subscriber) calls the owner's use case. It does
   not sequence the steps itself.
 - **Composition root.** One place builds the application: it constructs
-  adapters and wires them into use cases. It sits in the top layer.
+  adapters and wires them into use cases. It sits in the top layer, and it
+  is the only code outside a module that imports the module's
+  `infrastructure/` and entry points directly. Everything a module offers
+  to the application's assembly rather than to other modules lives there:
+  adapters, HTTP routers, CLI commands, message handlers, metric
+  registration. Exporting them from `__init__.py` instead would put
+  framework and storage imports into every import of the module, and a
+  router that calls other modules' use cases easily closes an import cycle.
+  If the application is assembled in several top-level modules (an app
+  factory, telemetry setup, a worker entry point), together they are the
+  composition root; list each one in the contracts.
 
 ## Why
 
@@ -183,18 +197,28 @@ purpose and say why in the pull request."""
 ```
 
 One `protected` contract per module keeps everything below its `__init__.py`
-private. `**` covers the layer subpackages:
+private. `**` covers the layer subpackages. The composition root is the one
+allowed importer from outside, so it can construct adapters and mount
+entry points:
 
 ```toml
 [[tool.importlinter.contracts]]
 name = "invoicing is used through its public API"
 type = "protected"
 protected_modules = ["acme.invoicing.**"]
-allowed_importers = ["acme.invoicing"]
+allowed_importers = ["acme.invoicing", "acme.wiring"]
 broken_contract_guidance = """
-Import from acme.invoicing, not from its submodules. If the name you need is missing, \
-add it to __all__ in acme/invoicing/__init__.py."""
+Import from acme.invoicing, not from its submodules. If the name you need is missing and it \
+is a domain value, rule, use case, port, error, or fake, add it to __all__ in \
+acme/invoicing/__init__.py. Adapters and entry points are not exported: only acme.wiring \
+constructs them."""
 ```
+
+When the tests are a package that import-linter analyzes, add the module's
+own tests (`"tests.invoicing.**"`) to `allowed_importers`, and nothing
+broader: tests of other modules use the public API. When the application is
+assembled in several top-level modules, list each one instead of
+`acme.wiring`, by exact name.
 
 A violation reads:
 
@@ -215,7 +239,13 @@ API.
 - Did you add a module? Add it to the layers contract, to `containers` of
   the contract inside modules, and give it a `protected` contract.
 - Did you add a name to a module's `__all__`? Is it part of the module's
-  responsibility, or an internal detail leaking out?
+  responsibility, or an internal detail leaking out? An adapter, router, or
+  framework hook belongs in the composition root's imports, not in
+  `__all__`.
+- Does the composition root import anything from a module's `domain/` or
+  `usecases/` directly? The protected contract allows it, so check by hand:
+  the composition root takes adapters and entry points from their files, and
+  everything else from the public API.
 - Did you add an `ignore_imports` entry? It must be an adapter in
   `infrastructure/` implementing a port of its own module, and the pair must
   not already link in the other direction. Say so in your reply.

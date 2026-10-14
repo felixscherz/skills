@@ -21,8 +21,6 @@ issues an Invoice and charges the Customer in one step (`checkout`).
 - `draft_invoice`, `issue_invoice`: use cases.
 - `InvoiceRepository`, `CustomerLookup`: ports.
 - `InMemoryInvoiceRepository`, `FakeCustomerLookup`: fakes for tests.
-- `JsonFileInvoiceRepository`, `CustomerRepositoryLookup`: adapters, for the
-  composition root only.
 - `InvoiceAlreadyIssued`, `EmptyInvoice`, `InvoiceNotFound`,
   `InvoiceForUnknownCustomer`: errors.
 
@@ -39,6 +37,8 @@ issues an Invoice and charges the Customer in one step (`checkout`).
 |---|---|---|
 | `InvoiceRepository` | `InMemoryInvoiceRepository` | `JsonFileInvoiceRepository` |
 | `CustomerLookup` | `FakeCustomerLookup` | `CustomerRepositoryLookup` |
+
+The adapters are not exported; `wiring` constructs them.
 
 `CustomerRepositoryLookup` is the only code in invoicing that imports another
 module (`customers`), declared in `ignore_imports` of the layers contract.

@@ -54,7 +54,15 @@ src/acme/
   never import `infrastructure/`; the composition root hands them use cases.
 - **The composition root is global.** One top-level module (`wiring`) builds
   every adapter and use case. It is the only module allowed to read
-  configuration.
+  configuration, and the only code outside a module that imports the
+  module's `infrastructure/` and entry points, which are not exported from
+  `__init__.py` (see `architecture-boundaries.md`).
+- **Moving API models can rename generated schemas.** FastAPI and Pydantic
+  name an OpenAPI component after its class, prefixed with the module path
+  when two classes share a name, so moving a DTO into `api/` can rename the
+  component. A rename alone, with fields, types, and requiredness unchanged,
+  does not block the move: regenerate the schema and mention the rename in
+  the pull request.
 
 Some logic sits on a boundary. Two cases come up often:
 

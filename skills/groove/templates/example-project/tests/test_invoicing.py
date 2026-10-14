@@ -9,7 +9,6 @@ from acme.clock import FakeClock
 from acme.customers import Customer, InMemoryCustomerRepository
 from acme.ids import SequentialIdGenerator
 from acme.invoicing import (
-    CustomerRepositoryLookup,
     FakeCustomerLookup,
     InMemoryInvoiceRepository,
     InvoiceAlreadyIssued,
@@ -21,6 +20,7 @@ from acme.invoicing import (
 )
 
 # Tests of a module may use its internals. Tests of other modules may not.
+from acme.invoicing.infrastructure.customer_lookup import CustomerRepositoryLookup
 from acme.invoicing.infrastructure.records import CURRENT_VERSION, from_record
 
 FIXTURES = sorted((Path(__file__).parent / "fixtures" / "invoice").glob("v*.json"))

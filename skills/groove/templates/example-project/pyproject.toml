@@ -56,7 +56,7 @@ root_package = "acme"
 name = "Modules depend down the layers"
 type = "layers"
 containers = ["acme"]
-layers = ["checkout", "invoicing | customers", "clock | ids"]
+layers = ["wiring", "checkout", "invoicing | customers", "clock | ids"]
 ignore_imports = [
     # invoicing's adapter for its CustomerLookup port; translates customers into invoicing's terms
     "acme.invoicing.infrastructure.customer_lookup -> acme.customers",
@@ -93,25 +93,31 @@ the use case and pass the value in."""
 name = "invoicing is used through its public API"
 type = "protected"
 protected_modules = ["acme.invoicing.**"]
-allowed_importers = ["acme.invoicing"]
+allowed_importers = ["acme.invoicing", "acme.wiring"]
 broken_contract_guidance = """
-Import from acme.invoicing, not from its submodules. If the name you need is missing, \
-add it to __all__ in acme/invoicing/__init__.py."""
+Import from acme.invoicing, not from its submodules. If the name you need is missing and it \
+is a domain value, rule, use case, port, error, or fake, add it to __all__ in \
+acme/invoicing/__init__.py. Adapters and entry points are not exported: only acme.wiring \
+constructs them."""
 
 [[tool.importlinter.contracts]]
 name = "customers is used through its public API"
 type = "protected"
 protected_modules = ["acme.customers.**"]
-allowed_importers = ["acme.customers"]
+allowed_importers = ["acme.customers", "acme.wiring"]
 broken_contract_guidance = """
-Import from acme.customers, not from its submodules. If the name you need is missing, \
-add it to __all__ in acme/customers/__init__.py."""
+Import from acme.customers, not from its submodules. If the name you need is missing and it \
+is a domain value, rule, use case, port, error, or fake, add it to __all__ in \
+acme/customers/__init__.py. Adapters and entry points are not exported: only acme.wiring \
+constructs them."""
 
 [[tool.importlinter.contracts]]
 name = "checkout is used through its public API"
 type = "protected"
 protected_modules = ["acme.checkout.**"]
-allowed_importers = ["acme.checkout"]
+allowed_importers = ["acme.checkout", "acme.wiring"]
 broken_contract_guidance = """
-Import from acme.checkout, not from its submodules. If the name you need is missing, \
-add it to __all__ in acme/checkout/__init__.py."""
+Import from acme.checkout, not from its submodules. If the name you need is missing and it \
+is a domain value, rule, use case, port, error, or fake, add it to __all__ in \
+acme/checkout/__init__.py. Adapters and entry points are not exported: only acme.wiring \
+constructs them."""

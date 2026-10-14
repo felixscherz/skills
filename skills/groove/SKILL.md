@@ -45,6 +45,9 @@ when its trigger fires, not up front.
   one module.
   - Modules are used only through their `__init__.py`. Dependencies point
     down declared layers. Both are import-linter contracts.
+  - Adapters and entry points (routers, CLI commands, framework hooks) are
+    not exported. Only the composition root imports them, as the one
+    allowed importer in each module's `protected` contract.
   - Reading from a sibling goes through a port the reader owns and one
     adapter, declared in the contract.
   - An operation that changes state in several modules has one owner: the
@@ -124,9 +127,42 @@ Copy from `templates/`:
   `GLOSSARY.md`, then adapt the module names. `src/acme/` shows a domain
   module split into layers (`invoicing`), a read from a sibling through an
   owned port (`invoicing/infrastructure/customer_lookup.py`), small port
-  modules (`clock`, `ids`), and a workflow that is its own module, with a
-  unit of work (`checkout`).
+  modules (`clock`, `ids`), a workflow that is its own module, with a
+  unit of work (`checkout`), and the composition root (`wiring`).
 
 In an existing codebase, introduce one principle at a time, starting with
 the check command. Never add a tool or contract unprompted when the user has
 not asked to apply Groove: propose it instead.
+
+### Converting an existing module
+
+Fix the module's public surface before moving anything inside it. Once
+every other module imports only from its `__init__.py` and a contract keeps
+it that way, internal moves no longer touch the rest of the codebase, and
+the contract finds every remaining deep import on the first run instead of
+in a late review. Each step below ends in a working, committed state:
+
+1. **Characterize.** Pin the module's observable behavior with tests that go
+   through its current entry points and survive the moves. Behavior that
+   depends on time or IDs can wait until step 4 brings the ports; do not
+   patch to get it earlier.
+2. **Public API and contract.** Write `__init__.py` with `__all__`, move
+   every outside importer onto it, and add the `protected` contract with the
+   composition root as the only outside importer. Any import that cannot
+   move (an app factory mounting routers, telemetry registering metrics)
+   is part of the composition root: list it in the contract by name.
+3. **Domain.** Move the rules into `domain/`, pure, taking time and IDs as
+   arguments.
+4. **Use cases and ports.** One use case per intent, its ports and their
+   fakes, with deterministic tests through the fakes.
+5. **Adapters.** Move persistence and other I/O into `infrastructure/`,
+   translating their errors into the module's own.
+6. **Entry points with their wiring.** Switch routes and commands to the use
+   cases in the same step as the composition root that builds them.
+7. **Remaining callers.** Move other modules' calls onto the public use
+   cases or onto ports they own, then delete the old service.
+8. **Contracts and README.** Add the module to the layers contracts, if not
+   already done as its layers appeared, and write its README.
+
+Before each step, list everything that imports or calls the code it moves,
+and make sure this step or an earlier one updates it.

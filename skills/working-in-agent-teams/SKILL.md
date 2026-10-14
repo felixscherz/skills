@@ -24,7 +24,7 @@ hidden from Workers; give them access to its plan and include wider context when
 
 The supported topology is one Orchestrator spawning Workers. Workers report to the Orchestrator; they do not
 coordinate their own team or delegate onward. A review or investigation Worker is still a Worker, not another
-Orchestrator.
+Orchestrator. Reviewers never share a session with the implementer of the work they review.
 
 Peer-to-peer teams that choreograph work among themselves are out of scope. Do not silently replace the supported
 topology with collaborating peers or nested Orchestrators.

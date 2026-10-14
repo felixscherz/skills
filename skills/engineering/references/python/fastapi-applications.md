@@ -362,3 +362,20 @@ def create_app(container: Container) -> FastAPI:
 The infrastructure adapter classes in this sketch are application-specific; construct `Container` with configured
 infrastructure at startup. Cache long-lived dependencies deliberately; manage request/transaction-scoped dependencies
 separately. Check the existing project's OpenAPI contract and test conventions when changing routes or DTOs.
+
+## Know how OpenAPI names schemas
+
+FastAPI names each component after its Pydantic class. When two models share a class name, both get the full module
+path instead (`psp__testspots__api__classification__Classification`), so moving a DTO or an enum to another module can
+rename its component and every `$ref` to it. When a model's validation and serialization schemas differ, for example
+because a field has a default or a computed value, FastAPI emits two components, `Model-Input` and `Model-Output`. Keep
+that split: it describes what the API accepts and what it returns more precisely than one merged schema. A change
+elsewhere can make the two schemas equal and collapse them into one component.
+
+- Before moving models, decide whether component names are part of the contract. Generated clients use them as type
+  names, but a rename with unchanged fields, types, and requiredness is usually acceptable: regenerate the committed
+  schema and name the rename in the PR.
+- When a name must stay stable, give the class a unique name, or pin one with a named `TypeAliasType`. An alias does
+  not carry through generic models such as `Page[Model]`, which get a component of their own.
+- Diff the generated schema against the committed one after every move, and check that only names and references
+  changed.

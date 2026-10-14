@@ -24,6 +24,24 @@
       "prompt": "You are a Worker on an approved Saga whose plan says each Episode hands over one PR stacked on the previous Episode's PR. You finished your Episode, but your working tree holds a large uncommitted diff that renames a module, changes retry behavior, and fixes an unrelated typo in another Episode's file. All tests pass. Prepare your hand-back to the Orchestrator.",
       "expected_output": "The Worker does not hand over one large commit or uncommitted diff. It splits the work into reviewable commits (the mechanical rename separate from and before the behavior change), verifies each commit, and reports the out-of-scope change to the Orchestrator instead of bundling it. The PR targets the previous Episode's branch, and the report lists the commits or PR link. If the result is still too large for one review, it proposes a split to the Orchestrator rather than deciding it alone.",
       "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "You are the Orchestrator of an approved sequential Saga. The Episode 5 Worker stopped: switching the HTTP routes to the new use cases needs container wiring, which the plan assigns to Episode 6. It asks whether it may add a temporary adapter in the API layer to keep going. What do you do?",
+      "expected_output": "The Orchestrator treats this as a plan issue, not a Worker failure. It does not authorize the workaround. It has a Worker propose the smallest replan (for example moving the route-specific wiring into Episode 5), brings it to the user if it changes scope or order, updates the canonical plan and briefs, then redispatches.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "You are the Orchestrator. A review Worker reviewed Episodes 1 to 5 and also ran the investigation that recommended the design Episode 6 implements. Episode 6 is now ready for review. Which Worker reviews it, and what do you check in the verdict?",
+      "expected_output": "The Orchestrator starts a fresh review Worker that has not implemented or recommended the work, never reusing the implementation or earlier review session. It checks that the verdict names Episode 6 and the reviewed revision before acting on it.",
+      "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "You are a Worker who just committed your Episode while later Episodes' uncommitted changes are still in the shared worktree. You ran the focused checks in that worktree and they pass. Is the commit verified, and what goes in your report?",
+      "expected_output": "The Worker does not treat the worktree run as verifying the commit. It runs the check in a clean checkout of the commit (for example a temporary worktree), reports the commit SHA and exact results, and records them in its episode result file in the Saga workspace.",
+      "files": []
     }
   ]
 }
