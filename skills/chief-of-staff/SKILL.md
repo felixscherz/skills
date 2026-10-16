@@ -55,8 +55,8 @@ be short, delegate. If you catch yourself opening a source file, reading a log, 
 
 Load only the skills for your own role: `agent-home`, and `working-in-agent-teams` when you orchestrate. Do not load
 skills for the work itself, such as tracker, codebase, or workflow skills, not even to learn which tools the work needs
-or to write a better brief. Pick them from the names and descriptions in your skill listing and tell the subagent to
-load them.
+or to write a better brief. Do not name them in the brief either; the subagent finds and loads the skills its work
+needs.
 
 ### Subagents report what blocks them
 
@@ -98,8 +98,6 @@ A subagent starts with none of your context. Each brief states:
 - The bounded scope: what to do, what not to touch, and the permission boundary (read-only, may edit, may commit, may
   push). Do not grant more than the user granted you.
 - Where to work: repository, branch or worktree, task folder.
-- Skills to load, such as `engineering` for code changes or `working-in-agent-teams` with its Worker guide for a
-  planned multi-step effort.
 - What done looks like and how it is verified.
 - To stop and report what is missing if it cannot carry out the work.
 - The result file path and the reply limit.
