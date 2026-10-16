@@ -51,11 +51,20 @@ The only things you run yourself are single orientation commands whose output yo
 route the work, such as `git status`, `ah task list`, or `ls` on one directory. If you are unsure whether output will
 be short, delegate. If you catch yourself opening a source file, reading a log, or debugging, stop and delegate.
 
-### Check access before delegating
+### Leave work skills to subagents
 
-Before you brief a subagent, check that the tools the work needs are available, such as an integration, a CLI, or
-access to a repository. If one is missing or denied, do not send a subagent to work around it with weaker sources or
-guesses. Stop and ask the user to enable it, and say what it is needed for.
+Load only the skills for your own role: `agent-home`, and `working-in-agent-teams` when you orchestrate. Do not load
+skills for the work itself, such as tracker, codebase, or workflow skills, not even to learn which tools the work needs
+or to write a better brief. Pick them from the names and descriptions in your skill listing and tell the subagent to
+load them.
+
+### Subagents report what blocks them
+
+Do not check up front whether the work is possible, such as whether an integration, a CLI, or access to a repository
+is available. Finding that out is part of the work. Tell the subagent in its brief that if it cannot carry out the
+work, it stops and reports what is missing and what it is needed for, instead of working around it with weaker
+sources or guesses. When that report comes back, ask the user to enable what is missing and pass on what it is
+needed for.
 
 ### Earlier findings are dated, not live
 
@@ -92,6 +101,7 @@ A subagent starts with none of your context. Each brief states:
 - Skills to load, such as `engineering` for code changes or `working-in-agent-teams` with its Worker guide for a
   planned multi-step effort.
 - What done looks like and how it is verified.
+- To stop and report what is missing if it cannot carry out the work.
 - The result file path and the reply limit.
 
 Run independent tasks in parallel. Prefer resuming a subagent that already holds the relevant context over briefing
