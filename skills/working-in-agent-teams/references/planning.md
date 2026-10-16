@@ -39,7 +39,8 @@ fresh Workers complete their assignments without reconstructing the planning con
 
 ## Prepare the handoff documents
 
-Use existing document names when the user supplied a plan. Otherwise these are useful defaults in the Saga workspace:
+Create the Saga's task with `ah task new <slug>` and keep the documents in its folder. Use existing document names
+when the user supplied a plan. Otherwise these are useful defaults:
 
 - `SAGA_PLAN.md`: goal, approved design, scope, preserved invariants, ordered Episodes and dependencies, verification,
   review checkpoints, execution permissions, and open decisions.
@@ -51,6 +52,6 @@ Use existing document names when the user supplied a plan. Otherwise these are u
 Keep shared constraints in the Saga plan and reference them from Episode briefs. Make the constraints critical to a
 particular Episode explicit in its brief rather than relying on the Worker to infer them from the final design.
 
-Close the planning session with the document paths, unresolved decisions, and whether the Saga is ready to run.
-Do not imply that planning completed any Episodes. The user can start a separate Orchestrator session from this
-handoff; the planning agent does not have to be the later Orchestrator.
+Close the planning session with the Saga's task ID and folder path, the document names, unresolved decisions, and
+whether the Saga is ready to run. Do not imply that planning completed any Episodes. The user can start a separate
+Orchestrator session from this handoff; the planning agent does not have to be the later Orchestrator.

@@ -53,9 +53,11 @@ pre-execution until the user authorizes execution. A Worker does not become the 
 
 ## Shared documents and other skills
 
-Load `agents-folder` for the Saga's shared workspace and follow its placement and handoff rules. Reuse the workspace
-given for this Saga, including across checkouts. Keep a canonical plan, Episode briefs, and compact run state there;
-reference them instead of maintaining competing copies in prompts.
+Each Saga has one task, created with `ah task new` during planning. The planning agent and the Orchestrator load
+`agent-home` for creating the task, keeping its status, and handing it off. Workers do not need `ah`: every brief
+carries the absolute path of the Saga folder, and Workers work in it as given. Keep a canonical plan, Episode
+briefs, and compact run state in the Saga folder; reference them instead of maintaining competing copies in
+prompts.
 
 This skill governs agent coordination, not implementation practices. Load `engineering` and the applicable project
 or domain skills when the assignment calls for them. Workers should read their focused references as the work reaches

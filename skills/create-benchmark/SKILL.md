@@ -196,5 +196,5 @@ benchmark-<slug>/
    the user, and a judge's scores follow the rubric anchors. If
    the judge's scores disagree with your own reading, fix the anchors.
 
-Record the dry run in the agents folder (see the `agents-folder` skill).
+Record the dry run in a task created with `ah task new` (see the `agent-home` skill).
 Remind the user to commit the new benchmark wherever it lives.

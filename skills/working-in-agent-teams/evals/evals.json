@@ -40,7 +40,7 @@
     {
       "id": 7,
       "prompt": "You are a Worker who just committed your Episode while later Episodes' uncommitted changes are still in the shared worktree. You ran the focused checks in that worktree and they pass. Is the commit verified, and what goes in your report?",
-      "expected_output": "The Worker does not treat the worktree run as verifying the commit. It runs the check in a clean checkout of the commit (for example a temporary worktree), reports the commit SHA and exact results, and records them in its episode result file in the Saga workspace.",
+      "expected_output": "The Worker does not treat the worktree run as verifying the commit. It runs the check in a clean checkout of the commit (for example a temporary worktree), reports the commit SHA and exact results, and records them in its episode result file in the Saga's task folder.",
       "files": []
     }
   ]

@@ -5,7 +5,9 @@ sessions so the Saga can span many Episodes without filling your context with th
 
 ## Start the run
 
-- Read the Saga workspace README, canonical plan, and existing run state. Confirm the approved scope, permissions,
+- Take over the Saga's task from the planning handoff. From here you own its status (see `agent-home`): `blocked`
+  while the Saga waits on the user, `done` when it ends. Workers never set it.
+- Read the Saga folder's README, canonical plan, and existing run state. Confirm the approved scope, permissions,
   review checkpoints, dependency order, baseline, and prerequisites before assigning implementation.
 - If preparation is incomplete, assign a supporting Worker or bring the unresolved decision to the user. Do not
   fill a gap by silently inventing a new design or execution permission.
@@ -31,7 +33,8 @@ needed; do not send an implementation Worker into an unprepared workspace and ho
 Give each Worker:
 
 - Its role and assignment, and instructions to load `working-in-agent-teams` and read the Worker guide.
-- The Saga workspace and canonical plan, its Episode brief, and the relevant decisions or changes since planning.
+- The absolute path of the Saga folder and the canonical plan, its Episode brief, and the relevant decisions or
+  changes since planning.
 - Its working directory and starting state, ownership boundaries, permitted actions, and excluded user work.
 - The outcome, preserved invariants, verification, and required deliverables.
 
@@ -67,7 +70,7 @@ meant, not the way it is.
 - Check that each commit was verified on its own: the evidence names the commit SHA and shows the check ran in a
   clean checkout of it. A check run in a worktree that still holds later uncommitted changes does not verify the
   commit.
-- Require the Episode's result file in the Saga workspace (see the Worker guide). It is what a later Worker or
+- Require the Episode's result file in the Saga folder (see the Worker guide). It is what a later Worker or
   Orchestrator reads instead of this conversation.
 - A repair that cannot change behavior, such as a comment or a typo in a document, may be accepted on the
   implementer's evidence without another review round.

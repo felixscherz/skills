@@ -5,8 +5,8 @@ own its sequencing, overall design, or conversation with the user.
 
 ## Understand the assignment
 
-- Read the Saga workspace README and your assignment/brief, then the relevant sections of its canonical plan.
-  Wider Saga context is available when useful; you do not need to read every Episode to start your own.
+- Read the README of the Saga folder named in your brief and your assignment/brief, then the relevant sections of its
+  canonical plan. Wider Saga context is available when useful; you do not need to read every Episode to start your own.
 - Confirm the working directory, starting state, prerequisites, permitted actions, and excluded user work before
   making changes. Report a mismatch to the Orchestrator instead of repairing unrelated setup unprompted.
 - Load the skills appropriate to your task. An implementation Worker needs the engineering/project guidance; a
@@ -50,7 +50,7 @@ Run the agreed verification and inspect the resulting changes. Follow project en
 inventing a different check or weakening one to get a passing result. Complete only the delivery actions explicitly
 authorized for this assignment.
 
-An implementation Worker writes `episode-<episode-id>-result.md` in the Saga workspace and keeps it current through
+An implementation Worker writes `episode-<episode-id>-result.md` in the Saga folder and keeps it current through
 repairs and commits. A later Worker or Orchestrator reads this file instead of your session. Your reply to the
 Orchestrator stays compact and points to it. Both cover:
 
