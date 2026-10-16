@@ -42,9 +42,8 @@ available.
   prints the map's path, or exits 1 when there is none. Read the map when the
   task may need context from outside the current repository. When there is
   none, continue without it and do not mention it.
-- Put plans, investigation notes, and other files that are not product code
-  in a task folder resolved with `ah` (see the `agent-home` skill), never in
-  the repository.
+- Keep plans, investigation notes, and other files that are not product code
+  out of the repository. Use the task folder you were given, if any.
 
 ## Principles
 

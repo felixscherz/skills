@@ -5,8 +5,9 @@ sessions so the Saga can span many Episodes without filling your context with th
 
 ## Start the run
 
-- Take over the Saga's task from the planning handoff. From here you own its status (see `agent-home`): `blocked`
-  while the Saga waits on the user, `done` when it ends. Workers never set it.
+- Take over the Saga's task from the planning handoff or the agent that delegated the Saga to you. From here you
+  own its status (see `agent-home`): `blocked` while the Saga waits on the user, `done` when it ends. Workers never
+  set it.
 - Read the Saga folder's README, canonical plan, and existing run state. Confirm the approved scope, permissions,
   review checkpoints, dependency order, baseline, and prerequisites before assigning implementation.
 - If preparation is incomplete, assign a supporting Worker or bring the unresolved decision to the user. Do not

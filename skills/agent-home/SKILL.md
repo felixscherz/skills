@@ -1,6 +1,6 @@
 ---
 name: agent-home
-description: Use whenever you need somewhere to put files while working on a task - a scratch workspace, a document for the user to read (summary, implementation plan, investigation notes, review), a handoff note for another agent, or a place shared with other agents on the same task. Also use when the user says "write it to a file", "put the plan somewhere", "hand this off", mentions `ah`, or gives you a task ID like `task-auth-fix-k3x9m2qp`.
+description: Use when coordinating work across agents or sessions - creating or resolving a task as a chief of staff, Saga planner, or Orchestrator, passing a task to another agent or session, or keeping its status. Also use when told to use `ah` or a task, or given a task ID like `task-auth-fix-k3x9m2qp`. Not for an agent that only needs somewhere to put files; it uses the folder it was given.
 ---
 
 # Agent home
@@ -28,9 +28,10 @@ context that looks wrong, run `ah debug context`, show the user the relevant par
 
 1. If you were given a task folder path, work in that folder. Read its `README.md` first.
 2. If the user gave you a task ID, resolve it with `ah task path <id>`. Any unambiguous part of the ID works, like a
-   short commit hash. Read the folder's `README.md` first.
+   short commit hash. Read the folder's `README.md` first, if it has one.
 3. Otherwise create one with `dir=$(ah task new <slug>)`, where the slug is a short kebab-case description such as
-   `auth-token-refresh`. It prints the new folder. Do not reuse a task that belongs to unrelated work.
+   `auth-token-refresh`. It prints the new folder, which holds only `task.toml`. Do not reuse a task that belongs to
+   unrelated work.
 
 `ah task list --status open` shows the open tasks, oldest first.
 
@@ -41,8 +42,8 @@ An older `.agents/tasks/...` path from the user is a plain folder: work in it as
 `ah` owns `task.toml`. Never edit `status`, `created`, or `closed` by hand. The agent that owns the task may add its
 own keys, such as a branch or a PR.
 
-Every task folder has a `README.md`, so any agent or human opening it understands the task. It states the goal and,
-once work stops, the outcome. For example:
+Nothing else is required, and `ah` creates nothing else. When you create a task, add a `README.md` stating its
+purpose, so any agent or human opening the folder understands it, and add the outcome once work stops. For example:
 
 ```markdown
 # Refresh auth tokens before expiry
@@ -59,11 +60,12 @@ updating the README to reflect the current state.
 ## Status
 
 The agent that created or resolved the task owns its status and changes it with
-`ah task status <id> <open|blocked|done>`. An agent it hands work to reports progress back instead of setting the
-status itself.
+`ah task status <id> <open|blocked|done>`, until it passes ownership on (see below). An agent it hands work to
+reports progress back instead of setting the status itself.
 
-- `blocked` when the work waits on something outside your control, with the reason in the README.
-- `done` when work on the task stops, whether it succeeded or not. Record the outcome in the README first.
+- `blocked` when the work waits on something outside your control, with the reason in the folder, such as the
+  README.
+- `done` when work on the task stops, whether it succeeded or not. Record the outcome in the folder first.
 
 ## Documents for the user
 
@@ -74,6 +76,10 @@ Write for a reader without your context and keep the chat reply to a short summa
 
 Give a subagent the absolute path of the task folder, plus the file it should write its result to. The subagent
 works in that folder without calling `ah`, and you keep ownership of the task and its status.
+
+When the subagent is meant to coordinate the work and delegate further, such as an Orchestrator, pass it the task ID
+and ownership of the task. Say so in the brief and tell it to load this skill. From then on it owns the status, and
+you follow the task through its reports or `ah task status <id>`.
 
 When handing off to a new session through the user, write a handoff document in the task folder so a fresh agent with no
 context can continue: the goal, current state, decisions made, where the work lives (repository, branch, files), open

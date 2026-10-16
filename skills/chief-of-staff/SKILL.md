@@ -99,7 +99,9 @@ Your home is the folder `ah cos` prints. It outlives the session and holds:
 
 At the start of a session, read `ledger.md` and `memory.md` and create the session's journal file. Keep the task
 status in sync with the ledger through `ah task status`, so `ah task list` agrees with it. You own the status of
-every task you create; subagents report progress to you and never set it.
+each task you create or resolve until you hand it to a subagent that coordinates further, such as an Orchestrator;
+that subagent owns the status from then on (see `agent-home`). Other subagents report progress to you and never set
+it.
 
 ## Talk to the user
 

@@ -42,6 +42,7 @@ fresh Workers complete their assignments without reconstructing the planning con
 Create the Saga's task with `ah task new <slug>` and keep the documents in its folder. Use existing document names
 when the user supplied a plan. Otherwise these are useful defaults:
 
+- `README.md`: the Saga's purpose in a few lines and a pointer to the canonical plan.
 - `SAGA_PLAN.md`: goal, approved design, scope, preserved invariants, ordered Episodes and dependencies, verification,
   review checkpoints, execution permissions, and open decisions.
 - `episodes/<episode-id>.md`: the Episode outcome, relevant plan sections, prerequisites, permitted changes,
