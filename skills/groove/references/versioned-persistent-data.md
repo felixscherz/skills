@@ -131,4 +131,3 @@ def test_current_invoice_version_has_a_fixture() -> None:
 - Did an optional field become required, or a type get narrower? Then old
   records need a migration, or evidence that none violates it plus a fixture
   of the oldest record.
-- Is the module README's persisted data section up to date?

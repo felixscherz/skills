@@ -1,7 +1,10 @@
 """Wiring: the composition root. Builds every adapter and hands it to the use cases.
 
+Not responsible for: any rule or workflow. Those belong to the modules it wires.
+
 The only code outside a module that imports the module's infrastructure/ (and
-its api/, once it has one). Everything else comes from the public APIs.
+its api/, once it has one), declared in each module's protected contract in
+pyproject.toml. Everything else comes from the public APIs.
 """
 
 from dataclasses import dataclass

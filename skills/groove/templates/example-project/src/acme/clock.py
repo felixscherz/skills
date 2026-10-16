@@ -1,4 +1,8 @@
-"""Clock: the current time, injected so the functional core never reads it."""
+"""Clock: the current time, injected so the functional core never reads it.
+
+A port module: the Clock port, its fake, and the system implementation in one
+file, the one place outside an adapter allowed to read the real time.
+"""
 
 from datetime import UTC, datetime, timedelta
 from typing import Protocol

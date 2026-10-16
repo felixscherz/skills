@@ -35,16 +35,18 @@ when its trigger fires, not up front.
 - **Module layout** (`references/module-layout.md`). Creating a module or
   file, deciding which layer code belongs in, writing a use case, or adding
   a unit of work.
-  - Split by domain first, then by layer: every domain module has
-    `domain/` (decides, pure), `usecases/` (does, owns ports and the
-    transaction), and `infrastructure/` (adapters). Checked per module by
-    import-linter.
+  - Split by domain first, then by layer. A small module is one file
+    (`customers.py`). It becomes a package with `domain/` (decides, pure),
+    `usecases/` (does, owns ports and the transaction), and
+    `infrastructure/` (adapters) once it needs an adapter or an entry
+    point. Layers are checked per package by import-linter.
 - **Architecture boundaries** (`references/architecture-boundaries.md`).
   Adding an import between modules, creating a module, reading from a
   sibling module, or writing an operation that changes state in more than
   one module.
-  - Modules are used only through their `__init__.py`. Dependencies point
-    down declared layers. Both are import-linter contracts.
+  - Modules are used only through their `__init__.py` (or their single
+    file). Dependencies point down declared layers. Both are import-linter
+    contracts.
   - Adapters and entry points (routers, CLI commands, framework hooks) are
     not exported. Only the composition root imports them, as the one
     allowed importer in each module's `protected` contract.
@@ -70,7 +72,8 @@ when its trigger fires, not up front.
 ## Working in a Groove codebase
 
 1. Read `AGENTS.md` (or `CLAUDE.md`) for the check command, then
-   `GLOSSARY.md`, then the `README.md` of each module you will change.
+   `GLOSSARY.md`, then the `README.md` (or docstring) of each module you
+   will change.
 2. Make the change following the principles.
 3. Run the check command and fix everything it reports. Do not report done
    while it fails, and do not run only a subset.
@@ -91,8 +94,9 @@ Tools catch the mechanical part of each rule. These questions cover the rest:
    Does any new domain code decide only, with the loading and saving in a
    use case?
 3. **Responsibilities.** Does each module you touched still do one thing its
-   README states? Does any new file or module have a name that passes the
-   check but says nothing?
+   README or docstring states? Did a single-file module outgrow one file?
+   Does any new file or module have a name that passes the check but says
+   nothing?
 4. **Functional core.** Is new domain logic pure, given the same arguments
    always returning the same result? Did you add a port without a fake, or a
    `port: Port | None = None` fallback?
@@ -120,15 +124,17 @@ Skip the section when none happened. Do not edit this skill unprompted.
 Copy from `templates/`:
 
 - `AGENTS.md`: the section that marks a repository as following Groove.
-- `module-README.md`: the README for each new module.
+- `module-README.md`: the README for each new package module. It holds only
+  what the code cannot say; a single-file module puts it in its docstring.
 - `example-project/`: a working project where `make check` enforces every
   principle. Copy `pyproject.toml` (pyright, ruff, import-linter),
   `semgrep.yml`, `Makefile`, `scripts/glossary-dictionary.awk`, and
   `GLOSSARY.md`, then adapt the module names. `src/acme/` shows a domain
-  module split into layers (`invoicing`), a read from a sibling through an
-  owned port (`invoicing/infrastructure/customer_lookup.py`), small port
-  modules (`clock`, `ids`), a workflow that is its own module, with a
-  unit of work (`checkout`), and the composition root (`wiring`).
+  module split into layers (`invoicing`), a single-file domain module
+  (`customers.py`), a read from a sibling through an owned port
+  (`invoicing/infrastructure/customer_lookup.py`), single-file port modules
+  (`clock.py`, `ids.py`), a workflow that is its own module, with a unit of
+  work (`checkout`), and the composition root (`wiring.py`).
 
 In an existing codebase, introduce one principle at a time, starting with
 the check command. Never add a tool or contract unprompted when the user has
@@ -163,6 +169,12 @@ in a late review. Each step below ends in a working, committed state:
    cases or onto ports they own, then delete the old service.
 8. **Contracts and README.** Add the module to the layers contracts, if not
    already done as its layers appeared, and write its README.
+
+A small module with no adapter and no entry point can become a single file
+instead: after step 1, move it into `orders.py` with `__all__`, in the order
+decide, then ports and fakes, then do, move every outside importer onto it,
+and add it to the layers contract. The remaining steps wait until it needs
+an adapter.
 
 Before each step, list everything that imports or calls the code it moves,
 and make sure this step or an earlier one updates it.

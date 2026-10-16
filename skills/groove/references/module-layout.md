@@ -3,24 +3,42 @@
 ## The rule
 
 The source root is split by domain first, then by layer. Each top-level
-package is a module named with a glossary term (`invoicing`, `customers`),
-or a small technical module named for its job (`clock`, `ids`). Inside every
-domain module, the layers have the same names. A module has only the layers
-it needs, and a missing layer says nothing else about it:
+package or file is a module named with a glossary term (`invoicing`,
+`customers`), or a small technical module named for its job (`clock`,
+`ids`). A module starts as a single file and becomes a package with layers
+when it grows. Inside every package module, the layers have the same names.
+A module has only the layers it needs, and a missing layer says nothing
+else about it:
 
 ```text
 src/acme/
-|-- clock/, ids/          small port modules: port, fake, real implementation
-|-- invoicing/
+|-- clock.py, ids.py      port modules: port, fake, real implementation
+|-- customers.py          a single-file module: values, rules, ports, fakes
+|-- invoicing/            a package module
 |   |-- __init__.py       public API
 |   |-- README.md
 |   |-- domain/           decides: values, entities, rules, domain errors
 |   |-- usecases/         does: one file per intent, the ports they consume, fakes
 |   `-- infrastructure/   adapters for the ports, persisted record shapes
-|-- customers/            same shape
 |-- checkout/             owns a workflow: usecases/, no rules of its own yet
-`-- wiring/               composition root (top layer)
+`-- wiring.py             composition root (top layer)
 ```
+
+- **A small module is one file.** `customers.py` holds its values, rules,
+  ports, fakes, and use cases, with its public API in `__all__` and its
+  responsibility in the docstring instead of a README. Keep the file in
+  the order decide, then ports and fakes, then do, so the split is a cut,
+  not a rewrite.
+- **It becomes a package when it needs an adapter or an entry point.** Only
+  `infrastructure/` may touch the real world, so the first adapter forces
+  the split. Split earlier when the file no longer reads in one go, at a
+  few hundred lines. Splitting means: move each part to its layer, turn
+  `__all__` into `__init__.py`, the docstring into a README, and add the
+  module to the contracts (see Codify it).
+- **The rules below hold in a single file too.** Domain functions stay
+  pure and take the time and IDs as arguments, ports and fakes still come
+  in pairs, and use cases still decide first, then do. Only the checks
+  differ: no contract sees the layers inside one file.
 
 - **The domain decides.** It answers "is this allowed, and what is the new
   state?" from values it is given. It does no I/O, defines no ports, and
@@ -47,8 +65,8 @@ src/acme/
   lives in the `usecases/ports.py` of the module whose use case needs it, and
   lists only the repositories that must commit together. One use case is one
   unit of work.
-- **A layer may start as a file.** `domain.py` becomes `domain/` when it
-  grows. The contracts treat both the same.
+- **A layer may start as a file.** In a package module, `domain.py`
+  becomes `domain/` when it grows. The contracts treat both the same.
 - **Entry points are a layer too.** HTTP routes, CLI commands, or message
   handlers for a module go in its `api/` (or `cli/`), above `usecases/`. They
   never import `infrastructure/`; the composition root hands them use cases.
@@ -134,20 +152,21 @@ def issue_invoice(invoices: InvoiceRepository, clock: Clock, invoice_id: Invoice
 ## Codify it
 
 import-linter, configured in `pyproject.toml`. One `layers` contract with
-`containers` applies the same layering inside every module. Parentheses mark
-a layer as optional, since `checkout` has no domain and `customers` no
-infrastructure:
+`containers` applies the same layering inside every package module.
+Parentheses mark a layer as optional, since `checkout` has no domain.
+Single-file modules are not listed: they have no layers inside.
 
 ```toml
 [[tool.importlinter.contracts]]
 name = "Inside every module, infrastructure -> usecases -> domain"
 type = "layers"
-containers = ["acme.checkout", "acme.customers", "acme.invoicing"]
+containers = ["acme.checkout", "acme.invoicing"]
 layers = ["(infrastructure)", "(usecases)", "(domain)"]
 broken_contract_guidance = """
 domain decides: pure rules on values, no ports. usecases do: load through ports, call the \
 domain, save, commit. infrastructure implements the ports against the real world. Move the \
-code to the layer that matches what it does. A new module is added to containers here."""
+code to the layer that matches what it does. A module that becomes a package is added to \
+containers here."""
 
 [[tool.importlinter.contracts]]
 name = "The domain gets time and IDs as values"
@@ -161,7 +180,9 @@ the use case and pass the value in."""
 
 The ruff `TID251` ignore and the semgrep I/O exclusion point at
 `*/infrastructure/`, so only adapters may touch the real world (see
-`injected-external-factors.md`). In an async codebase, forbid
+`injected-external-factors.md`). That is also what keeps a single-file
+module honest: the first `open()` or `datetime.now()` in it fails the check,
+and the fix is to split it. In an async codebase, forbid
 `acme.*.domain` from importing `asyncio` and the HTTP and database clients:
 domain code that needs to await is doing I/O.
 
@@ -172,5 +193,10 @@ domain code that needs to await is doing I/O.
   passed in as an argument.
 - Does a use case run all its rules before its first write?
 - Did a use case start writing twice without a unit of work?
-- Did you add a module? Add it to `containers` here, to the layers contract
-  between modules, and give it a `protected` contract.
+- Did you add a module? Add it to the layers contract between modules. If
+  it is a package, also add it to `containers` here and give it a
+  `protected` contract.
+- In a single-file module, does each new function either decide or do, and
+  does a domain function take the time and IDs as arguments? No contract
+  sees inside the file.
+- Did a single-file module grow past what reads in one go? Split it.

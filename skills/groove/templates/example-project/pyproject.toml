@@ -44,8 +44,8 @@ select = ["E", "F", "I", "UP", "B", "DTZ", "TID251"]
 # The only places that may touch the real world: adapters, port modules that hold
 # their real implementation, and the composition root. Every entry says why.
 [tool.ruff.lint.per-file-ignores]
-"src/acme/clock/__init__.py" = ["TID251"]  # SystemClock reads the real time
-"src/acme/ids/__init__.py" = ["TID251"]    # UuidIdGenerator generates real UUIDs
+"src/acme/clock.py" = ["TID251"]  # SystemClock reads the real time
+"src/acme/ids.py" = ["TID251"]    # UuidIdGenerator generates real UUIDs
 "src/acme/*/infrastructure/*.py" = ["TID251"]  # adapters implement ports against the real world
 
 # Architecture boundaries. Every contract says how to fix a violation.
@@ -70,15 +70,18 @@ module whose rule it is, or, when the workflow has a glossary term of its own, t
 of its own one layer up, like checkout. If the layers are wrong, change them here on \
 purpose and say why in the pull request."""
 
+# Single-file modules (clock, ids, customers, wiring) have no layers inside and no
+# submodules to protect, so they appear only in the layers contract between modules.
 [[tool.importlinter.contracts]]
 name = "Inside every module, infrastructure -> usecases -> domain"
 type = "layers"
-containers = ["acme.checkout", "acme.customers", "acme.invoicing"]
+containers = ["acme.checkout", "acme.invoicing"]
 layers = ["(infrastructure)", "(usecases)", "(domain)"]
 broken_contract_guidance = """
 domain decides: pure rules on values, no ports. usecases do: load through ports, call the \
 domain, save, commit. infrastructure implements the ports against the real world. Move the \
-code to the layer that matches what it does. A new module is added to containers here."""
+code to the layer that matches what it does. A module that becomes a package is added to \
+containers here."""
 
 [[tool.importlinter.contracts]]
 name = "The domain gets time and IDs as values"
@@ -98,17 +101,6 @@ broken_contract_guidance = """
 Import from acme.invoicing, not from its submodules. If the name you need is missing and it \
 is a domain value, rule, use case, port, error, or fake, add it to __all__ in \
 acme/invoicing/__init__.py. Adapters and entry points are not exported: only acme.wiring \
-constructs them."""
-
-[[tool.importlinter.contracts]]
-name = "customers is used through its public API"
-type = "protected"
-protected_modules = ["acme.customers.**"]
-allowed_importers = ["acme.customers", "acme.wiring"]
-broken_contract_guidance = """
-Import from acme.customers, not from its submodules. If the name you need is missing and it \
-is a domain value, rule, use case, port, error, or fake, add it to __all__ in \
-acme/customers/__init__.py. Adapters and entry points are not exported: only acme.wiring \
 constructs them."""
 
 [[tool.importlinter.contracts]]

@@ -8,16 +8,20 @@ structure.
 Recorded in `references/module-layout.md` and
 `references/architecture-boundaries.md`, and enforced in the example project.
 
-1. **What is a module?** A top-level package under the source root. Its
-   layer subpackages are not modules of their own: they have no public API
-   and are private behind the module's `__init__.py` (`protected` with
-   `acme.<module>.**`).
+1. **What is a module?** A top-level package or file under the source
+   root. A small module is a single file (`customers.py`) and becomes a
+   package once it needs an adapter or an entry point, or outgrows one
+   read. A package's layer subpackages are not modules of their own: they
+   have no public API and are private behind the module's `__init__.py`
+   (`protected` with `acme.<module>.**`). A single-file module needs no
+   `protected` contract and no README; its docstring holds the
+   responsibility.
 2. **Fixed roles?** Yes, as layers: `domain/`, `usecases/`,
    `infrastructure/`, plus an entry-point layer (`api/`) where a module has
    one. One `layers` contract with `containers` checks all modules, with
    optional layers in parentheses. The ruff and semgrep ignores became one
-   pattern each (`*/infrastructure/`). `clock` and `ids` still keep port,
-   fake, and real implementation in `__init__.py` with their own ignores.
+   pattern each (`*/infrastructure/`). `clock.py` and `ids.py` keep port,
+   fake, and real implementation in one file with their own ignores.
 3. **Where do ports live?** In `usecases/ports.py`, since use cases consume
    them; the domain defines no ports. Fakes sit next to them in
    `usecases/fakes.py`.
@@ -38,6 +42,10 @@ Recorded in `references/module-layout.md` and
    root alone. The example's `wiring` has no environment reads yet, so no
    `TID251` ignore; `customers` still has no storage adapter and `checkout`
    no real unit of work, so `wiring` builds only invoicing.
+8. **Module READMEs hold only what the code cannot say.** Responsibility,
+   what the module is not responsible for, glossary terms, and decisions.
+   Public API, ports, persisted shapes, and dependencies are left out: the
+   code and the contracts already state them, and a copy in prose drifts.
 
 ## Still open
 
@@ -50,8 +58,9 @@ Recorded in `references/module-layout.md` and
    that boundary visible.
 3. **One protected contract per module.** import-linter needs a contract per
    module to keep submodules private, which is boilerplate that grows with
-   the module count. Adding a module now touches three contracts (layers
-   between modules, `containers` inside modules, `protected`). tach covers
+   the module count. Adding a package module now touches three contracts
+   (layers between modules, `containers` inside modules, `protected`); a
+   single-file module touches only the first. tach covers
    the boundary part in one `interfaces` setting. Worth switching, or worth
    a check that every top-level package appears in all three?
 4. **Events between modules.** The boundaries reference says to use an event

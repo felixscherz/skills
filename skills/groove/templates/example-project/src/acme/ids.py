@@ -1,4 +1,8 @@
-"""IDs: new identifiers, injected so the functional core never generates them."""
+"""IDs: new identifiers, injected so the functional core never generates them.
+
+A port module: the IdGenerator port, its deterministic fake, and the
+UUID-backed implementation in one file.
+"""
 
 import uuid
 from itertools import count

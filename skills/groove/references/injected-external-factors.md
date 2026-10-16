@@ -22,7 +22,7 @@ Domain code is a functional core wrapped in an imperative shell.
 - **Adapters.** Real implementations (`SystemClock`, `JsonFileInvoiceRepository`)
   live in `infrastructure/` of the module that owns the port. A small port
   module like `clock` may keep port, fake, and real implementation together
-  in its `__init__.py`.
+  in one file, `clock.py`, with its own ignore.
 - **Composition root only.** Only the composition root constructs real
   implementations and passes them in. No default argument constructs one:
   `clock: Clock = SystemClock()` is banned, as is `clock: Clock | None = None`
@@ -67,7 +67,7 @@ passing a clock, and the dependency disappears from every call site.
 The clock module owns the port, the real implementation, and the fake:
 
 ```python
-# acme/clock/__init__.py
+# acme/clock.py
 from datetime import UTC, datetime, timedelta
 from typing import Protocol
 
@@ -147,8 +147,8 @@ select = ["E", "F", "I", "UP", "B", "DTZ", "TID251"]
 
 # The only places that may touch the real world. Every entry says why.
 [tool.ruff.lint.per-file-ignores]
-"src/acme/clock/__init__.py" = ["TID251"]  # SystemClock reads the real time
-"src/acme/ids/__init__.py" = ["TID251"]    # UuidIdGenerator generates real UUIDs
+"src/acme/clock.py" = ["TID251"]  # SystemClock reads the real time
+"src/acme/ids.py" = ["TID251"]    # UuidIdGenerator generates real UUIDs
 "src/acme/*/infrastructure/*.py" = ["TID251"]  # adapters implement ports against the real world
 ```
 

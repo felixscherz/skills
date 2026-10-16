@@ -3,12 +3,13 @@
 ## The rule
 
 Code is split into modules, each with one responsibility written in its
-`README.md`. A module is a top-level package under `src/acme/`, split
-internally into layers (see `module-layout.md`).
+`README.md`, or in its docstring for a single-file module. A module is a
+top-level package under `src/acme/`, split internally into layers, or a
+single top-level file while it is small (see `module-layout.md`).
 
-- **Public API.** A module's public API is what its `__init__.py` exports in
-  `__all__`: its domain values and rules, use cases, ports, errors, and the
-  fakes for its ports. Adapters (`infrastructure/`) and entry points
+- **Public API.** A module's public API is what its `__init__.py`, or its
+  single file, exports in `__all__`: its domain values and rules, use cases,
+  ports, errors, and the fakes for its ports. Adapters (`infrastructure/`) and entry points
   (`api/`, `cli/`) are not exported. Everything else in the module is
   internal.
 - **Import only the public API.** Code outside a module imports from
@@ -181,7 +182,7 @@ root_package = "acme"
 name = "Modules depend down the layers"
 type = "layers"
 containers = ["acme"]
-layers = ["checkout", "invoicing | customers", "clock | ids"]
+layers = ["wiring", "checkout", "invoicing | customers", "clock | ids"]
 ignore_imports = [
     # invoicing's adapter for its CustomerLookup port; translates customers into invoicing's terms
     "acme.invoicing.infrastructure.customer_lookup -> acme.customers",
@@ -196,8 +197,9 @@ of its own one layer up, like checkout. If the layers are wrong, change them her
 purpose and say why in the pull request."""
 ```
 
-One `protected` contract per module keeps everything below its `__init__.py`
-private. `**` covers the layer subpackages. The composition root is the one
+One `protected` contract per package module keeps everything below its
+`__init__.py` private. A single-file module has nothing below it, so it
+needs none until it becomes a package. `**` covers the layer subpackages. The composition root is the one
 allowed importer from outside, so it can construct adapters and mount
 entry points:
 
@@ -236,8 +238,9 @@ API.
 
 ## Review by hand
 
-- Did you add a module? Add it to the layers contract, to `containers` of
-  the contract inside modules, and give it a `protected` contract.
+- Did you add a module? Add it to the layers contract. If it is a package,
+  also add it to `containers` of the contract inside modules and give it a
+  `protected` contract.
 - Did you add a name to a module's `__all__`? Is it part of the module's
   responsibility, or an internal detail leaking out? An adapter, router, or
   framework hook belongs in the composition root's imports, not in

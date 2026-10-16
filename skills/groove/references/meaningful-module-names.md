@@ -58,10 +58,10 @@ Good:
 # acme/invoicing/domain/model.py
 def format_invoice_number(n: int) -> str: ...
 
-# acme/retry/__init__.py
+# acme/retry.py
 def retry[T](fn: Callable[[], T], attempts: int) -> T: ...
 
-# acme/slugs/__init__.py
+# acme/slugs.py
 def slugify(text: str) -> str: ...
 ```
 
@@ -82,7 +82,7 @@ module-names:
 	fi
 ```
 
-The layers contract adds a second guard: a new top-level package that is
+The layers contract adds a second guard: a new top-level module that is
 not in a layer stands out in review, and any domain module importing it
 breaks the contract if it sits in the wrong layer.
 
