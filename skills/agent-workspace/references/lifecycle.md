@@ -15,7 +15,6 @@ Never commit in the workspace repo. When you are done, tell the user what change
    - `.gitignore` from `templates/gitignore`.
    - `AGENTS.md` from `templates/AGENTS.md` with name and purpose filled in. Leave scope and done criteria as
      placeholders; onboarding fills them.
-   - A symlink `CLAUDE.md -> AGENTS.md`.
    - `workspace.toml` from `templates/workspace.toml` with name, purpose, today's date, and `status = "active"`. Leave
      out members.
 4. Onboard it now if the user is here, otherwise tell them to open a session in the workspace root to do it.

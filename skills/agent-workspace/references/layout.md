@@ -9,7 +9,6 @@ The single place that defines where things live in a workspace and who may write
 <workspace>/                 # git repo
 ├── .gitignore               # members/
 ├── AGENTS.md                # purpose, scope, done criteria, skills in use
-├── CLAUDE.md -> AGENTS.md
 ├── workspace.toml           # name, purpose, status, members
 ├── members/                 # gitignored, one entry per member
 │   ├── web-app/             # worktree or clone, writable
