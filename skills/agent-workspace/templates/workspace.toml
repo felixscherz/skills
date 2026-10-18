@@ -1,0 +1,26 @@
+[workspace]
+name = "{{name}}"
+purpose = "{{purpose}}"
+created_at = {{YYYY-MM-DD}}
+status = "active"          # active | paused | closed
+
+# One entry per member, added during onboarding. Each appears at members/<name>.
+# Exactly one source key: git (local clone or URL) or path (directory or file).
+# access = "read" | "write"; path members are always "read".
+#
+# [[members]]
+# name = "web-app"
+# git = "~/workspaces/acme/web-app/"           # local clone: worktree
+# access = "write"
+# branch_prefix = "{{name}}/"                  # writable git members only
+#
+# [[members]]
+# name = "chalk"
+# git = "https://github.com/chalk/chalk.git"   # URL: the workspace's own clone
+# branch = "main"                              # optional; default is the remote's default branch
+# access = "read"
+#
+# [[members]]
+# name = "brand-guide"
+# path = "~/Documents/brand-guide/"            # used in place through a symlink
+# access = "read"

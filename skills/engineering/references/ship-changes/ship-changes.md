@@ -11,6 +11,11 @@ question easy to answer.
 - Work on a branch, never the default branch. Follow the repository's branch
   naming and commit message conventions (check `AGENTS.md`, `CONTRIBUTING.md`,
   commit history, commitizen or commitlint config).
+- When the work needs a separate checkout, and the repository has no
+  convention of its own, add a worktree at `.worktrees/<branch>` in the
+  primary checkout, with `/` in the branch name replaced by `-`. `.worktrees/`
+  is globally git-ignored. Leave worktrees in place until the user asks to
+  remove them.
 - Run the same checks CI runs: tests, linters, formatters, type checks, and
   pre-commit hooks. Find them in the CI config (`.github/workflows/`,
   `.gitlab-ci.yml`, ...), `Makefile`, `justfile`, or package scripts rather

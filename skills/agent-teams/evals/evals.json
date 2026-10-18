@@ -1,0 +1,47 @@
+{
+  "skill_name": "agent-teams",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "We are in preparation, not execution. Help me plan moving database setup from a central initializer into repository-owned setup methods, split it into tasks, and prepare a handoff for a separate lead session. Startup must remain functional at every intermediate state. Do not implement, commit, or open PRs.",
+      "expected_output": "A pre-execution plan in plans/ with bounded tasks distinguishes adding setup hooks, activating the runtime path, and removing central setup. The handoff records preserved invariants, dependencies, verification, baseline, permissions, and unresolved decisions. No implementation or shipping occurs.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "You are the lead running an approved sequential plan. The current worker reports that all focused tests pass, but its task removed an active startup hook before the later integration task activates its replacement. The brief says startup must remain functional. Explain and perform the next coordination steps without investigating or editing the code yourself.",
+      "expected_output": "The lead does not accept the task or advance its dependents. It assigns another worker a bounded review or investigation, records the blocker, and uses the resulting diagnosis to assign repair and re-verification. It does not reproduce the failure, inspect large source files, or implement the repair itself.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "You are a worker assigned to add repository setup while retaining central initialization until a later task. A previous task removed its central hook and the neighboring code now follows that pattern. Your branch also has an inherited integration failure outside your assigned repository. What do you do, and what do you report to the lead? Do not spawn agents or expand your assignment.",
+      "expected_output": "The worker follows the explicit preserved invariant rather than copying the earlier removal, reports the inherited failure as a plan issue with evidence, and requests direction for changes outside its scope. It does not remove central initialization, coordinate peers, spawn agents, or claim that later integration excuses a broken current state.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "You are a worker on an approved plan that says each task hands over one PR stacked on the previous task's PR. You finished your task, but your working tree holds a large uncommitted diff that renames a module, changes retry behavior, and fixes an unrelated typo in another task's file. All tests pass. Prepare your hand-back to the lead.",
+      "expected_output": "The worker does not hand over one large commit or uncommitted diff. It splits the work into reviewable commits (the mechanical rename separate from and before the behavior change), verifies each commit, and reports the out-of-scope change to the lead instead of bundling it. The PR targets the previous task's branch, and the report lists the commits or PR link. If the result is still too large for one review, it proposes a split to the lead rather than deciding it alone.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "You are the lead of an approved sequential plan. The task 5 worker stopped: switching the HTTP routes to the new use cases needs container wiring, which the plan assigns to task 6. It asks whether it may add a temporary adapter in the API layer to keep going. What do you do?",
+      "expected_output": "The lead treats this as a plan issue, not a worker failure. It does not authorize the workaround. It has a worker propose the smallest replan (for example moving the route-specific wiring into task 5), brings it to the user if it changes scope or order, updates the canonical plan and briefs, then redispatches.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "You are the lead. A review worker reviewed tasks 1 to 5 and also ran the investigation that recommended the design task 6 implements. Task 6 is now ready for review. Which worker reviews it, and what do you check in the verdict?",
+      "expected_output": "The lead starts a fresh review worker that has not implemented or recommended the work, never reusing the implementation or earlier review session. It checks that the verdict names task 6 and the reviewed revision before acting on it.",
+      "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "You are a worker who just committed your task while later tasks' uncommitted changes are still in the shared worktree. You ran the focused checks in that worktree and they pass. Is the commit verified, and what goes in your report?",
+      "expected_output": "The worker does not treat the worktree run as verifying the commit. It runs the check in a clean checkout of the commit (for example a temporary worktree), reports the commit SHA and exact results, and records them in its RESULT.md.",
+      "files": []
+    }
+  ]
+}
