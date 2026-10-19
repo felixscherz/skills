@@ -32,28 +32,69 @@ single top-level file while it is small (see `module-layout.md`).
 - **One direction per pair.** If invoicing reads from customers, customers
   does not read from invoicing. Links in both directions mean the boundary
   is in the wrong place: merge the modules or move the responsibility.
-- **Every workflow has an owner.** A module never changes state owned by
-  another module. When one operation changes state in several modules, name
-  the module that owns it: the one whose rule says these changes belong
-  together. Ask in this order:
-  - **One of the modules owns it.** The rule is in that module's language,
-    such as "an issued Invoice is charged" in invoicing. That module runs the
-    workflow: it commits its own change and records an event, and the other
-    module reacts in its own transaction.
-  - **The workflow is a concept of its own.** Neither module's language has
-    the rule, but the glossary has a term for the workflow (Checkout). Then
-    the workflow is a responsibility of its own and gets its own module, one
-    layer above the modules it uses. That module is a domain module like any
-    other: it owns the use case and, when the changes must commit together,
-    the unit of work. It may have no rules yet, and grows a `domain/` once it
-    has one. A unit of work works only while the modules share a store that
-    can commit together; when they do not, fall back to events.
-  - **Neither, but it must commit together.** The boundary is in the wrong
-    place: merge the modules, or find the missing concept and give it a
-    glossary term.
-- **The trigger is not the owner.** What starts a workflow (an API handler,
-  a CLI command, an event subscriber) calls the owner's use case. It does
-  not sequence the steps itself.
+- **Choose the direction on purpose.** Which of two modules sits in the
+  higher layer is a design decision, made per pair. Existence pulls one
+  way: the module that can exist without the other goes lower, and the one
+  built from it goes higher (catalog above procurement when Products are
+  built from SupplierProducts). Importance can pull the other way: a core
+  module may need to stay free of a supporting one. Neither wins by
+  default. Existence is a domain fact, so confirm it with the user. To
+  invert it, the core goes lower and owns a port; the higher module
+  implements it in its `infrastructure/`. Say which way you chose and why.
+- **Hold other modules' entities by ID.** A domain value refers to another
+  module's entity by its ID type (`based_on: tuple[SupplierProductId, ...]`),
+  never by holding the entity. Only use cases load the entity itself.
+- **A link lives in the higher module.** When an entity refers to another
+  module's entity, the referring entity is in the higher module and holds
+  the ID (`Product.based_on` in catalog). A lower module cannot hold a
+  higher one's ID. When the link grows a lifecycle, validity periods, or
+  rules of its own, it is a concept: give it its own entity in the higher
+  module and its own glossary term.
+- **Every write has one owner.** One use case in one module runs each
+  operation that changes state. A module changes state owned by another
+  module only through that module's public API: its rules and its
+  repositories, never by building or editing its values directly. Find the
+  owner by asking in this order:
+  - **It writes one module.** That module owns it. It reads lower modules
+    through their public API and siblings through a port it owns.
+  - **It writes modules in different layers.** The highest module it writes
+    owns it when the rule is in its language. It changes the lower modules
+    through their public rules and repositories, in one unit of work while
+    they share a store, and through events otherwise. When the rule is in a
+    lower module's language instead, that module commits its own change and
+    records an event, and the higher module reacts.
+  - **It writes siblings, and one of them has the rule.** The rule is in
+    that module's language, such as "an issued Invoice is charged" in
+    invoicing. That module commits its own change and records an event, and
+    the other reacts in its own transaction.
+  - **It writes siblings that must commit together.** The boundary needs a
+    decision. If one module is built from the other, they do not belong in
+    one layer: move it up (see "Choose the direction on purpose") and ask
+    again. If the business already names the workflow (Checkout), it gets a
+    module of its own one layer above the modules it uses, owning the use
+    case and the unit of work. That module is a domain module like any
+    other; it may have no rules yet, and grows a `domain/` once it has one.
+    Do not coin a term to give a workflow a home. Otherwise, merge the
+    modules.
+
+  A unit of work spans modules only while they share a store that can
+  commit together; when they do not, fall back to events.
+- **The trigger is not the owner.** What starts an operation (an API
+  handler, a CLI command, an event subscriber) calls the owner's use case.
+  It does not sequence the steps itself.
+- **Events belong to the module that records them.** The event type is part
+  of its public API, in its own language (`SupplierProductDiscontinued` in
+  procurement). The reaction is a use case of the reacting module, started
+  by a subscriber among its entry points and wired by the composition root.
+  Events follow the direction of imports: a higher module reacts to a lower
+  one's events directly. A sibling reacts through an adapter in its
+  `infrastructure/` that translates the event into its own terms, listed in
+  `ignore_imports` like a read.
+- **A read belongs to the module asking the question.** A query that
+  combines modules lives in the module whose question it is, which must sit
+  above the modules it reads, or read siblings through a port. A read that
+  belongs to none of them (a report, a dashboard) gets a read-only module
+  above them that never writes.
 - **Composition root.** One place builds the application: it constructs
   adapters and wires them into use cases. It sits in the top layer, and it
   is the only code outside a module that imports the module's
@@ -80,12 +121,16 @@ with a message saying what to do.
 A port owned by the reader keeps the sibling's model out of the reader's use
 cases: a rename in customers breaks one adapter in invoicing, not its rules
 or tests, and the use case is tested with a fake instead of a real
-customers module. Naming an owner for every workflow puts its sequencing
-and failure handling in one use case, instead of spread across handlers or
-dropped into whichever module the agent opened first. A workflow with a name
-of its own becomes a module, so invoicing does not need to know that
-checkout exists. The unit of work keeps consistency in one place instead of
-scattered try/except blocks.
+customers module. Naming an owner for every write puts its sequencing and
+failure handling in one use case, instead of spread across handlers or
+dropped into whichever module the agent opened first. Asking what an
+operation writes before anything else keeps most operations in the module
+they change, and lets a higher module commit across the modules it already
+depends on when the domain says the changes belong together. Only a
+workflow the business names on its own becomes a module, so invoicing does
+not need to know that checkout exists, and agents do not invent workflow
+modules to resolve a boundary they should have moved. The unit of work
+keeps consistency in one place instead of scattered try/except blocks.
 
 ## Example
 
@@ -158,14 +203,45 @@ def check_out(
     return invoice
 ```
 
-Checkout is a glossary term whose rule, all or nothing, belongs to neither
-invoicing nor customers, so checkout owns the workflow. The unit-of-work
+invoicing and customers are siblings that must commit together, and neither
+is built from the other. Checkout is a term the business already uses, and
+its rule, all or nothing, belongs to neither module, so checkout owns the
+workflow. The unit-of-work
 protocol belongs to checkout, because only the owner knows which
 repositories must commit together. Its repositories are read-only
 properties: a mutable protocol attribute is invariant, and pyright strict
 would reject the in-memory fakes. checkout has no rules of its own yet, so it
 has no `domain/` and calls the rules of invoicing and customers. A rule of
 Checkout itself would start its `domain/`.
+
+Good, a higher module owning a write that spans the modules below it. A
+Product in catalog is built from SupplierProducts in procurement, so catalog
+sits above procurement. Listing a Product reserves its SupplierProducts, and
+both must commit together. The rule is in catalog's language, so catalog
+owns it and changes procurement only through procurement's public rules and
+repository:
+
+```python
+# acme/catalog/usecases/create_product.py
+from acme import procurement
+
+
+def create_product(uow: CreateProductUnitOfWork, ids: IdGenerator,
+                   command: CreateProduct) -> Product:
+    with uow:
+        sources = uow.supplier_products.get_many(command.based_on)
+        product = new_product(ProductId(ids.new_id()), command.name, command.based_on)
+        reserved = tuple(procurement.reserve(source) for source in sources)  # no ProductId: procurement sits lower
+        uow.products.add(product)
+        for source in reserved:
+            uow.supplier_products.add(source)
+        uow.commit()
+    return product
+```
+
+`CreateProductUnitOfWork` lives in catalog's `usecases/ports.py` and lists
+catalog's `ProductRepository` and procurement's `SupplierProductRepository`.
+No workflow module is needed.
 
 ## Codify it
 
@@ -191,10 +267,12 @@ broken_contract_guidance = """
 A module may import only modules in lower layers, and modules in the same layer are \
 independent. To read from a sibling module, define a port in your module's usecases/ports.py \
 and implement it in an adapter in your infrastructure/, then add that one import to \
-ignore_imports here. If an operation changes state in two modules, it belongs to the \
-module whose rule it is, or, when the workflow has a glossary term of its own, to a module \
-of its own one layer up, like checkout. If the layers are wrong, change them here on \
-purpose and say why in the pull request."""
+ignore_imports here. An operation that changes state in several modules belongs to the \
+module it writes, or to the highest module it writes, which changes the lower ones through \
+their public API. Siblings that must commit together mean one should move up a layer, or, \
+when the business already names the workflow, a module of its own one layer up, like \
+checkout. If the layers are wrong, change them here on purpose and say why in the pull \
+request."""
 ```
 
 One `protected` contract per package module keeps everything below its
@@ -253,10 +331,18 @@ API.
   `infrastructure/` implementing a port of its own module, and the pair must
   not already link in the other direction. Say so in your reply.
 - Did you change the layers contract? Say so in your reply and why.
-- Does this module now change state that another module is responsible for?
+- Did you place a module in a layer, or move one? Say which module of each
+  pair it touches sits higher, and whether existence or importance decided.
+- Does a new domain value hold another module's entity instead of its ID?
+- Does this module now change state that another module is responsible for
+  without going through that module's public rules and repositories?
   The layers contract catches imports, not calls passed in through
   callbacks or ports.
 - Does an operation change state in several modules? Name its owner in your
-  reply: one of the modules, or a module of its own for a workflow with a
-  glossary term. An entry point that sequences the steps itself has no
-  owner.
+  reply and which case of "Every write has one owner" decided it. An entry
+  point that sequences the steps itself has no owner.
+- Did you add a workflow module? Say where the business uses its name, and
+  why moving one of the modules up a layer did not fit.
+- Did you add an event or a reaction? The event type is in the recording
+  module's public API, the reaction is a use case of the reacting module,
+  and it does not react against the layers except through an adapter.

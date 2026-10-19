@@ -29,5 +29,6 @@ the first user of an API, and code that is awkward to test is awkward to use.
 - Names matter. A good name carries enough meaning for a reader to not have to
   dive into the implementation in order to understand the code. This holds
   for modules too: name a module after what it does (`slugs`, `retry`), never
-  `utils`, `helpers`, or `common`, which attract unrelated code and have no
-  owner.
+  `utils`, `helpers`, `common`, or `shared`, which attract unrelated code and
+  have no owner. Code that two modules need is either a concept with its own
+  name (`money`, `validity`) or belongs to one of them.

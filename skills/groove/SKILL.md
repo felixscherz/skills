@@ -47,14 +47,21 @@ when its trigger fires, not up front.
   - Modules are used only through their `__init__.py` (or their single
     file). Dependencies point down declared layers. Both are import-linter
     contracts.
+  - Which module of a pair sits higher is a design decision per pair:
+    existence and importance can disagree. Other modules' entities are held
+    by ID.
   - Adapters and entry points (routers, CLI commands, framework hooks) are
     not exported. Only the composition root imports them, as the one
     allowed importer in each module's `protected` contract.
   - Reading from a sibling goes through a port the reader owns and one
     adapter, declared in the contract.
-  - An operation that changes state in several modules has one owner: the
-    module whose rule it is, or, for a workflow with its own glossary term,
-    a module of its own one layer up with a unit of work.
+  - Every write has one owner: the module it writes, or the highest module
+    it writes, which changes lower modules through their public API, in one
+    unit of work when the domain says so. Siblings that must commit together
+    mean one moves up a layer, or, rarely, a workflow the business already
+    names gets a module of its own one layer up.
+  - Links between modules live in the higher module. Events belong to the
+    module that records them and flow up like imports.
 - **Meaningful module names** (`references/meaningful-module-names.md`).
   Creating or renaming a module or file, or looking for a home for code that
   seems shared.

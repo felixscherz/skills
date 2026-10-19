@@ -65,10 +65,12 @@ broken_contract_guidance = """
 A module may import only modules in lower layers, and modules in the same layer are \
 independent. To read from a sibling module, define a port in your module's usecases/ports.py \
 and implement it in an adapter in your infrastructure/, then add that one import to \
-ignore_imports here. If an operation changes state in two modules, it belongs to the \
-module whose rule it is, or, when the workflow has a glossary term of its own, to a module \
-of its own one layer up, like checkout. If the layers are wrong, change them here on \
-purpose and say why in the pull request."""
+ignore_imports here. An operation that changes state in several modules belongs to the \
+module it writes, or to the highest module it writes, which changes the lower ones through \
+their public API. Siblings that must commit together mean one should move up a layer, or, \
+when the business already names the workflow, a module of its own one layer up, like \
+checkout. If the layers are wrong, change them here on purpose and say why in the pull \
+request."""
 
 # Single-file modules (clock, ids, customers, wiring) have no layers inside and no
 # submodules to protect, so they appear only in the layers contract between modules.

@@ -33,8 +33,10 @@ Recorded in `references/module-layout.md` and
 6. **No module types.** Modules are not classified as domain, coordinator,
    or technical. A module has the layers it needs, and a missing `domain/`
    says nothing else about it. An operation that changes several modules
-   has one owner: the module whose rule it is, or, when the workflow has a
-   glossary term of its own (Checkout), a module of its own one layer up.
+   has one owner: the module it writes, or the highest module it writes.
+   Only siblings that must commit together, where neither moves up a layer
+   and the business already names the workflow (Checkout), get a module of
+   their own one layer up.
 7. **Composition root and adapters.** A top-level `wiring` module in the
    top layer builds the adapters. Adapters and entry points are not exported
    from `__init__.py`; each module's `protected` contract lists `wiring` as

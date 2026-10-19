@@ -67,8 +67,9 @@ unless the user asks.
   Requirements change or are added, a drift is found, or you are about to add
   a special case for an edge case.
 - **Deliver in small steps** (`references/deliver-in-small-steps.md`). Deciding
-  how much to build for a request, when a fix suggests a larger redesign, or
-  planning work that spans several changes.
+  how much to build for a request, before proposing an architecture or
+  design, when a fix suggests a larger redesign, or planning work that spans
+  several changes.
 - **Keep work reviewable** (`references/keep-work-reviewable.md`). Starting
   work that will span several commits or PRs, uncommitted work growing beyond
   one purpose, or committing, splitting a diff, or handing work over for
