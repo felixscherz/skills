@@ -10,9 +10,15 @@ the first user of an API, and code that is awkward to test is awkward to use.
   interfaces, so tests pass in-memory fakes instead of patching. This includes
   the easily overlooked ones: current time, sleeping, randomness, ID
   generation, environment variables, and network calls. Read configuration in
-  one place at startup and pass the values in.
-- Keep the public surface small and deliberate. Tests target it, so everything
-  behind it can change freely.
+  one place at startup and pass the values in. Add a seam where a second
+  implementation exists or a test needs one, not speculatively.
+- Make modules deep. A module earns its place when its interface is much
+  simpler than what it hides. A shallow module, whose interface is nearly as
+  complex as its implementation, such as a pass-through wrapper or a function
+  extracted only so it can be tested, adds a concept without removing one.
+  Before adding or keeping a module, ask whether deleting it would gather its
+  complexity in one place or just move it to the callers. Tests target the
+  interface, so everything behind it can change freely.
 - When designing an API or model, write the calling code, a test or an
   example, before the implementation.
 - Let the layout say where code belongs. Every responsibility should have
