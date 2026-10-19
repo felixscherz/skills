@@ -14,23 +14,22 @@ work can span many tasks and sessions without filling your context with their de
 Source code, logs, test output, and the material the work is about go to a worker. If you catch yourself reading a
 source file, reproducing a failure, or debugging, stop and write a brief instead.
 
-## Set up a workspace for a lead
+## Set up a factory for a lead
 
-1. Make sure the work happens in an agent workspace (see the `agent-workspace` skill), with the repos the work changes
-   as writable members.
-2. Add `../templates/AGENTS-section.md` to the workspace's `AGENTS.md`, right below the title.
-3. Set up a memory in `memory/` with the `agent-memory` skill, owned by the lead, if there is none.
-4. Write `STATUS.md` from `../templates/STATUS.md`, and create empty `plans/` and `tasks/`.
-5. Add `tasks/*/checkout/` to the workspace's `.gitignore`.
+1. Make sure the work happens in a software factory (see the `agent-software-factory` skill), with the repos the work
+   changes as writable members.
+2. Create empty `plans/` and `tasks/` if they do not exist yet.
+3. Check that the factory's `.gitignore` lists `tasks/*/checkout/`, and add it if not.
 
 ## Start of a session
 
-1. Read `AGENTS.md` and `STATUS.md`, and start the session in the memory (see `agent-memory`).
-2. Refresh the members (see "Refresh members" in the `agent-workspace` skill).
-3. Check `tasks/` for open tasks, whose `BRIEF.md` says `status: open`. A task with a `RESULT.md` is waiting for
+Start the session as the factory agent first (see `agent-software-factory`). Then:
+
+1. Check `tasks/` for open tasks, whose `BRIEF.md` says `status: open`. A task with a `RESULT.md` is waiting for
    review.
-4. Give the user a short report: what is in progress, results waiting for review, problems with members, and what
-   needs their decision.
+2. Read the progress table of each plan with `Status: running`.
+3. Add to the factory agent's report: which tasks are in progress, which results wait for review, and which plan
+   decisions need the user.
 
 ## Run a plan
 
@@ -110,8 +109,6 @@ plan, not with the worker.
 
 When the user wraps up, or before you stop after a meaningful chunk of work:
 
-1. Write the session's journal entry in the memory (see `agent-memory`): what was decided, which tasks moved, and what
-   is waiting.
-2. Rewrite `STATUS.md` from `../templates/STATUS.md`. It is a snapshot, not a log: keep the sections fixed, write
-   "None." under an empty one, and keep it short enough to read in a minute.
-3. Tell the user what changed in the workspace, so they can commit it.
+1. Bring each running plan's progress table up to date.
+2. End the session as the factory agent (see `agent-software-factory`). The journal entry says which tasks moved and
+   what is waiting, and `STATUS.md` lists the running plans under "In progress".

@@ -1,9 +1,9 @@
 # Members
 
 Adding, refreshing, and removing members. What each kind of member is built as is in `layout.md`; the entry format is
-in `../templates/workspace.toml`.
+in `../templates/factory.toml`.
 
-Use absolute paths for every target below. `<ws>` is the workspace root, `<member>` the member's name, `<git>` a local
+Use absolute paths for every target below. `<ws>` is the factory root, `<member>` the member's name, `<git>` a local
 clone from a `git` entry, and `<prefix>` the entry's `branch_prefix`.
 
 ## Add a member
@@ -25,20 +25,20 @@ user which branch is the base. For a URL, the clone below sets `origin/HEAD`; re
 
 ### Git, local clone
 
-Writable: the workspace works on its own branch. Git refuses to check out one branch in two worktrees, so the prefix
-is what lets two workspaces work on the same repo.
+Writable: the factory works on its own branch. Git refuses to check out one branch in two worktrees, so the prefix
+is what lets two factories work on the same repo.
 
 ```sh
 git -C <git> worktree add -b <prefix>main <ws>/members/<member> origin/<branch>
 ```
 
-If `<prefix>main` already exists, such as when recreating the workspace, check out the existing branch instead:
+If `<prefix>main` already exists, such as when recreating the factory, check out the existing branch instead:
 
 ```sh
 git -C <git> worktree add <ws>/members/<member> <prefix>main
 ```
 
-Read-only: a detached worktree, so the workspace sees `<branch>` cleanly even when the user's checkout is on another
+Read-only: a detached worktree, so the factory sees `<branch>` cleanly even when the user's checkout is on another
 branch or has uncommitted changes.
 
 ```sh
@@ -49,7 +49,7 @@ If `worktree add` fails, see `troubleshooting.md`.
 
 ### Git, URL
 
-The workspace gets its own clone. Writable members get a blobless clone, which keeps the history needed to rebase and
+The factory gets its own clone. Writable members get a blobless clone, which keeps the history needed to rebase and
 push but downloads file contents only when needed:
 
 ```sh
@@ -57,7 +57,7 @@ git clone --filter=blob:none <git> <ws>/members/<member>
 git -C <ws>/members/<member> switch -c <prefix>main origin/<branch>
 ```
 
-If the remote already has `<prefix>main`, such as when recreating the workspace, use
+If the remote already has `<prefix>main`, such as when recreating the factory, use
 `git -C <ws>/members/<member> switch <prefix>main` instead, which tracks it. If the server does not support filters,
 git warns and makes a full clone, which works the same.
 
@@ -71,23 +71,23 @@ git -C <ws>/members/<member> checkout --detach
 
 ### Path
 
-A directory or a single file, used in place through a symlink. Path members are always read-only. If the workspace
+A directory or a single file, used in place through a symlink. Path members are always read-only. If the factory
 needs to write them, ask the user to make them a git repo first.
 
 ```sh
 test -e <absolute path> && ln -s <absolute path> <ws>/members/<member>
 ```
 
-Expand `~` in the link target. Keep `~` in `workspace.toml`.
+Expand `~` in the link target. Keep `~` in `factory.toml`.
 
 ### Record it
 
-Add a `[[members]]` entry to `workspace.toml` with `name`, the source key (`git` or `path`), `access`, and for writable
+Add a `[[members]]` entry to `factory.toml` with `name`, the source key (`git` or `path`), `access`, and for writable
 git members `branch_prefix`. Add `branch` only when the user names one.
 
 ## Refresh members
 
-Run this at the start of a session, so the work starts from the latest state. For each entry in `workspace.toml`:
+Run this at the start of a session, so the work starts from the latest state. For each entry in `factory.toml`:
 
 - **Writable git members:** rebase onto the latest `<branch>`.
   ```sh
@@ -110,12 +110,13 @@ A member that is missing altogether is built as in "Add a member".
 ## Remove a member
 
 1. For a writable git member, check `git status` and for commits not on any remote
-   (`git -C <ws>/members/<member> log --oneline --branches --not --remotes`). If there are any, ask the user before
-   going on.
+   (`git -C <ws>/members/<member> log --oneline --branches --not --remotes`), and for backlog items on it that are
+   `in-progress` or `pr-open`. If there are any, ask the user before going on. Remove the item checkouts under
+   `<ws>/checkouts/` before the member itself.
 2. Remove it from `members/`:
    - Git, local clone: `git -C <git> worktree remove <ws>/members/<member>`. For a writable member, ask the user
-     whether to delete the workspace's branches under `<prefix>` in the source clone.
+     whether to delete the factory's branches under `<prefix>` in the source clone.
    - Git, URL: delete the directory `<ws>/members/<member>`.
    - Path: `rm <ws>/members/<member>`, which removes only the link. Never pass `-r` or a trailing slash: that deletes
      the files the link points to.
-3. Remove the `[[members]]` entry from `workspace.toml`.
+3. Remove the `[[members]]` entry from `factory.toml`.

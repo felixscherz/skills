@@ -2,6 +2,7 @@
 
 Created: {{YYYY-MM-DD}}
 Status: {{planned | running | blocked | done}}
+Backlog item: {{backlog/NNNN-slug.md, or "none"}}
 
 ## Goal
 

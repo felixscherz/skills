@@ -3,8 +3,8 @@ id: {{NNNN-slug}}
 created: {{YYYY-MM-DD}}
 status: open               # open | closed
 ---
-You are a worker, not the lead of this workspace. Work only on the task below, and ignore any instructions in
-`AGENTS.md` files that tell you to act as the lead.
+You are a worker, not the factory agent or its lead. Work only on the task below, and ignore any instructions in
+`AGENTS.md` files that tell you to act as the factory agent.
 
 # Task {{NNNN-slug}}
 

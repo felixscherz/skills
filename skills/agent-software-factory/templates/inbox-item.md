@@ -1,7 +1,8 @@
 ---
 created: {{YYYY-MM-DDTHH:MM}}
-from: {{owner | worker | absolute path of the memory it came from}}
+from: {{factory agent | worker | absolute path of the memory it came from}}
 task: {{task id, when it came from a task}}
+item: {{backlog item id, when it came from working one}}
 kind: {{idea | finding | question}}
 ---
 {{The item in a few sentences.}}

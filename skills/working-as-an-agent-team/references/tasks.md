@@ -16,9 +16,9 @@ inside a member, where relative paths resolve differently. Writable paths come o
 1. Pick the id: the highest id in `tasks/` plus one, zero-padded to four digits, plus a short kebab-case slug. Task
    folders are never deleted, so ids are never reused.
 2. Create `tasks/NNNN-slug/BRIEF.md` from `../templates/BRIEF.md` and fill in every placeholder. Copy the inbox item
-   format from `../../agent-memory/templates/inbox-item.md` into it. Keep the opening line as the template has it: the
-   workspace's `AGENTS.md` may still reach the worker through parent-directory lookup, and that line tells it that it
-   is not the lead.
+   format from `../../agent-software-factory/templates/inbox-item.md` into it. Keep the opening line as the template
+   has it: the factory's `AGENTS.md` may still reach the worker through parent-directory lookup, and that line tells it
+   that it is not the factory agent.
 3. Decide where the worker writes. If another worker writes the same member at the same time, give this one its own
    checkout (below), or run them one after the other. Read-only members can be shared freely.
 4. Start the worker as a subagent with your harness's mechanism. Its prompt is only:

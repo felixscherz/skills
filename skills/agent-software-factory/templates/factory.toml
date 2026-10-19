@@ -1,4 +1,4 @@
-[workspace]
+[factory]
 name = "{{name}}"
 purpose = "{{purpose}}"
 created_at = {{YYYY-MM-DD}}
@@ -16,7 +16,7 @@ status = "active"          # active | paused | closed
 #
 # [[members]]
 # name = "chalk"
-# git = "https://github.com/chalk/chalk.git"   # URL: the workspace's own clone
+# git = "https://github.com/chalk/chalk.git"   # URL: the factory's own clone
 # branch = "main"                              # optional; default is the remote's default branch
 # access = "read"
 #

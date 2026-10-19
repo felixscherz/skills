@@ -40,9 +40,10 @@ tasks without reconstructing the planning conversation.
 
 ## Record the plan
 
-Write `plans/<slug>.md` in the workspace from `../templates/PLAN.md`. Use existing document names when the user
-supplied a plan. Keep shared constraints in the plan and reference them from briefs; make the constraints critical to
-one task explicit in its brief rather than relying on the worker to infer them from the final design.
+Write `plans/<slug>.md` in the factory from `../templates/PLAN.md`, and link it from the backlog item it serves, if
+any. Use existing document names when the user supplied a plan. Keep shared constraints in the plan and reference
+them from briefs; make the constraints critical to one task explicit in its brief rather than relying on the worker to
+infer them from the final design.
 
 Write briefs for the first tasks only when their content is settled; later briefs are best written once the earlier
 results are in (see `tasks.md`).
