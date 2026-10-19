@@ -1,6 +1,6 @@
 # Python
 
-Python-specific guidance that builds on the general principles in
+Python-specific guidance that builds on the general references in
 `../../SKILL.md`. Each reference holds one topic, and the index says when it
 applies. Read a reference in full before applying it.
 

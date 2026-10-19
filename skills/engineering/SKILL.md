@@ -45,13 +45,17 @@ available.
 - Keep plans, investigation notes, and other files that are not product code
   out of the repository. Use the task folder you were given, if any.
 
-## Principles
+## References
 
-Each reference holds one rule, and the index says when it applies. Read a
-reference when its trigger fires, not before: do not read ahead for phases you
-have not reached, and do not batch-read references up front. Read a reference
-in full before applying it. Do not list the rules you applied in your reply
-unless the user asks.
+The references hold the details. Each covers one topic, and the index says
+when it applies. Read a reference when its trigger fires, not before: do not
+read ahead for phases you have not reached, and do not batch-read references
+up front. Read a reference in full before applying it. Do not list the
+references you applied in your reply unless the user asks.
+
+### Context maps
+
+Maps that point an agent to the right code or resource without searching.
 
 - **Feature map** (`references/feature-map.md`). The user asks to build a
   feature map, the map points to the wrong place, or a task adds, moves,
@@ -60,6 +64,11 @@ unless the user asks.
   asks to build or repair the workspace map, a task needs a repository,
   document, or directory outside the current working directory, or a mapped
   resource is added, moved, or removed.
+
+### Principles
+
+Rules that shape design and engineering decisions in any language.
+
 - **Domain-driven design** (`references/domain-driven-design.md`). Naming or
   modelling domain concepts, adding a process that spans several services, or
   domain logic scattered across layers.
@@ -79,16 +88,9 @@ unless the user asks.
 - **Type system** (`references/type-system.md`). Designing types, signatures, or
   data shapes, or reaching for a plain string, dict, or bool that carries
   meaning.
-- **Python** (`references/python/INDEX.md`). Writing or changing Python code.
-  The index lists the Python references and when each applies; read only the
-  ones the task needs.
 - **Lifecycle hygiene** (`references/lifecycle-hygiene.md`). Writing or
   changing a long-running service or worker: startup, shutdown, background
   tasks, consumers, readiness probes, or dependencies that can go away.
-- **Test-driven design** (`references/test-driven-design.md`). Before
-  implementing a feature or fixing a bug.
-- **Find the root cause** (`references/find-the-root-cause.md`). When debugging
-  a failure or investigating a bug, before choosing a fix.
 - **Test behavior** (`references/test-behavior.md`). Writing, changing, naming,
   or keeping a test, or about to reach for a mock or patch.
 - **Never make the same mistake twice** (`references/never-make-the-same-mistake-twice.md`).
@@ -98,11 +100,28 @@ unless the user asks.
   change alters behavior that callers, users, or other systems can observe,
   including invisible semantics like durability, retries, ordering, or
   error handling where the interface stays the same.
+
+### Workflows
+
+Steps to follow for a recurring kind of task.
+
+- **Test-driven design** (`references/test-driven-design.md`). Before
+  implementing a feature or fixing a bug.
+- **Find the root cause** (`references/find-the-root-cause.md`). When debugging
+  a failure or investigating a bug, before choosing a fix.
 - **Ship changes** (`references/ship-changes/ship-changes.md`). A change is
   done and needs to be committed, pushed, and integrated through a pull
   request, or a PR description needs writing or updating.
 - **Code review** (`references/code-review.md`). Reviewing a pull request or a
   set of code changes, your own or someone else's.
+
+### Language-specific
+
+Guidance that builds on the principles for one language or framework.
+
+- **Python** (`references/python/INDEX.md`). Writing or changing Python code.
+  The index lists the Python references and when each applies; read only the
+  ones the task needs.
 
 ## Maintaining this skill
 
