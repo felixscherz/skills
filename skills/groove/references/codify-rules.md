@@ -3,11 +3,12 @@
 ## The rule
 
 Every Groove principle is enforced by a tool that runs in CI. The skill
-describes the design. The tools hold the line.
+describes the design. The tools hold the line. The glossary is the one
+exception for now: it is reviewed by hand until its format settles.
 
 - **One command.** A single command (for example `make check`) runs every
-  check: types, lint, format, import contracts, pattern rules, glossary,
-  module names, fixtures, and tests. CI runs that command and nothing else,
+  check: types, lint, format, import contracts, pattern rules, module
+  names, fixtures, and tests. CI runs that command and nothing else,
   so local and CI results cannot diverge. `AGENTS.md` names the command.
 - **Adoption starts with the command.** If none exists when the user asks to
   apply Groove, establish it before expanding the adoption. Introduce checks
@@ -20,10 +21,9 @@ describes the design. The tools hold the line.
   2. ruff rules and settings.
   3. import-linter contracts for anything about imports.
   4. semgrep rules for code patterns ruff cannot express.
-  5. codespell with a custom dictionary for words.
-  6. A few lines of shell in the Makefile for file-level facts (names,
+  5. A few lines of shell in the Makefile for file-level facts (names,
      changed paths).
-  7. A pytest test, when the rule is about the code's structure and none of
+  6. A pytest test, when the rule is about the code's structure and none of
      the above fits.
   Do not write a custom linter while one of these can do the job.
 - **Every check says how to fix it.** Use each tool's message field: ruff's
@@ -104,7 +104,6 @@ in its `Makefile`:
 | `format` | ruff format | One formatting, no style discussions |
 | `boundaries` | import-linter | Layers, public APIs, no UUID types in the domain |
 | `rules` | semgrep | Direct file I/O outside adapters, exceptions without a message, `NewType` domain IDs |
-| `glossary` | codespell | Banned synonyms from `GLOSSARY.md`, inside identifiers too |
 | `module-names` | shell | No vague module names |
 | `fixtures` | shell + git | Committed fixtures never change |
 | `test` | pytest | Behavior, including every fixture loading |

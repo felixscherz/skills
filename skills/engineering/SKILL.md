@@ -34,14 +34,9 @@ available.
 - While reading code, check whether it still supports the model or has drifted
   from it. Name any drift you find. When code and model disagree, decide which
   one is wrong before fixing either.
-- Read the feature map at `.felixws/FEATURE_MAP.md` in the repository root
-  before exploring the code. It is globally git-ignored, so read it by path.
-  When there is none, explore the code as usual and do not mention it.
-- Find the workspace map with
-  `references/workspace-map/find-workspace-map.sh <starting directory>`. It
-  prints the map's path, or exits 1 when there is none. Read the map when the
-  task may need context from outside the current repository. When there is
-  none, continue without it and do not mention it.
+- Read the nearest `CONTEXT.md` before exploring the code, and follow the
+  links it gives for the task. When there is none, explore the code as usual
+  and do not mention it.
 - Keep plans, investigation notes, and other files that are not product code
   out of the repository. Use the task folder you were given, if any.
 
@@ -53,17 +48,15 @@ read ahead for phases you have not reached, and do not batch-read references
 up front. Read a reference in full before applying it. Do not list the
 references you applied in your reply unless the user asks.
 
-### Context maps
+### Context
 
-Maps that point an agent to the right code or resource without searching.
+Documentation that points an agent to the right code or document without
+searching.
 
-- **Feature map** (`references/feature-map.md`). The user asks to build a
-  feature map, the map points to the wrong place, or a task adds, moves,
-  renames, or removes a feature in a repository that has one.
-- **Workspace map** (`references/workspace-map/workspace-map.md`). The user
-  asks to build or repair the workspace map, a task needs a repository,
-  document, or directory outside the current working directory, or a mapped
-  resource is added, moved, or removed.
+- **Context** (`references/context.md`). The user asks to write or change a
+  `CONTEXT.md` or its docs, one points to the wrong place, or a task adds,
+  moves, renames, or removes a feature, a domain term, or a linked document in
+  a repository that has one.
 
 ### Principles
 

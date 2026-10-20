@@ -3,8 +3,9 @@
 ## The rule
 
 Every domain concept has exactly one canonical term, defined in
-`GLOSSARY.md` at the repository root. There is one glossary for the whole
-repository.
+`docs/glossary.md` and linked from the repository's `CONTEXT.md`. There is
+one glossary for the whole repository: the modules of a Groove codebase are
+parts of one bounded context and share its language.
 
 - Use the canonical term everywhere the concept appears: class, function,
   variable, field, module, test name, docstring, README, log message, error
@@ -95,7 +96,7 @@ again.
 
 ## Example
 
-`GLOSSARY.md` defines **Customer** (banned: client, buyer) and **Issue**
+The glossary defines **Customer** (banned: client, buyer) and **Issue**
 (banned: send, finalize).
 
 Bad:
@@ -115,35 +116,18 @@ def issue(invoice: Invoice, now: datetime) -> Invoice:
 
 ## Codify it
 
-The **Banned** lines are the source for a codespell dictionary. The
-`glossary` target in the example project's `Makefile` generates it and checks
-the code:
-
-```make
-glossary:
-	@awk -f scripts/glossary-dictionary.awk GLOSSARY.md > .glossary-dictionary.txt
-	@uv run codespell --dictionary .glossary-dictionary.txt --regex '[A-Z]?[a-z]+' src tests \
-		|| (echo "Banned synonym found. Use the glossary term shown after '==>' (see GLOSSARY.md)."; exit 1)
-```
-
-- `--dictionary` with a custom file replaces codespell's built-in typo
-  dictionary, so only glossary violations are reported.
-- `--regex '[A-Z]?[a-z]+'` splits identifiers into words, so `finalize_bill`
-  and `clientBill` are caught while `billing` is not.
-- The awk script turns `- **Banned:** bill, statement` under `## Invoice`
-  into `bill->invoice`, so the output names the right term:
-  `src/acme/billing.py:9: bill ==> invoice`.
-
-Add the paths where docs live (`docs`, `README.md`) to the codespell call so
-prose is checked too.
+Not codified yet, on purpose: the glossary's format is still open. Do not
+add or propose a check for it. Review names by hand instead.
 
 ## Review by hand
 
-Tools catch banned words, not missing or wrong ones.
+No tool checks the glossary yet, so every name is reviewed by hand.
 
 - For each identifier, test name, and doc line your change added that names
   a domain concept, find its glossary entry.
 - Check that each new concept has a `proposed` entry.
+- Search your change for the banned synonyms of each term it touches,
+  inside identifiers too (`finalize_bill`, `clientBill`).
 - When you notice a near-synonym that is not banned yet, add it to
-  **Banned** so the check catches it next time.
+  **Banned** so the next agent avoids it.
 - Ask: would a domain expert reading this code recognize every noun and verb?

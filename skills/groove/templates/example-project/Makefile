@@ -1,10 +1,10 @@
 # One command for every check. CI runs `make check` and nothing else.
-.PHONY: check types lint format boundaries rules glossary module-names fixtures test
+.PHONY: check types lint format boundaries rules module-names fixtures test
 
 BASE ?= origin/main
 VAGUE_MODULE_NAMES := utils?|helpers?|common|shared|misc|core|lib|base|tools|stuff|general|extras
 
-check: types lint format boundaries rules glossary module-names fixtures test
+check: types lint format boundaries rules module-names fixtures test
 
 types:
 	uv run pyright src tests
@@ -20,11 +20,6 @@ boundaries:
 
 rules:
 	uv run semgrep scan --metrics=off --config semgrep.yml --error --quiet
-
-glossary:
-	@awk -f scripts/glossary-dictionary.awk GLOSSARY.md > .glossary-dictionary.txt
-	@uv run codespell --dictionary .glossary-dictionary.txt --regex '[A-Z]?[a-z]+' src tests \
-		|| (echo "Banned synonym found. Use the glossary term shown after '==>' (see GLOSSARY.md)."; exit 1)
 
 module-names:
 	@bad=$$(find src -name '*.py' | grep -E '/($(VAGUE_MODULE_NAMES))(/|\.py$$)'); \

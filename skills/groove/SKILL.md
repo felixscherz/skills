@@ -1,6 +1,6 @@
 ---
 name: groove
-description: Use when working in a Python repository whose AGENTS.md or CLAUDE.md says it follows Groove, or when the user asks to apply Groove, design a Python codebase for agentic coding, or turn a codebase convention into a CI check. Covers domain naming via a glossary, module boundaries, module naming, injecting time/randomness/IDs/I/O into a functional core, versioned persistent data, and codifying each rule with ruff, pyright, import-linter, semgrep, and codespell.
+description: Use when working in a Python repository whose AGENTS.md or CLAUDE.md says it follows Groove, or when the user asks to apply Groove, design a Python codebase for agentic coding, or turn a codebase convention into a CI check. Covers domain naming via a glossary, module boundaries, module naming, injecting time/randomness/IDs/I/O into a functional core, versioned persistent data, and codifying each rule with ruff, pyright, import-linter, and semgrep.
 disable-model-invocation: true
 ---
 
@@ -31,8 +31,8 @@ when its trigger fires, not up front.
   - One command runs every check. Every check says how to fix what it finds.
 - **Glossary** (`references/glossary.md`). Naming anything that represents a
   domain concept, or finding two names for one thing.
-  - One canonical term per concept in `GLOSSARY.md`. Banned synonyms are
-    checked by codespell.
+  - One canonical term per concept in `docs/glossary.md`, linked from
+    `CONTEXT.md`. Names are reviewed by hand; no tool checks them yet.
 - **Module layout** (`references/module-layout.md`). Creating a module or
   file, deciding which layer code belongs in, writing a use case, or adding
   a unit of work.
@@ -82,8 +82,8 @@ when its trigger fires, not up front.
 ## Working in a Groove codebase
 
 1. Read `AGENTS.md` (or `CLAUDE.md`) for the check command, then
-   `GLOSSARY.md`, then the `README.md` (or docstring) of each module you
-   will change.
+   `CONTEXT.md` and the glossary it links to, then the `README.md` (or
+   docstring) of each module you will change.
 2. Make the change following the principles.
 3. Run the check command and fix everything it reports. Do not report done
    while it fails, and do not run only a subset.
@@ -96,8 +96,8 @@ Tools catch the mechanical part of each rule. These questions cover the rest:
 
 1. **Names.** Does every new identifier, test name, and doc line that names a
    domain concept use a glossary term? Did a new concept get a `proposed`
-   glossary entry? Did you name a concept with a word that is not banned
-   only because nobody has used it wrongly yet?
+   glossary entry? Did you use a banned synonym anywhere, including inside
+   an identifier?
 2. **Boundaries.** Did you add a name to a module's `__all__` that exposes
    an internal detail? Did you change the layers contract or add an
    `ignore_imports` entry? If so, was that a deliberate design change?
@@ -139,10 +139,10 @@ Copy from `templates/`:
 - `module-README.md`: the README for each new package module. It holds only
   what the code cannot say; a single-file module puts it in its docstring.
 - `example-project/`: a working project where `make check` enforces every
-  principle. Copy `pyproject.toml` (pyright, ruff, import-linter),
-  `semgrep.yml`, `Makefile`, `scripts/glossary-dictionary.awk`, and
-  `GLOSSARY.md`, then adapt the module names. `src/acme/` shows a domain
-  module split into layers (`invoicing`), a single-file domain module
+  checked principle. Copy `pyproject.toml` (pyright, ruff, import-linter),
+  `semgrep.yml`, `Makefile`, `CONTEXT.md`, and `docs/glossary.md`, then
+  adapt the module names. `src/acme/` shows a domain module split into
+  layers (`invoicing`), a single-file domain module
   (`customers.py`), a read from a sibling through an owned port
   (`invoicing/infrastructure/customer_lookup.py`), single-file port modules
   (`clock.py`, `ids.py`), a workflow that is its own module, with a unit of

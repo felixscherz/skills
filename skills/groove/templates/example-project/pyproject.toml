@@ -4,7 +4,7 @@ version = "0.1.0"
 requires-python = ">=3.12"
 
 [dependency-groups]
-dev = ["codespell", "import-linter", "pyright", "pytest", "ruff", "semgrep"]
+dev = ["import-linter", "pyright", "pytest", "ruff", "semgrep"]
 
 [build-system]
 requires = ["hatchling"]

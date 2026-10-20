@@ -158,23 +158,3 @@ Shared fakes live in `tests/fakes/`, one module per port, and are imported as `t
 against its `Protocol`. A fake needs no inheritance; structural typing is enough. An in-memory production adapter can
 serve as the fake instead of a copy. `monkeypatch` is the one patching tool allowed, for environment variables in
 settings tests.
-
-## Glossary check
-
-Keep a `GLOSSARY.md` with one `## <Term>` section per concept and optional `- Code:`, `- Avoid:`, and
-`- Not to be confused with:` lines. `check_glossary.py` in this folder enforces it: every public class in the concept
-modules has a section, and identifiers in the checked layers avoid the listed synonyms. Copy it to `scripts/` and run
-it as a hook:
-
-```yaml
-- id: glossary
-  name: Domain terms match GLOSSARY.md
-  entry: >-
-    uv run --locked python scripts/check_glossary.py --check 'src/*/*/domain' --check 'src/*/*/usecases'
-    --concepts 'src/*/*/domain/**/entities.py' --concepts 'src/*/*/domain/**/values.py'
-  language: system
-  pass_filenames: false
-  always_run: true
-```
-
-Do not check adapter layers: persistence code legitimately talks about rows and records.

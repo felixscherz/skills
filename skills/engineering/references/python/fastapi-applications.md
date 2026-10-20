@@ -19,7 +19,7 @@ src/<package>/
 ```
 
 A change to one concept then stays in one directory, and import contracts can keep contexts apart (see
-`project-tooling/project-tooling.md`). A service with a single context still uses one context package, so a second
+`project-tooling.md`). A service with a single context still uses one context package, so a second
 context is an added directory rather than a reorganization. A layer may start as a module (`domain.py`) and become a
 package when it grows.
 
