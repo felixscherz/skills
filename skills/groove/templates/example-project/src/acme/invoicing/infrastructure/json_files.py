@@ -13,11 +13,11 @@ class JsonFileInvoiceRepository:
         self._directory = directory
 
     def get(self, invoice_id: InvoiceId) -> Invoice:
-        path = self._directory / f"{invoice_id}.json"
+        path = self._directory / f"{invoice_id.value}.json"
         if not path.exists():
             raise InvoiceNotFound(invoice_id)
         return from_record(json.loads(path.read_text()))
 
     def add(self, invoice: Invoice) -> None:
-        path = self._directory / f"{invoice.id}.json"
+        path = self._directory / f"{invoice.id.value}.json"
         path.write_text(json.dumps(to_record(invoice)))

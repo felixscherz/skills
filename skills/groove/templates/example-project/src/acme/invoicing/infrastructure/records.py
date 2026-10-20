@@ -19,7 +19,7 @@ CURRENT_VERSION = 2
 def to_record(invoice: Invoice) -> Record:
     return {
         "version": CURRENT_VERSION,
-        "id": invoice.id,
+        "id": invoice.id.value,
         "customer_id": invoice.customer_id,
         "line_items": [
             {"description": item.description, "amount": str(item.amount)}

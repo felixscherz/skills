@@ -12,7 +12,7 @@ from acme.invoicing.domain.model import Invoice, InvoiceId
 class InvoiceNotFound(Exception):
     def __init__(self, invoice_id: InvoiceId) -> None:
         super().__init__(
-            f"No Invoice with id {invoice_id}. "
+            f"No Invoice with id {invoice_id.value}. "
             "Draft it with draft_invoice() first, or check the id."
         )
 

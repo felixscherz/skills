@@ -50,7 +50,7 @@ A person or organization that receives Invoices and pays them.
 A request for payment sent to a Customer for one or more Line Items. An
 Invoice is a draft until it is issued, and immutable afterwards.
 
-- **Code:** `Invoice`, `invoice`, `invoices`, `invoice_id`
+- **Code:** `Invoice`, `InvoiceId`, `invoice`, `invoices`, `invoice_id`
 - **Banned:** bill, statement
 - **Not to be confused with:** Receipt, which confirms a payment.
 - **Status:** accepted

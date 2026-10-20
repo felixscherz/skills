@@ -17,8 +17,22 @@ not only entities.
 - Give each domain concept its own type. A value object for things defined by
   their value (an email, a money amount), an entity for things with identity
   and a lifecycle.
+- Distinguish an entity's identity from the mechanism that generates its ID.
+  Do not make an opaque domain ID depend on a database key or generation
+  format merely because an adapter uses it. Require a particular
+  representation only when the domain requires it.
+- Enforce known invariants, not plausible ones. A new type gives rules a home;
+  it does not establish them. Confirm uncertain rules before encoding them,
+  including normalization that changes which values count as equal.
 - Keep the domain model free of framework, HTTP, and database concerns.
   Adapters translate at the edges.
+- Before adding a field to an entity, identify which context gives it meaning
+  and owns its rules. A downstream system's identifier does not belong on an
+  upstream entity merely because the legacy database stores them together.
+  If the mapping is a domain concept, model it in the context that owns the
+  mapping, referencing the upstream entity by its domain ID. Keep the
+  upstream entity independent of it. Wire names and payload formats belong
+  in adapters; a locally owned mapping can belong in the domain.
 - Group things that must change together into an aggregate, and change them
   only through one entry point that enforces the invariants.
 - Reference another aggregate by its ID, never by holding the object, and

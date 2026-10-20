@@ -8,9 +8,11 @@ from dataclasses import dataclass, replace
 from datetime import datetime
 from decimal import Decimal
 from enum import StrEnum
-from typing import NewType
 
-InvoiceId = NewType("InvoiceId", str)
+
+@dataclass(frozen=True, slots=True)
+class InvoiceId:
+    value: str
 
 
 class InvoiceStatus(StrEnum):
@@ -36,7 +38,7 @@ class Invoice:
 class InvoiceAlreadyIssued(Exception):
     def __init__(self, invoice_id: InvoiceId) -> None:
         super().__init__(
-            f"Invoice {invoice_id} is already issued and cannot be issued again. "
+            f"Invoice {invoice_id.value} is already issued and cannot be issued again. "
             "Check invoice.status before calling issue(), or draft a new Invoice."
         )
 
@@ -44,7 +46,7 @@ class InvoiceAlreadyIssued(Exception):
 class EmptyInvoice(Exception):
     def __init__(self, invoice_id: InvoiceId) -> None:
         super().__init__(
-            f"Invoice {invoice_id} has no line items and cannot be issued. "
+            f"Invoice {invoice_id.value} has no line items and cannot be issued. "
             "Draft it with at least one LineItem."
         )
 

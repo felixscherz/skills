@@ -1,5 +1,21 @@
 # Rules that ruff cannot express. Run with: semgrep scan --metrics=off --config semgrep.yml --error
 rules:
+  - id: domain-id-newtype
+    languages: [python]
+    severity: ERROR
+    message: >-
+      Domain IDs need runtime value semantics. Replace this NewType with a
+      frozen dataclass owned by the concept, with value: str. Add validation
+      only for established domain rules; do not normalize IDs by default.
+    patterns:
+      - pattern: $ID = typing.NewType(...)
+      - metavariable-regex:
+          metavariable: $ID
+          regex: .*Id$
+    paths:
+      include: ["/src/"]
+      exclude: ["**/infrastructure/**"]
+
   - id: io-outside-adapter
     languages: [python]
     severity: ERROR

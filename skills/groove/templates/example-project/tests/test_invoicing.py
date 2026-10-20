@@ -13,6 +13,7 @@ from acme.invoicing import (
     InMemoryInvoiceRepository,
     InvoiceAlreadyIssued,
     InvoiceForUnknownCustomer,
+    InvoiceId,
     InvoiceStatus,
     LineItem,
     draft_invoice,
@@ -21,11 +22,40 @@ from acme.invoicing import (
 
 # Tests of a module may use its internals. Tests of other modules may not.
 from acme.invoicing.infrastructure.customer_lookup import CustomerRepositoryLookup
-from acme.invoicing.infrastructure.records import CURRENT_VERSION, from_record
+from acme.invoicing.infrastructure.records import CURRENT_VERSION, from_record, to_record
 
 FIXTURES = sorted((Path(__file__).parent / "fixtures" / "invoice").glob("v*.json"))
 NOW = datetime(2026, 4, 30, 12, 0, tzinfo=UTC)
 CONSULTING = (LineItem("Consulting", Decimal("100")),)
+
+
+def test_invoice_id_preserves_whitespace() -> None:
+    assert InvoiceId(" inv_01 ").value == " inv_01 "
+
+
+def test_invoice_ids_compare_and_hash_by_value() -> None:
+    assert InvoiceId("inv_01") == InvoiceId("inv_01")
+    assert InvoiceId("inv_01") != InvoiceId("inv_02")
+    assert {InvoiceId("inv_01"): "stored"}[InvoiceId("inv_01")] == "stored"
+
+
+def test_invoice_id_is_distinct_from_its_underlying_string() -> None:
+    assert InvoiceId("inv_01") != "inv_01"
+
+
+def test_invoice_id_round_trips_through_json_as_a_string() -> None:
+    invoice = draft_invoice(
+        InMemoryInvoiceRepository(),
+        FakeCustomerLookup("cus_01"),
+        SequentialIdGenerator(prefix="inv_"),
+        "cus_01",
+        CONSULTING,
+    )
+
+    record = json.loads(json.dumps(to_record(invoice)))
+
+    assert record["id"] == "inv_01"
+    assert from_record(record) == invoice
 
 
 def test_issue_sets_status_and_issued_at() -> None:

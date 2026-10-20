@@ -15,4 +15,4 @@ def test_built_invoicing_stores_issued_invoices_as_json_files(tmp_path: Path) ->
 
     assert issued.status is InvoiceStatus.ISSUED
     assert invoicing.invoices.get(invoice.id).status is InvoiceStatus.ISSUED
-    assert (tmp_path / f"{invoice.id}.json").exists()
+    assert (tmp_path / f"{invoice.id.value}.json").exists()

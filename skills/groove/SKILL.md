@@ -25,8 +25,9 @@ to codify it, and what still needs review by hand. Read a reference in full
 when its trigger fires, not up front.
 
 - **Codify rules** (`references/codify-rules.md`). Setting up or changing the
-  check command or CI, adding a tool, writing an error message, or noticing a
-  rule that is followed but not checked.
+  check command or CI, adopting Groove without a check command, adding a
+  tool, writing an error message, or noticing a rule that is followed but
+  not checked.
   - One command runs every check. Every check says how to fix what it finds.
 - **Glossary** (`references/glossary.md`). Naming anything that represents a
   domain concept, or finding two names for one thing.
@@ -67,10 +68,12 @@ when its trigger fires, not up front.
   seems shared.
   - No `utils`, `helpers`, `common`, `shared`, `misc`, `core`, or similar.
 - **Injected external factors** (`references/injected-external-factors.md`).
-  Writing code that needs the time, randomness, a new ID, configuration, or
-  any I/O.
+  Choosing a domain ID type, or writing code that needs the time,
+  randomness, a new ID, configuration, or any I/O.
   - A functional core in an imperative shell. External factors arrive through
     injected ports, with fakes next to the port. ruff bans the direct calls.
+    Opaque domain IDs are string-backed, frozen value objects, not `NewType`
+    aliases or `UUID` values.
 - **Versioned persistent data** (`references/versioned-persistent-data.md`).
   Changing the shape of anything stored and read back later.
   - A `version` field, a fixture per version, and a test that every fixture
@@ -100,6 +103,8 @@ Tools catch the mechanical part of each rule. These questions cover the rest:
    `ignore_imports` entry? If so, was that a deliberate design change?
    Does any new domain code decide only, with the loading and saving in a
    use case?
+   Would each entity still make sense if a downstream integration disappeared?
+   Which fields exist only because that integration needs them, and who owns them?
 3. **Responsibilities.** Does each module you touched still do one thing its
    README or docstring states? Did a single-file module outgrow one file?
    Does any new file or module have a name that passes the check but says
@@ -146,6 +151,13 @@ Copy from `templates/`:
 In an existing codebase, introduce one principle at a time, starting with
 the check command. Never add a tool or contract unprompted when the user has
 not asked to apply Groove: propose it instead.
+
+When asked to apply Groove in a repository without a check command, read
+`references/codify-rules.md` and establish the command as the first adoption
+step. State which rules it enforces and which remain manual review. The
+first step need not introduce every tool, but it must provide one repeatable
+entry point. If tooling is intentionally deferred, describe the result as
+partial adoption rather than full Groove compliance.
 
 ### Converting an existing module
 

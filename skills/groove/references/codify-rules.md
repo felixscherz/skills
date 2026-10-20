@@ -9,6 +9,11 @@ describes the design. The tools hold the line.
   check: types, lint, format, import contracts, pattern rules, glossary,
   module names, fixtures, and tests. CI runs that command and nothing else,
   so local and CI results cannot diverge. `AGENTS.md` names the command.
+- **Adoption starts with the command.** If none exists when the user asks to
+  apply Groove, establish it before expanding the adoption. Introduce checks
+  incrementally and state what is enforced and what is still reviewed by
+  hand. Running an improvised sequence of tools is not a replacement. If
+  tooling is intentionally deferred, report partial adoption.
 - **Use existing tools.** Pick the most specific tool that can express the
   rule, in this order:
   1. The type checker (pyright strict; mypy `--strict` or ty also work).
@@ -82,7 +87,7 @@ Good:
 
 ```python
 raise InvoiceAlreadyIssued(
-    f"Invoice {invoice.id} is already issued and cannot be issued again. "
+    f"Invoice {invoice.id.value} is already issued and cannot be issued again. "
     "Check invoice.status before calling issue(), or draft a new Invoice."
 )
 ```
@@ -97,8 +102,8 @@ in its `Makefile`:
 | `types` | pyright strict | Types everywhere, so the core's inputs are explicit |
 | `lint` | ruff | Banned external factors (`TID251`), no calls in default arguments (`B008`), aware datetimes (`DTZ`) |
 | `format` | ruff format | One formatting, no style discussions |
-| `boundaries` | import-linter | Layers and public APIs |
-| `rules` | semgrep | Direct file I/O outside adapters, exceptions without a message |
+| `boundaries` | import-linter | Layers, public APIs, no UUID types in the domain |
+| `rules` | semgrep | Direct file I/O outside adapters, exceptions without a message, `NewType` domain IDs |
 | `glossary` | codespell | Banned synonyms from `GLOSSARY.md`, inside identifiers too |
 | `module-names` | shell | No vague module names |
 | `fixtures` | shell + git | Committed fixtures never change |

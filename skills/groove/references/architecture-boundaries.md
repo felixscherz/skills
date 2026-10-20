@@ -50,6 +50,14 @@ single top-level file while it is small (see `module-layout.md`).
   higher one's ID. When the link grows a lifecycle, validity periods, or
   rules of its own, it is a concept: give it its own entity in the higher
   module and its own glossary term.
+- **Downstream identities have a downstream owner.** A field belongs to the
+  context that gives it meaning, not wherever the legacy database stored it.
+  Catalog's Product does not require an OMS or SAP identifier. A mapping in
+  Exports holds the Catalog ProductId, the export system, and that system's
+  product ID; Catalog does not depend on Exports. External wire names and
+  payload formats stay in adapters, but a locally owned mapping can be a
+  domain concept. Identify its owner before adding the field, not after
+  choosing the import direction.
 - **Every write has one owner.** One use case in one module runs each
   operation that changes state. A module changes state owned by another
   module only through that module's public API: its rules and its
@@ -133,6 +141,25 @@ modules to resolve a boundary they should have moved. The unit of work
 keeps consistency in one place instead of scattered try/except blocks.
 
 ## Example
+
+An external identity mapping belongs to the context that owns the mapping:
+
+```text
+exports                  depends on catalog
+  ExportedProduct
+    product_id: ProductId
+    system: ExportSystem
+    system_product_id: SystemProductId
+
+catalog                  does not depend on exports
+  Product
+    id: ProductId
+```
+
+Catalog can describe a Product without a downstream integration. Exports
+owns the mapping; its adapters translate it into OMS or SAP payloads. The
+import contracts enforce the direction, not whether a field has the right
+owner.
 
 Bad, reaching into internals and changing another module's state:
 
@@ -334,6 +361,9 @@ API.
 - Did you place a module in a layer, or move one? Say which module of each
   pair it touches sits higher, and whether existence or importance decided.
 - Does a new domain value hold another module's entity instead of its ID?
+- Would each entity still make sense if a downstream integration disappeared?
+  Which fields exist only because that integration needs them? Check their
+  owner by hand: an import contract cannot detect a misplaced string field.
 - Does this module now change state that another module is responsible for
   without going through that module's public rules and repositories?
   The layers contract catches imports, not calls passed in through

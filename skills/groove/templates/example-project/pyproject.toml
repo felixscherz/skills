@@ -51,6 +51,7 @@ select = ["E", "F", "I", "UP", "B", "DTZ", "TID251"]
 # Architecture boundaries. Every contract says how to fix a violation.
 [tool.importlinter]
 root_package = "acme"
+include_external_packages = true
 
 [[tool.importlinter.contracts]]
 name = "Modules depend down the layers"
@@ -93,6 +94,16 @@ forbidden_modules = ["acme.clock", "acme.ids"]
 broken_contract_guidance = """
 Domain code takes the time and new IDs as arguments. Call clock.now() or ids.new_id() in \
 the use case and pass the value in."""
+
+[[tool.importlinter.contracts]]
+name = "Opaque domain IDs are string-backed value objects, not UUIDs"
+type = "forbidden"
+source_modules = ["acme.*.domain", "acme.customers"]
+forbidden_modules = ["uuid"]
+broken_contract_guidance = """
+Define a frozen domain ID dataclass with value: str. Generate UUIDs only in the ID adapter, \
+return a string, and wrap it in the owning domain ID in the use case. A domain requirement \
+for UUID semantics needs an explicit exception with a reason."""
 
 [[tool.importlinter.contracts]]
 name = "invoicing is used through its public API"
