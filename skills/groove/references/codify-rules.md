@@ -9,8 +9,9 @@ format is still settling, and tools cannot judge architectural reasoning.
 
 - **One command.** A single command (for example `make check`) runs every
   check: types, lint, format, import contracts, pattern rules, module
-  names, fixtures, and tests. CI runs that command and nothing else,
-  so local and CI results cannot diverge. `AGENTS.md` names the command.
+  names, fixtures, and tests. CI runs that same command for validation,
+  so local and CI results cannot diverge. Build and publication steps may
+  follow only after it passes. `AGENTS.md` names the command.
 - **Adoption starts with the command.** If none exists when the user asks to
   apply Groove, establish it before expanding the adoption. Introduce checks
   incrementally and state what is enforced and what is still reviewed by

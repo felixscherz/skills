@@ -46,6 +46,12 @@ when its trigger fires, not up front.
     rather than requiring users to invoke Uvicorn or another server directly.
     The startup path owns configuration and logging before application
     initialization. Tests exercise the installed command.
+- **Releases** (`references/releases.md`). Setting up or changing package
+  versioning, changelogs, release commands, or release CI.
+  - Default to `v<major>.<minor>.<patch>` tags, hatch-vcs for the package
+    version, and git-cliff for a committed `CHANGELOG.md`. Check, build, then
+    publish from the tagged commit. Keep the procedure in `docs/releases.md`;
+    choose publishing destinations for the project, not for Groove.
 - **Module layout** (`references/module-layout.md`). Creating a module or
   file, deciding which layer code belongs in, writing a use case, or adding
   a unit of work.
@@ -138,6 +144,10 @@ Tools catch the mechanical part of each rule. These questions cover the rest:
    the application's CLI? Does that startup path configure logging before
    initializing components, without the server replacing it? Are startup,
    verbosity, and shutdown tested through the installed command?
+9. **Releases.** Does the version express the intended compatibility change,
+   rather than just accepting an automatic bump? Do the release notes explain
+   breaking changes? Are artifacts built from the checked, clean tagged
+   commit, with downloads retained for as long as the release is supported?
 
 ## Report back
 
@@ -177,6 +187,11 @@ Copy from `templates/`:
 In an existing codebase, introduce one principle at a time, starting with
 the check command. Never add a tool or contract unprompted when the user has
 not asked to apply Groove: propose it instead.
+
+When release management is in scope, use `references/releases.md` as the
+default. Preserve an established release mechanism unless changing it is
+part of the task. The example project does not include release automation;
+adapt publishing to the repository's host and distribution needs.
 
 When asked to apply Groove in a repository without a check command, read
 `references/codify-rules.md` and establish the command as the first adoption
