@@ -33,6 +33,13 @@ when its trigger fires, not up front.
   domain concept, or finding two names for one thing.
   - One canonical term per concept in `docs/glossary.md`, linked from
     `CONTEXT.md`. Names are reviewed by hand; no tool checks them yet.
+- **Project context** (`references/project-context.md`). Setting up project
+  documentation, recording an architectural decision, or changing an
+  approach covered by an existing decision.
+  - `AGENTS.md` holds working instructions, `CONTEXT.md` routes readers to
+    relevant documentation, and `docs/adrs/` records decisions and reasons.
+    Read the relevant ADR before choosing an approach. Documentation content
+    is reviewed by hand.
 - **Module layout** (`references/module-layout.md`). Creating a module or
   file, deciding which layer code belongs in, writing a use case, or adding
   a unit of work.
@@ -82,8 +89,9 @@ when its trigger fires, not up front.
 ## Working in a Groove codebase
 
 1. Read `AGENTS.md` (or `CLAUDE.md`) for the check command, then
-   `CONTEXT.md` and the glossary it links to, then the `README.md` (or
-   docstring) of each module you will change.
+   `CONTEXT.md` and the glossary it links to. Follow its "Read when" links
+   to relevant ADRs before choosing an approach, then read the `README.md`
+   (or docstring) of each module you will change.
 2. Make the change following the principles.
 3. Run the check command and fix everything it reports. Do not report done
    while it fails, and do not run only a subset.
@@ -115,7 +123,11 @@ Tools catch the mechanical part of each rule. These questions cover the rest:
 5. **Persistent data.** Did a stored shape change? If so, is the version
    bumped, with a migration step and a new fixture?
 6. **Codification.** Did you follow a rule here that no check enforces? Then
-   propose the check, or add it if the user asked you to apply Groove.
+    propose the check, or add it if the user asked you to apply Groove.
+7. **Project context.** Does `CONTEXT.md` direct readers to decisions your
+   change touches? Do those ADRs distinguish agreed decisions, unresolved
+   choices, and implementation status? Did a changed decision get a new
+   record that supersedes the old one?
 
 ## Report back
 
@@ -138,10 +150,14 @@ Copy from `templates/`:
 - `AGENTS.md`: the section that marks a repository as following Groove.
 - `module-README.md`: the README for each new package module. It holds only
   what the code cannot say; a single-file module puts it in its docstring.
+- `adr.md`: a starting point for a numbered decision in `docs/adrs/`. Add
+  records as decisions arise, not empty records for hypothetical choices.
 - `example-project/`: a working project where `make check` enforces every
   checked principle. Copy `pyproject.toml` (pyright, ruff, import-linter),
   `semgrep.yml`, `Makefile`, `CONTEXT.md`, and `docs/glossary.md`, then
-  adapt the module names. `src/acme/` shows a domain module split into
+  adapt the module names and context links. `docs/adrs/` demonstrates a
+  decision record; replace it with the project's own decisions.
+  `src/acme/` shows a domain module split into
   layers (`invoicing`), a single-file domain module
   (`customers.py`), a read from a sibling through an owned port
   (`invoicing/infrastructure/customer_lookup.py`), single-file port modules

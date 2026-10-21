@@ -2,9 +2,10 @@
 
 ## The rule
 
-Every Groove principle is enforced by a tool that runs in CI. The skill
-describes the design. The tools hold the line. The glossary is the one
-exception for now: it is reviewed by hand until its format settles.
+The mechanical parts of Groove principles are enforced by tools that run
+in CI. The skill describes the design. The tools hold the line. Glossary
+names and project documentation content are reviewed by hand; the glossary
+format is still settling, and tools cannot judge architectural reasoning.
 
 - **One command.** A single command (for example `make check`) runs every
   check: types, lint, format, import contracts, pattern rules, module

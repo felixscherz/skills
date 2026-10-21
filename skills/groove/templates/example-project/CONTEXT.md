@@ -5,7 +5,9 @@ when they check out.
 
 ## Read when
 
-- Naming a domain concept: `docs/glossary.md`
+- Naming a domain concept: [Glossary](docs/glossary.md).
+- Changing Checkout or its transaction boundary:
+  [Checkout transaction](docs/adrs/001-checkout-transaction.md). Read the decision before choosing an approach.
 - Changing a module: its `README.md`, or the docstring of a single-file
   module
 - Wiring a use case to a route or command: `src/acme/wiring.py`
