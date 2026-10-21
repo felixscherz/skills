@@ -71,10 +71,14 @@ src/acme/
   handlers for a module go in its `api/` (or `cli/`), above `usecases/`. They
   never import `infrastructure/`; the composition root hands them use cases.
 - **The composition root is global.** One top-level module (`wiring`) builds
-  every adapter and use case. It is the only module allowed to read
-  configuration, and the only code outside a module that imports the
-  module's `infrastructure/` and entry points, which are not exported from
-  `__init__.py` (see `architecture-boundaries.md`).
+  every adapter and use case. The application's CLI may handle process
+  startup separately; together they form the composition root. Read
+  configuration once along that startup path and pass it into assembly
+  rather than reading it again in the app factory. Only the composition
+  root imports a module's `infrastructure/` and entry points from outside
+  that module; they are not exported from `__init__.py`. List each part of
+  the composition root by name in the contracts (see
+  `architecture-boundaries.md` and `application-cli.md`).
 - **Moving API models can rename generated schemas.** FastAPI and Pydantic
   name an OpenAPI component after its class, prefixed with the module path
   when two classes share a name, so moving a DTO into `api/` can rename the

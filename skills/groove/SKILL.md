@@ -40,6 +40,12 @@ when its trigger fires, not up front.
     relevant documentation, and `docs/adrs/` records decisions and reasons.
     Read the relevant ADR before choosing an approach. Documentation content
     is reviewed by hand.
+- **Application CLI** (`references/application-cli.md`). Adding or changing
+  service startup, launch instructions, server options, or logging setup.
+  - The application owns its installed launch command, such as `acme serve`,
+    rather than requiring users to invoke Uvicorn or another server directly.
+    The startup path owns configuration and logging before application
+    initialization. Tests exercise the installed command.
 - **Module layout** (`references/module-layout.md`). Creating a module or
   file, deciding which layer code belongs in, writing a use case, or adding
   a unit of work.
@@ -128,6 +134,10 @@ Tools catch the mechanical part of each rule. These questions cover the rest:
    change touches? Do those ADRs distinguish agreed decisions, unresolved
    choices, and implementation status? Did a changed decision get a new
    record that supersedes the old one?
+8. **Application CLI.** Do launch instructions and deployment commands use
+   the application's CLI? Does that startup path configure logging before
+   initializing components, without the server replacing it? Are startup,
+   verbosity, and shutdown tested through the installed command?
 
 ## Report back
 
