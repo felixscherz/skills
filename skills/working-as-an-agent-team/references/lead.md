@@ -17,7 +17,8 @@ source file, reproducing a failure, or debugging, stop and write a brief instead
 ## Set up a factory for a lead
 
 1. Make sure the work happens in a software factory (see the `agent-software-factory` skill), with the repos the work
-   changes as writable members.
+   changes as writable members. Outside a factory, that is the repository's embedded factory at `.factory/` (see
+   "Where the team's files live" in `../SKILL.md`).
 2. Create empty `plans/` and `tasks/` if they do not exist yet.
 3. Check that the factory's `.gitignore` lists `tasks/*/checkout/`, and add it if not.
 

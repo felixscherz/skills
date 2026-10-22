@@ -22,5 +22,5 @@ Out: {{out of scope}}
 ## Permissions
 
 - Push: {{branches under each writable member's branch_prefix | nothing}}
-- Pull requests: {{draft | ready for review | none}}
+- Pull requests: {{draft | ready for review | none, hands over branches}}
 - Never: merge a PR, push to a member's base branch{{, other systems or actions the factory must not touch}}

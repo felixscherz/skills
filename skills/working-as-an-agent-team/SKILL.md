@@ -1,6 +1,6 @@
 ---
 name: working-as-an-agent-team
-description: Use when work in a software factory is larger than one agent should carry and the factory agent should act as an orchestrator that delegates to subagent workers - planning work for a handoff to workers or to another agent's session, running a plan as its lead, delegating a task through a BRIEF.md, or reviewing a worker's RESULT.md. Also when the user says "work on this as a team", "start orchestrating", "plan this for a team", or "delegate this". Not for workers following a BRIEF.md, and not for work that fits one agent and one PR.
+description: Use when work in a software factory or a repository is larger than one agent should carry and the factory agent should act as an orchestrator that delegates to subagent workers - planning work for a handoff to workers or to another agent's session, running a plan as its lead, delegating a task through a BRIEF.md, or reviewing a worker's RESULT.md. Also when the user says "work on this as a team", "start orchestrating", "plan this for a team", or "delegate this". Not for workers following a BRIEF.md, and not for work that fits one agent and one PR.
 ---
 
 # Working as an agent team
@@ -45,8 +45,16 @@ needs, such as engineering guidance.
 ## Where the team's files live
 
 The team works in a software factory (see the `agent-software-factory` skill): the repos it changes are writable
-members, so every task works on an isolated branch. If there is no factory yet, propose setting one up before the
-first task. This skill adds two directories to it:
+members, so every task works on an isolated branch. Use the factory the session belongs to, and stay where the
+session started: never change to another directory, search for a factory elsewhere, or set up a separate one unless
+the user asks.
+
+When the session runs in a repository that does not belong to a factory, the team works in that repository's embedded
+factory at `<repo root>/.factory/`. Asking for team work is asking for that factory, so use it without confirming, and
+create it if it does not exist yet (see "Create an embedded factory" in the `agent-software-factory` skill's
+`references/lifecycle.md`). Tell the user when you created it.
+
+This skill adds two directories to the factory:
 
 ```
 <factory>/

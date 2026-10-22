@@ -16,8 +16,9 @@ tasks without reconstructing the planning conversation.
   `<prefix><plan slug>`, created before the first task.
 - Agree on the review checkpoints: what each task hands over for review (commits on a shared branch, or one PR per
   task stacked in dependency order), who reviews it (the user, a review worker, or both), and whether a dependent
-  task waits for that review. Without permission to commit, tasks cannot leave checkpoints, so raise it with the user
-  rather than planning work that ends in one large uncommitted diff.
+  task waits for that review. PRs need a remote; for a member without one, plan commits on a shared branch or a branch
+  per task stacked in dependency order. Without permission to commit, tasks cannot leave checkpoints, so raise it with
+  the user rather than planning work that ends in one large uncommitted diff.
 
 ## Divide it into tasks
 

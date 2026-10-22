@@ -4,7 +4,8 @@ Adding, refreshing, and removing members. What each kind of member is built as i
 in `../templates/factory.toml`.
 
 Use absolute paths for every target below. `<ws>` is the factory root, `<member>` the member's name, `<git>` a local
-clone from a `git` entry, and `<prefix>` the entry's `branch_prefix`.
+clone from a `git` entry, and `<prefix>` the entry's `branch_prefix`. Resolve a relative `git` path from `<ws>`, such
+as `..` for an embedded factory's host, to an absolute path before running a command.
 
 ## Add a member
 
@@ -23,13 +24,18 @@ git -C <git> symbolic-ref --short refs/remotes/origin/HEAD   # prints origin/<de
 If there is no `origin/HEAD`, run `git -C <git> remote set-head origin --auto` and try again. If that fails too, ask the
 user which branch is the base. For a URL, the clone below sets `origin/HEAD`; read it the same way inside the clone.
 
+A local clone without a remote (`git -C <git> remote` prints nothing) has nothing to fetch, and its `<base>` is the
+local `<branch>` (see `layout.md`). Set `branch` in its entry: the branch the user names, or by default the one the
+clone has checked out, from `git -C <git> branch --show-current`. Tell the user that its work is handed over as
+branches, since there is nowhere to push or open a PR.
+
 ### Git, local clone
 
 Writable: the factory works on its own branch. Git refuses to check out one branch in two worktrees, so the prefix
 is what lets two factories work on the same repo.
 
 ```sh
-git -C <git> worktree add -b <prefix>main <ws>/members/<member> origin/<branch>
+git -C <git> worktree add -b <prefix>main <ws>/members/<member> <base>
 ```
 
 If `<prefix>main` already exists, such as when recreating the factory, check out the existing branch instead:
@@ -42,7 +48,7 @@ Read-only: a detached worktree, so the factory sees `<branch>` cleanly even when
 branch or has uncommitted changes.
 
 ```sh
-git -C <git> worktree add --detach <ws>/members/<member> origin/<branch>
+git -C <git> worktree add --detach <ws>/members/<member> <base>
 ```
 
 If `worktree add` fails, see `troubleshooting.md`.
@@ -89,18 +95,19 @@ git members `branch_prefix`. Add `branch` only when the user names one.
 
 Run this at the start of a session, so the work starts from the latest state. For each entry in `factory.toml`:
 
-- **Writable git members:** rebase onto the latest `<branch>`.
+- **Writable git members:** rebase onto the latest `<branch>`. Without a remote, skip the fetch: the local
+  `<branch>` moves as the user commits to it.
   ```sh
   git -C <ws>/members/<member> fetch origin
-  git -C <ws>/members/<member> rebase origin/<branch>
+  git -C <ws>/members/<member> rebase <base>
   ```
   Skip a member with uncommitted changes. If a rebase conflicts, run `git rebase --abort` and report the conflict
   instead of resolving it unasked.
 - **Read-only git members:** move to the latest `<branch>`. A URL member is a shallow clone, so fetch it with
   `--depth 1` to keep it shallow.
   ```sh
-  git -C <ws>/members/<member> fetch origin               # URL members: fetch --depth 1 origin
-  git -C <ws>/members/<member> checkout --detach origin/<branch>
+  git -C <ws>/members/<member> fetch origin               # URL members: fetch --depth 1 origin; no remote: skip
+  git -C <ws>/members/<member> checkout --detach <base>
   ```
   If a read-only member has changes, something wrote to it. Report it; do not discard the changes.
 - **Path members:** check that `<ws>/members/<member>` still resolves with `test -e`. Report a missing target.
@@ -110,9 +117,10 @@ A member that is missing altogether is built as in "Add a member".
 ## Remove a member
 
 1. For a writable git member, check `git status` and for commits not on any remote
-   (`git -C <ws>/members/<member> log --oneline --branches --not --remotes`), and for backlog items on it that are
-   `in-progress` or `pr-open`. If there are any, ask the user before going on. Remove the item checkouts under
-   `<ws>/checkouts/` before the member itself.
+   (`git -C <ws>/members/<member> log --oneline --branches --not --remotes`), or without a remote for branches not
+   merged into the base (`git -C <git> branch --no-merged <branch> --list '<prefix>*'`), and for backlog items on it
+   that are `in-progress` or `in-review`. If there are any, ask the user before going on. Remove the item checkouts
+   under `<ws>/checkouts/` before the member itself.
 2. Remove it from `members/`:
    - Git, local clone: `git -C <git> worktree remove <ws>/members/<member>`. For a writable member, ask the user
      whether to delete the factory's branches under `<prefix>` in the source clone.

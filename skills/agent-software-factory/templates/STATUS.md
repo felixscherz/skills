@@ -8,7 +8,7 @@ Updated: {{YYYY-MM-DD}}
 
 ## In progress
 
-## Open pull requests
+## In review
 
 ## Needs the user
 

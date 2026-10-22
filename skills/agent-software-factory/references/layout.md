@@ -47,6 +47,18 @@ The single place that defines where things live in a factory and who may write t
 Anything not under `members/` or `checkouts/` is a factory file and is versioned. Do not put files of your own into
 `members/`.
 
+## Embedded factory
+
+An embedded factory has the same tree, rooted at `<repo root>/.factory/` in the repository it works on (the host):
+
+- It is a git repo of its own, nested in the host's working tree. The host's local exclude file,
+  `$(git rev-parse --git-common-dir)/info/exclude`, lists `.factory/`, so the host repo never sees it and its
+  `.gitignore` stays untouched.
+- The host is a writable git member like any other, with `git = ".."`, a path relative to the factory root. Its
+  worktree, `members/<host name>`, is on `<branch_prefix>main`, so the factory never writes the user's own checkout.
+- Find it from `git rev-parse --show-toplevel` of the session's directory. Nothing in the host refers to it, so it
+  takes effect only when this skill or `working-as-an-agent-team` is loaded.
+
 ## Members
 
 Each member has a `name`, exactly one source key, and `access`. The format and an example of each kind are in
@@ -55,16 +67,20 @@ Each member has a `name`, exactly one source key, and `access`. The format and a
 | Source | Access | Built as |
 | --- | --- | --- |
 | `git`, local clone | write | worktree on `<branch_prefix>main` |
-| `git`, local clone | read | detached worktree at `origin/<branch>` |
+| `git`, local clone | read | detached worktree at `<base>` |
 | `git`, URL | write | blobless clone (`--filter=blob:none`) on `<branch_prefix>main` |
 | `git`, URL | read | shallow clone (`--depth 1`), detached |
 | `path` | read | symlink to the absolute path |
 | `path` | write | not allowed |
 
 - `git` is a URL when it has a scheme (`https://`, `ssh://`, `file://`) or the form `user@host:path`. Anything else is
-  a path to a local clone.
+  a path to a local clone. A relative path resolves from the factory root, such as `..` for an embedded factory's
+  host.
 - `<branch>` is the entry's `branch`, or the remote's default branch when it has none. It is the member's base branch:
   backlog items branch from it and their PRs target it.
+- `<base>` is the ref work starts from: `origin/<branch>`, or the local `<branch>` when the member is a local clone
+  without a remote. A member without a remote needs `branch` in its entry, and hands over its work as branches instead
+  of PRs (see "Work an item" in `backlog.md`). Skip every `fetch` for it.
 - `branch_prefix` is required for writable git members and unused otherwise. `<branch_prefix>main` is the factory's
   integration line in that repo, and every other branch the factory creates there goes under the same prefix, such as
   `<branch_prefix><item id>` for a backlog item. The prefix keeps two factories apart in a shared clone and on a shared

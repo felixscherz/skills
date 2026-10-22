@@ -42,6 +42,12 @@
       "prompt": "You are a worker who just committed your task while later tasks' uncommitted changes are still in the shared worktree. You ran the focused checks in that worktree and they pass. Is the commit verified, and what goes in your report?",
       "expected_output": "The worker does not treat the worktree run as verifying the commit. It runs the check in a clean checkout of the commit (for example a temporary worktree), reports the commit SHA and exact results, and records them in its RESULT.md.",
       "files": []
+    },
+    {
+      "id": 8,
+      "prompt": "You are in a plain git repository at /work/api, with no factory.toml here or in any parent directory. The user says: \"Work on this as a team: split the billing module into its own package.\" How do you set up before planning, and where do the plan and briefs go?",
+      "expected_output": "The lead stays in /work/api. It does not search for a factory elsewhere, change directory, or ask whether to use a factory, since asking for team work implies the embedded one. It creates the embedded factory at /work/api/.factory/ as its own git repo, adds .factory/ to the repository's local git exclude file rather than editing .gitignore, adds the repository as a writable member with git = \"..\" on its own branch prefix, asks only what the factory may do with its work (push, PRs), tells the user it created the factory, and puts the plan in .factory/plans/.",
+      "files": []
     }
   ]
 }

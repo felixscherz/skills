@@ -49,7 +49,7 @@ If it is gone, remove the member (see `members.md`).
 `worktree add -b` fails when `<prefix>main` already exists in the source clone. That usually means an earlier
 factory of the same name, or a removed worktree, left it behind.
 
-- Check what is on it: `git -C <git> log --oneline origin/<branch>..<prefix>main`.
+- Check what is on it: `git -C <git> log --oneline <base>..<prefix>main`.
 - If it is this factory's work, check it out without `-b` (see `members.md`).
 - Otherwise ask the user whether to delete it, or to pick another prefix.
 
@@ -58,7 +58,8 @@ factory of the same name, or a removed worktree, left it behind.
 `worktree add` refuses a branch that another worktree has checked out. Find it with `git -C <git> worktree list`.
 Two factories must never share a branch; if this happens, the branch prefix in one `factory.toml` is wrong.
 
-## The source has no remote
+## The source lost its remote
 
-Without `origin`, there is nothing to fetch or rebase onto. Branch from the local default branch instead, or for a
-read-only member detach at it, and tell the user that refreshing does not apply to this member.
+A member added without a remote is supported (see `<base>` in `layout.md`). When a source that had `origin` loses it,
+set `branch` in the member's entry if it is missing, and treat the member as one without a remote from then on. Items
+`in-review` with a PR keep their link; bring them to the user, since the factory can no longer follow them up.

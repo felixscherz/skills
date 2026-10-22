@@ -1,12 +1,12 @@
 ---
 id: {{NNNN-slug}}
 created: {{YYYY-MM-DD}}
-status: proposed           # proposed | approved | in-progress | pr-open | done | rejected
+status: proposed           # proposed | approved | in-progress | in-review | done | rejected
 size: {{S | M | L}}
 source: {{user | factory agent | worker in task NNNN-slug}}
 member: {{member name}}
 branch: {{<prefix><id>, once work starts}}
-pr: {{PR link, once opened}}
+pr: {{PR link, once opened, or "none" when the branch is the handover}}
 plan: {{plans/<slug>.md, when the item is worked through a plan}}
 ---
 # {{title}}
