@@ -66,7 +66,7 @@ Each message names the replacement, so the failure tells the reader what to inje
 - Ban specific call paths where the module's types stay useful (`datetime.datetime.now`, `uuid.uuid4`), so
   value types such as `datetime` remain usable in annotations. ID representation is a separate modeling decision:
   `UUID` is a pure value type, but do not use it for opaque domain IDs merely because the generator uses UUIDs
-  (see `../domain-modeling.md`). A stricter project policy, such as Groove's string-backed ID value objects,
+  (see `domain-modeling.md`). A stricter project policy, such as Groove's string-backed ID value objects,
   also forbids `uuid` imports in domain code. Ban whole modules (`random`, `httpx`) when the seam does not
   expose their types.
 - Settings read the environment through pydantic-settings, so they need no exemption.
@@ -75,7 +75,7 @@ Each message names the replacement, so the failure tells the reader what to inje
 
 Use import-linter with `include_external_packages = true`, so contracts can forbid frameworks as well as project
 packages. Write each contract `name` as the instruction, because it is what the failure prints. For the layout in
-`../fastapi-applications.md` (contexts `bookings` and `billing`), four contracts cover the architecture:
+`fastapi-applications.md` (contexts `bookings` and `billing`), four contracts cover the architecture:
 
 ```toml
 [[tool.importlinter.contracts]]
