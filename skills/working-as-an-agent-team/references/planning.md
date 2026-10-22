@@ -6,6 +6,9 @@ tasks without reconstructing the planning conversation.
 ## Define the plan
 
 - Agree on the goal, completion criteria, scope, non-goals, and decisions that remain with the user.
+- Identify the earliest meaningful end-to-end behavior that demonstrates the feature and how it will be verified.
+  Record accepted limitations and conditions that require returning to the user, including an expanding prerequisite
+  chain or a supporting task becoming a separate infrastructure effort. Do not pre-approve unknown follow-up work.
 - Understand the affected system and dependencies. Use investigation tasks when delegation is authorized; their
   results inform the plan and do not authorize implementation.
 - Record behavior and other invariants that must hold throughout execution, not just in the final state.
@@ -36,6 +39,9 @@ tasks without reconstructing the planning conversation.
   from the state the earlier tasks leave: a test that needs an injection seam belongs after the task that adds it, and
   a caller switched to new code belongs with the wiring that provides it.
 - Separate implementation tasks from supporting tasks such as setup, review, or diagnosis.
+- Prefer reaching the first end-to-end demonstration early where dependencies permit. Keep preparatory work limited
+  to what that behavior needs; splitting infrastructure into small PRs does not make the total effort appropriately
+  scoped. A partial demonstration is progress, not permission to omit the remaining agreed behavior.
 - Default to sequential tasks. Only plan parallel work when dependencies and writable checkouts are independent and
   that execution model is agreed with the user.
 

@@ -7,6 +7,9 @@ had been there from the start.
 
 - Before adding an `if` for an edge case, ask whether the model is missing a
   concept. A missing concept usually shows up as a condition.
+- Use first-principles thinking to find a simpler solution to the requested
+  problem. Finding a wider model problem does not bring its repair into scope.
+  Keep unrelated drift as a follow-up, not a prerequisite by default.
 - When a requirement or a drift changes the model, change the model first, then
   migrate the code to it. Don't keep the old shape alive beside the new one,
   unless consumers still depend on it (see `dont-break-production.md`).

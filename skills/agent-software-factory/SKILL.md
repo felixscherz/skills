@@ -43,7 +43,9 @@ being true. The backlog holds work, which moves through statuses and links to br
 ## Rules
 
 - **The user approves work.** Work only on backlog items the user approved. Finding and proposing work is always
-  fine; starting it is not.
+  fine; starting it is not. Approval covers the described outcome and approach, not every prerequisite later
+  discovered. Reassess cumulative scope when new information materially increases the work, even inside the same
+  repository with no product behavior change. Bring that decision back to the user before continuing affected work.
 - **The user merges.** Never merge a PR, merge into a member's base branch, or push to it. Push and open PRs only as
   the permissions in `AGENTS.md` allow.
 - **Read-only means read-only.** Never write to a member with `access = "read"`, whatever its kind.

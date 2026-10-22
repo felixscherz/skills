@@ -17,6 +17,9 @@ apply in full.
   approach.
 - Never make broad changes unprompted. Swapping a framework, a sweeping
   refactor, or a new architectural pattern needs the user's go-ahead.
+- Keep implementation focused on the requested outcome. When new information
+  materially increases the work, reassess scope before continuing. These
+  principles guide quality within that scope; they do not authorize extra work.
 - Pushing the boundary is sometimes right. When a convention causes a real
   problem for the task, propose the change with the reason and let the user
   decide.
@@ -70,8 +73,9 @@ Rules that shape design and engineering decisions in any language.
   a special case for an edge case.
 - **Deliver in small steps** (`references/deliver-in-small-steps.md`). Deciding
   how much to build for a request, before proposing an architecture or
-  design, when a fix suggests a larger redesign, or planning work that spans
-  several changes.
+  design, when a fix suggests a larger redesign, planning work that spans
+  several changes, or encountering unexpected prerequisites, expanding
+  verification matrices, or repeated repair cycles during implementation.
 - **Keep work reviewable** (`references/keep-work-reviewable.md`). Starting
   work that will span several commits or PRs, uncommitted work growing beyond
   one purpose, or committing, splitting a diff, or handing work over for

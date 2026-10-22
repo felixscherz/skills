@@ -8,6 +8,8 @@ Backlog item: {{backlog/NNNN-slug.md, or "none"}}
 
 {{What the plan achieves and how we know it is complete.}}
 
+First end-to-end demonstration: {{Earliest meaningful requested behavior, owning task, and how it is verified.}}
+
 ## Design
 
 {{The approved design, or a pointer to it.}}
@@ -17,6 +19,11 @@ Backlog item: {{backlog/NNNN-slug.md, or "none"}}
 In: {{in scope}}
 
 Out: {{non-goals}}
+
+Accepted limitations: {{Bounded limitations agreed with the user, or "none".}}
+
+Return to the user when: {{Scope reassessment conditions, including an expanding prerequisite chain or a supporting
+task becoming a separate infrastructure effort.}}
 
 ## Invariants
 

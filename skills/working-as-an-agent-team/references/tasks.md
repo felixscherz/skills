@@ -11,6 +11,11 @@ what done looks like, how to work, and how to report. Write every path as an abs
 inside a member, where relative paths resolve differently. Writable paths come only from members with
 `access = "write"`.
 
+Keep acceptance criteria bounded to the task's role in the approved outcome. Include non-goals and known limitations
+that affect implementation choices. Tell workers to report unexpected prerequisites or material growth before solving
+them, naming the affected criterion, the concrete consequence, and the smallest safe next step with its limitation.
+Workers and reviewers may recommend scope changes; only the lead, within the user's approval, may settle them.
+
 ## Delegate a task
 
 1. Pick the id: the highest id in `tasks/` plus one, zero-padded to four digits, plus a short kebab-case slug. Task
@@ -43,8 +48,10 @@ When the task is accepted, integrate its branch as the plan says, then remove th
 
 1. Read `RESULT.md`. For implementation tasks, start a fresh review worker with a read-only brief that names the task,
    the revision, the acceptance criteria, and the invariants (see "Keep review independent" in `lead.md`).
-2. If the result falls short, add a `## Follow-up` section to `BRIEF.md` that says what is missing, and start a worker
-   on the same brief. It appends to `RESULT.md`.
+2. If the result falls short, apply the scope check in "Handle issues through workers" in `lead.md` before assigning
+   another repair. For an in-scope repair, add a `## Follow-up` section to `BRIEF.md` that says what is missing, and
+   start a worker on the same brief. It appends to `RESULT.md`. Do not silently enlarge acceptance criteria in a
+   follow-up.
 3. When it is accepted, set `status: closed` in the brief's frontmatter and update the plan's progress table. Do not
    delete the folder: inbox items name the task, and consolidation may need its result.
 

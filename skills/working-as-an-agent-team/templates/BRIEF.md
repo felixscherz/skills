@@ -45,6 +45,9 @@ Do not write anywhere else.
   stop the affected work and report the conflict with evidence.
 - If the task cannot be done as briefed, for example because it needs something a later task adds, stop and report it
   with the evidence and a suggestion. Do not build a temporary workaround.
+- Report unexpected prerequisites or material growth before solving them. Name the affected acceptance criterion,
+  the concrete consequence of leaving the issue unresolved, and the smallest safe next step with its limitation.
+  Do not strengthen the task's contract or acceptance criteria without the lead's decision.
 - If you cannot carry out the work at all, such as because a tool, access, or repo is missing, stop and report what is
   missing and what it is needed for.
 - Report failures you inherit; do not call them unrelated because an earlier task caused them.

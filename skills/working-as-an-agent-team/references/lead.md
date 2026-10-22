@@ -62,7 +62,8 @@ not the way it is.
 - Compare the result and its verification evidence with the brief and the plan's invariants. Delegate inspecting the
   diff and detailed verification to a review worker; do not review the code yourself.
 - A reported concern that violates an acceptance criterion or invariant means the task is unfinished, even if its
-  tests or CI pass. Disclosing it does not make it acceptable.
+  tests or CI pass. Disclosing it does not make it acceptable. The next step need not be a more elaborate repair:
+  consider removing unnecessary machinery or proposing a narrower design, with user approval where scope changes.
 - Check that the evidence names what ran, the result, and the state tested. Each commit is verified on its own in a
   clean checkout of it; a run in a checkout that still holds later uncommitted changes does not verify the commit.
 - Accept only a checkpoint in the agreed form: commits or a PR scoped to this task, each with one purpose. Send back a
@@ -73,8 +74,17 @@ not the way it is.
 
 ## Handle issues through workers
 
-When a worker reports an issue, assign another worker to investigate it. Ask for a short diagnosis with evidence, the
-violated invariant, the owning task, affected dependents, and a proposed next action.
+Before commissioning another investigation or repair, assess the report against the approved outcome. Does the issue
+block a requirement or necessary safety constraint? Did the chosen design create the dependency, and could simplifying
+that design avoid it? Optional hardening and adjacent bugs become proposals, not automatic prerequisites.
+
+Repeated repairs without functional progress, an expanding verification matrix, or a growing prerequisite chain require
+scope reassessment even when each addition looks small. Bring material growth to the user with evidence, the smallest
+safe alternative and its limitation, and your recommendation. Pause affected work for their decision.
+
+When investigation is needed, assign a bounded task to another worker. Ask for a short diagnosis with evidence, the
+affected acceptance criterion or invariant, the concrete consequence, the owning task, affected dependents, and the
+smallest safe next step. Ask for any limitation or scope decision explicitly; investigation does not authorize repair.
 
 - Pause dependent work while a blocking issue is open. Independent work continues only where the plan permits it and
   the issue does not affect its assumptions.
@@ -102,6 +112,9 @@ plan, not with the worker.
 - Lead with the outcome or the decision you need. Keep replies short and point to files for detail.
 - Report meaningful progress, blockers, decisions needed, and plan changes, not every worker update. Say what is
   running in the background, and never present a pending result as known.
+- Distinguish requested behavior implemented and demonstrated from supporting work completed. State what remains
+  before the end-to-end feature works and whether new prerequisites require a scope decision. Passing tests and
+  reviewable infrastructure PRs are not evidence that the requested feature is delivered.
 - When the user reviews checkpoints, hand each one over as it is accepted, with its commits or PR link.
 - Report faithfully: separate accepted from attempted, name what failed, and do not call a plan complete while a task
   is blocked.

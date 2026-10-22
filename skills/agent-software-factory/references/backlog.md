@@ -76,7 +76,9 @@ branch (see `members.md`).
    member's own conventions. Commit at each verified step.
 4. Stay inside the item. If it turns out larger than its size, needs a decision that is the user's, or cannot be done
    as described, stop, write what you found under `## Notes` in the item, and bring it to the user. Do not widen the
-   scope or build a workaround to keep going.
+   scope or build a workaround to keep going. Approval of a prerequisite is bounded too: if its approach changes or
+   its repairs accumulate into a materially larger effort, reassess it against the original outcome. Explain the new
+   evidence, the smallest safe alternative and its limitation, and your recommendation before continuing affected work.
 5. Before handing it over, review your own diff following the `engineering` skill's code review rule, and fix what it
    finds.
 6. Push the branch and open a PR as the permissions in `AGENTS.md` allow, following the `engineering` skill's rule for
@@ -88,7 +90,7 @@ branch (see `members.md`).
    checkout of the member.
 
 Something you notice along the way that is outside the item becomes a new proposed item or an inbox item, not part of
-this PR.
+this PR. Do not treat it as an approved subtask merely because it supports the current feature.
 
 ## Follow up on reviews
 

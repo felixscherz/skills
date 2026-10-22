@@ -72,6 +72,11 @@ correct, but a clumsy one is cheap to replace later.
 State the calibration in the output, so the author knows which parts got deep
 scrutiny and which got a lighter pass.
 
+Review against the agreed behavior, supported operating conditions, and
+necessary safety constraints. Distinguish a defect in that contract from a
+proposal to strengthen it. Do not turn speculative hardening into an unstated
+acceptance criterion.
+
 ### 4. Check the implementation against the intent
 
 With the intent fixed, ask whether the change actually achieves it:
@@ -162,6 +167,12 @@ categories named above as blockers.
 
 Every finding needs a location (`path:line`), what is wrong, why it matters,
 and a concrete suggestion. Drop findings you cannot back up with the code.
+
+For each blocker, state the concrete failure and consequence within the
+reviewed contract or necessary safety constraints. Resolution may be a fix,
+removing unnecessary machinery, or an explicitly agreed narrower design. A
+finding does not authorize expanding scope or silently changing the contract.
+Disclosing a genuine invariant violation does not resolve it.
 
 ## Output
 
