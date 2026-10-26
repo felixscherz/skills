@@ -21,7 +21,7 @@ src/acme/
 |   |-- usecases/         does: one file per intent, the ports they consume, fakes
 |   `-- infrastructure/   adapters for the ports, persisted record shapes
 |-- checkout/             owns a workflow: usecases/, no rules of its own yet
-`-- wiring.py             composition root (top layer)
+`-- composition.py        composition root (top layer)
 ```
 
 - **A small module is one file.** `customers.py` holds its values, rules,
@@ -70,7 +70,7 @@ src/acme/
 - **Entry points are a layer too.** HTTP routes, CLI commands, or message
   handlers for a module go in its `api/` (or `cli/`), above `usecases/`. They
   never import `infrastructure/`; the composition root hands them use cases.
-- **The composition root is global.** One top-level module (`wiring`) builds
+- **The composition root is global.** One top-level module (`composition`) builds
   every adapter and use case. The application's CLI may handle process
   startup separately; together they form the composition root. Read
   configuration once along that startup path and pass it into assembly

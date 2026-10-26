@@ -37,13 +37,13 @@ Recorded in `references/module-layout.md` and
    Only siblings that must commit together, where neither moves up a layer
    and the business already names the workflow (Checkout), get a module of
    their own one layer up.
-7. **Composition root and adapters.** A top-level `wiring` module in the
+7. **Composition root and adapters.** A top-level `composition` module in the
    top layer builds the adapters. Adapters and entry points are not exported
-   from `__init__.py`; each module's `protected` contract lists `wiring` as
+   from `__init__.py`; each module's `protected` contract lists `composition` as
    its only outside importer, so they are reachable from the composition
-   root alone. The example's `wiring` has no environment reads yet, so no
+   root alone. The example's `composition` has no environment reads yet, so no
    `TID251` ignore; `customers` still has no storage adapter and `checkout`
-   no real unit of work, so `wiring` builds only invoicing.
+   no real unit of work, so `composition` builds only invoicing.
 8. **Module READMEs hold only what the code cannot say.** Responsibility,
    what the module is not responsible for, glossary terms, and decisions.
    Public API, ports, persisted shapes, and dependencies are left out: the

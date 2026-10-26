@@ -57,7 +57,7 @@ include_external_packages = true
 name = "Modules depend down the layers"
 type = "layers"
 containers = ["acme"]
-layers = ["wiring", "checkout", "invoicing | customers", "clock | ids"]
+layers = ["composition", "checkout", "invoicing | customers", "clock | ids"]
 ignore_imports = [
     # invoicing's adapter for its CustomerLookup port; translates customers into invoicing's terms
     "acme.invoicing.infrastructure.customer_lookup -> acme.customers",
@@ -73,7 +73,7 @@ when the business already names the workflow, a module of its own one layer up, 
 checkout. If the layers are wrong, change them here on purpose and say why in the pull \
 request."""
 
-# Single-file modules (clock, ids, customers, wiring) have no layers inside and no
+# Single-file modules (clock, ids, customers, composition) have no layers inside and no
 # submodules to protect, so they appear only in the layers contract between modules.
 [[tool.importlinter.contracts]]
 name = "Inside every module, infrastructure -> usecases -> domain"
@@ -109,20 +109,20 @@ for UUID semantics needs an explicit exception with a reason."""
 name = "invoicing is used through its public API"
 type = "protected"
 protected_modules = ["acme.invoicing.**"]
-allowed_importers = ["acme.invoicing", "acme.wiring"]
+allowed_importers = ["acme.invoicing", "acme.composition"]
 broken_contract_guidance = """
 Import from acme.invoicing, not from its submodules. If the name you need is missing and it \
 is a domain value, rule, use case, port, error, or fake, add it to __all__ in \
-acme/invoicing/__init__.py. Adapters and entry points are not exported: only acme.wiring \
+acme/invoicing/__init__.py. Adapters and entry points are not exported: only acme.composition \
 constructs them."""
 
 [[tool.importlinter.contracts]]
 name = "checkout is used through its public API"
 type = "protected"
 protected_modules = ["acme.checkout.**"]
-allowed_importers = ["acme.checkout", "acme.wiring"]
+allowed_importers = ["acme.checkout", "acme.composition"]
 broken_contract_guidance = """
 Import from acme.checkout, not from its submodules. If the name you need is missing and it \
 is a domain value, rule, use case, port, error, or fake, add it to __all__ in \
-acme/checkout/__init__.py. Adapters and entry points are not exported: only acme.wiring \
+acme/checkout/__init__.py. Adapters and entry points are not exported: only acme.composition \
 constructs them."""

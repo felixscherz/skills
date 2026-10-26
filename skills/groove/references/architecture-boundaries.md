@@ -285,7 +285,7 @@ root_package = "acme"
 name = "Modules depend down the layers"
 type = "layers"
 containers = ["acme"]
-layers = ["wiring", "checkout", "invoicing | customers", "clock | ids"]
+layers = ["composition", "checkout", "invoicing | customers", "clock | ids"]
 ignore_imports = [
     # invoicing's adapter for its CustomerLookup port; translates customers into invoicing's terms
     "acme.invoicing.infrastructure.customer_lookup -> acme.customers",
@@ -313,11 +313,11 @@ entry points:
 name = "invoicing is used through its public API"
 type = "protected"
 protected_modules = ["acme.invoicing.**"]
-allowed_importers = ["acme.invoicing", "acme.wiring"]
+allowed_importers = ["acme.invoicing", "acme.composition"]
 broken_contract_guidance = """
 Import from acme.invoicing, not from its submodules. If the name you need is missing and it \
 is a domain value, rule, use case, port, error, or fake, add it to __all__ in \
-acme/invoicing/__init__.py. Adapters and entry points are not exported: only acme.wiring \
+acme/invoicing/__init__.py. Adapters and entry points are not exported: only acme.composition \
 constructs them."""
 ```
 
@@ -325,7 +325,7 @@ When the tests are a package that import-linter analyzes, add the module's
 own tests (`"tests.invoicing.**"`) to `allowed_importers`, and nothing
 broader: tests of other modules use the public API. When the application is
 assembled in several top-level modules, list each one instead of
-`acme.wiring`, by exact name.
+`acme.composition`, by exact name.
 
 A violation reads:
 

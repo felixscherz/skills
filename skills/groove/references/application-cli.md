@@ -40,7 +40,7 @@ This applies to runnable services, not libraries with no process to start.
 
 ## Why
 
-`uvicorn acme.wiring:create_app --factory` makes internal module names and
+`uvicorn acme.composition:create_app --factory` makes internal module names and
 server-specific flags part of the user's interface. It also leaves startup
 configuration to whoever writes each launch command. One path can enable
 application logging while another silently falls back to the server's

@@ -2,7 +2,7 @@
 
 This file is the module's public API. Other modules import only names listed
 in __all__, never from the submodules. Adapters in infrastructure/ are not
-exported: only the composition root (acme.wiring) constructs them.
+exported: only the composition root (acme.composition) constructs them.
 """
 
 from acme.invoicing.domain.model import (

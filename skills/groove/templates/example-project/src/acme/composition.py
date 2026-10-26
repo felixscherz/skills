@@ -1,4 +1,4 @@
-"""Wiring: the composition root. Builds every adapter and hands it to the use cases.
+"""Composition root: build every adapter and hand it to the use cases.
 
 Not responsible for: any rule or workflow. Those belong to the modules it wires.
 

@@ -1,9 +1,9 @@
 from decimal import Decimal
 from pathlib import Path
 
+from acme.composition import build_invoicing
 from acme.customers import Customer, InMemoryCustomerRepository
 from acme.invoicing import InvoiceStatus, LineItem
-from acme.wiring import build_invoicing
 
 
 def test_built_invoicing_stores_issued_invoices_as_json_files(tmp_path: Path) -> None:

@@ -182,7 +182,7 @@ Copy from `templates/`:
   (`customers.py`), a read from a sibling through an owned port
   (`invoicing/infrastructure/customer_lookup.py`), single-file port modules
   (`clock.py`, `ids.py`), a workflow that is its own module, with a unit of
-  work (`checkout`), and the composition root (`wiring.py`).
+  work (`checkout`), and the composition root (`composition.py`).
 
 In an existing codebase, introduce one principle at a time, starting with
 the check command. Never add a tool or contract unprompted when the user has

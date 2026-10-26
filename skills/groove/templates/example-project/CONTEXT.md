@@ -10,12 +10,12 @@ when they check out.
   [Checkout transaction](docs/adrs/001-checkout-transaction.md). Read the decision before choosing an approach.
 - Changing a module: its `README.md`, or the docstring of a single-file
   module
-- Wiring a use case to a route or command: `src/acme/wiring.py`
+- Wiring a use case to a route or command: `src/acme/composition.py`
 
 ## Features
 
 There are no routes or commands yet. Each feature is a use case, built with
-its adapters in `src/acme/wiring.py`.
+its adapters in `src/acme/composition.py`.
 
 ### Invoicing
 
