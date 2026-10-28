@@ -9,21 +9,29 @@ might disagree with and the alternatives considered. Link the issue or ticket
 if one exists, but do not rely on the link alone.
 -->
 
-## How to test
+## Review guidance
 
 <!--
-The test strategy. Which automated tests cover the change (new, changed, or
-existing), and how to verify it manually if that matters: commands to run,
-setup needed, expected result. If existing tests changed, say what behavior
-changed. If tests or CI were removed or weakened, say so here and explain why.
+Get the reviewer up to speed quickly and point them where to look.
+
+Start with the shape of the change as the smallest visual that makes it clear:
+pseudocode, a call tree, a file tree, or a Mermaid diagram, written as a `diff`
+when the surrounding shape already exists (see "Review guidance" in
+ship-changes.md). Keep only the steps, files, and boundaries that matter.
+
+Then list where the reviewer's judgement is needed, most important first, each
+with what to check there. Name tests whose expected behavior changed and any
+check removed or weakened. Say what is mechanical and can be skimmed.
+
+Add before/after evidence only when it shows something CI does not: changed
+output, a screenshot, a manual check you ran. Never "run the tests".
 -->
 
-## Useful code paths
+```diff
+ entry point
+   existing step
+-  old behavior
++  new behavior
+```
 
-<!--
-Where a reviewer should start. List the files or folders that carry the core
-of the change, most important first, with a short note on each. Point out
-anything mechanical (renames, generated code, moved files) that can be skimmed.
--->
-
-- `path/to/file` - why it matters
+- `path/to/file` - what to check there

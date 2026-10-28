@@ -96,11 +96,82 @@ that it does so the way they would want.
   possible regression until told otherwise.
 - **Flag uncertainty.** Say where you are unsure or want the reviewer's
   judgement.
-- **Make verification concrete.** Commands to run, setup needed, expected
-  result. Name the tests that cover the change. Call out any test or CI that
-  was removed or weakened, with the reason.
-- **Guide the reading order.** Point to where the core of the change lives,
-  most important first, and mark what is mechanical (renames, moves,
-  generated code) so the reviewer can skim it.
+- **Show the shape, then point where to look.** Give a high-level picture of
+  what changed before the reviewer opens the diff, then direct their attention
+  (see "Review guidance" below).
+- **Call out weakened checks.** Any test or CI that was removed or weakened,
+  with the reason.
 - Keep it short and plain. No filler, no restating the diff line by line, no
-  agent workflow details the reader does not care about.
+  agent workflow details the reader does not care about. Do not tell the
+  reader that tests pass or how to run them; CI shows that.
+
+### Review guidance
+
+The goal is to get a reviewer up to speed in a minute and spend their attention
+where it is needed. It has three parts, scaled to the change.
+
+**The shape of the change.** Pick the smallest view that makes the key point
+clear, and keep only the calls, files, and boundaries the reviewer needs. One
+visual is usually enough; never use more than a few.
+
+- Logic or an algorithm as pseudocode:
+
+  ```text
+  on(save)
+    if content is unchanged
+      return cached result
+    write new content
+  ```
+
+- Runtime control flow as a call tree:
+
+  ```text
+  submitForm
+    createSession
+      persistPrompt
+      launchAgent
+    navigateToSession
+  ```
+
+- File responsibility or a broad refactor as a shallow file tree:
+
+  ```text
+  src/
+  ├── commands/       # parses user actions
+  ├── sessions/       # owns session state
+  └── transport/      # sends API requests
+  ```
+
+- Interaction or data flow between components as a Mermaid diagram (GitHub and
+  GitLab render it).
+
+- When the surrounding shape already exists and the point is what changed,
+  write any of the above as a `diff`: unchanged lines as context, `-` for what
+  went away, `+` for what replaced it. This is the most useful form for most
+  changes to existing code:
+
+  ```diff
+   Procedure.run
+  -  spawn a fresh interpreter, import dependencies from scratch
+  +  fork from a server that preloaded the dependencies
+     load test modules
+  -    per repo, sequential: import package, read config
+  +    all repos in parallel threads: read config without importing
+  ```
+
+Use the domain's names, not invented ones, and put each visual next to the one
+or two sentences it supports.
+
+**Where to look.** The places that need the reviewer's judgement, most
+important first, each with a file path and what to check there: a decision
+that could have gone another way, a tricky edge case, a test whose expected
+behavior changed, anything you are unsure about. Then say what is
+mechanical (renames, moves, generated code) so it can be skimmed.
+
+**Evidence, only when CI cannot show it.** A before and after that the
+reviewer could not get from the checks: changed console output, a screenshot
+of a visual change, a timing, a manual check against a real system. Leave it
+out otherwise.
+
+The visuals are adapted from Dex Horthy's `show-me` skill
+(https://github.com/humanlayer/skills, MIT).
