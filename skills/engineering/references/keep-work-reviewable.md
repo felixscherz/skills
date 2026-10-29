@@ -14,8 +14,12 @@ hard once it has piled up, so checkpoint it for review as you go.
 - Separate mechanical changes from behavior changes. A rename, move,
   formatting pass, or preparatory refactor gets its own commit before the
   change that needs it, so the reviewer can skim it and focus on the risk.
-- Commit at every verified checkpoint, not at the end. When uncommitted work
-  starts to serve more than one purpose, commit what is done before going on.
+- Commit as you go. When a step passes its check, commit it before starting
+  the next one. When uncommitted work starts to serve more than one purpose,
+  commit what is done before going on. This matters most when working
+  unattended: a long run that commits only at the end leaves one diff that
+  must be taken apart by hand, rebuilding intermediate versions of files that
+  later steps changed.
 - When work has accumulated anyway, split it before asking for review. Stage by
   file or hunk into commits that each stand on their own, and verify each
   commit, not only the last. Never hand over one large commit because
@@ -31,6 +35,7 @@ hard once it has piled up, so checkpoint it for review as you go.
   stack as lower PRs merge.
 - For work that will span several reviews, plan the split before building:
   say which commits or PRs the work becomes, and in which order.
-- A checkpoint is not permission to ship. Committing, pushing, and opening PRs
-  still follow the user's instructions. Where they are not authorized, stop at
-  a reviewable state, report it, and do not pile more work on top unasked.
+- A checkpoint is not permission to ship. Committing on the feature branch is
+  part of the work, but pushing, opening PRs, and merging still follow the
+  user's instructions. Where they are not authorized, stop at a reviewable
+  state, report it, and do not pile more work on top unasked.

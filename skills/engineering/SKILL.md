@@ -76,10 +76,10 @@ Rules that shape design and engineering decisions in any language.
   design, when a fix suggests a larger redesign, planning work that spans
   several changes, or encountering unexpected prerequisites, expanding
   verification matrices, or repeated repair cycles during implementation.
-- **Keep work reviewable** (`references/keep-work-reviewable.md`). Starting
-  work that will span several commits or PRs, uncommitted work growing beyond
-  one purpose, or committing, splitting a diff, or handing work over for
-  review.
+- **Keep work reviewable** (`references/keep-work-reviewable.md`). Before the
+  first change of any task that ends in a commit or a review, at every
+  commit, when uncommitted work grows beyond one purpose, or when splitting a
+  diff or handing work over for review.
 - **Program design** (`references/program-design.md`). Designing a new module,
   API, or model, deciding where code lives, or code that is hard to test.
 - **Type system** (`references/type-system.md`). Designing types, signatures, or
