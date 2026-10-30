@@ -45,8 +45,8 @@ format.
 
 ## Journal entries
 
-Name the file after the time the session started. If the session runs long, append to the same file rather than
-starting a new one.
+Name the file after the time you create the entry, not the time the session started or will end. If the session runs
+long, append to the same file rather than starting a new one.
 
 ```markdown
 # 2026-10-18 14:30
