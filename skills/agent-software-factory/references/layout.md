@@ -56,8 +56,11 @@ An embedded factory has the same tree, rooted at `<repo root>/.factory/` in the 
   `.gitignore` stays untouched.
 - The host is a writable git member like any other, with `git = ".."`, a path relative to the factory root. Its
   worktree, `members/<host name>`, is on `<branch_prefix>main`, so the factory never writes the user's own checkout.
-- Find it from `git rev-parse --show-toplevel` of the session's directory. Nothing in the host refers to it, so it
-  takes effect only when this skill or `working-as-an-agent-team` is loaded.
+- Find it from `git rev-parse --show-toplevel` of the session's directory, and check `<repo root>/.factory/factory.toml`
+  directly. Tools that skip hidden or git-ignored paths can omit `.factory/` and everything in it, so a search from the
+  host's root that finds nothing does not mean it is missing. To search the factory's files, point the tool at
+  `.factory/` itself. Nothing in the host refers to it, so it takes effect only when this skill or
+  `working-as-an-agent-team` is loaded.
 
 ## Members
 

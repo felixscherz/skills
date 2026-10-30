@@ -62,8 +62,10 @@ being true. The backlog holds work, which moves through statuses and links to br
 
 1. Find the factory root: the nearest directory at or above where you run that has a `factory.toml`. A session started
    inside `members/<name>/` belongs to that factory. In a repository with no factory above it, the factory root is
-   `<repo root>/.factory/` if it has a `factory.toml`. Unless the user mentioned the factory or asked for team work
-   (see `working-as-an-agent-team`), confirm with them that they mean to work in it.
+   `<repo root>/.factory/` if it has a `factory.toml`. Check that exact path, such as with
+   `test -f "$(git rev-parse --show-toplevel)/.factory/factory.toml"`. Do not rely on a glob, file search, or a plain
+   `ls`: `.factory/` is hidden and git-excluded, so they can omit it even when it exists. Unless the user mentioned
+   the factory or asked for team work (see `working-as-an-agent-team`), confirm with them that they mean to work in it.
 2. Read `AGENTS.md` and `STATUS.md`.
 3. Read the memory's README and latest journal entry, and the notes relevant to what the user wants now.
 4. Refresh the members (see `references/members.md`). If one is missing or broken, see

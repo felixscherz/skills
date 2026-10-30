@@ -48,6 +48,12 @@
       "prompt": "You are in a plain git repository at /work/api, with no factory.toml here or in any parent directory. The user says: \"Work on this as a team: split the billing module into its own package.\" How do you set up before planning, and where do the plan and briefs go?",
       "expected_output": "The lead stays in /work/api. It does not search for a factory elsewhere, change directory, or ask whether to use a factory, since asking for team work implies the embedded one. It creates the embedded factory at /work/api/.factory/ as its own git repo, adds .factory/ to the repository's local git exclude file rather than editing .gitignore, adds the repository as a writable member with git = \"..\" on its own branch prefix, asks only what the factory may do with its work (push, PRs), tells the user it created the factory, and puts the plan in .factory/plans/.",
       "files": []
+    },
+    {
+      "id": 9,
+      "prompt": "You are in a git repository at /work/api. A glob for **/factory.toml from the repository root returned nothing. The user says: \"Work on this as a team: split the billing module into its own package.\" How do you find out whether a factory already exists?",
+      "expected_output": "The lead does not treat the empty glob as proof that no factory exists, and does not create one yet. It checks /work/api/.factory/factory.toml directly, because globs and file searches can omit the hidden, git-excluded .factory/ directory, and it uses the existing factory if the file is there.",
+      "files": []
     }
   ]
 }

@@ -52,7 +52,9 @@ the user asks.
 When the session runs in a repository that does not belong to a factory, the team works in that repository's embedded
 factory at `<repo root>/.factory/`. Asking for team work is asking for that factory, so use it without confirming, and
 create it if it does not exist yet (see "Create an embedded factory" in the `agent-software-factory` skill's
-`references/lifecycle.md`). Tell the user when you created it.
+`references/lifecycle.md`). Tell the user when you created it. Decide whether it exists by checking
+`<repo root>/.factory/factory.toml` directly, because globs and file searches can omit `.factory/`, which is hidden and
+git-excluded.
 
 This skill adds two directories to the factory:
 
