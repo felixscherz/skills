@@ -102,6 +102,9 @@ Rules that shape design and engineering decisions in any language.
 
 Steps to follow for a recurring kind of task.
 
+- **Plan from a spec** (`references/plan-from-a-spec.md`). Turning a spec,
+  requirements, or a ticket into an implementation plan, or planning work
+  that spans several steps or agents.
 - **Test-driven design** (`references/test-driven-design.md`). Before
   implementing a feature or fixing a bug.
 - **Find the root cause** (`references/find-the-root-cause.md`). When debugging
