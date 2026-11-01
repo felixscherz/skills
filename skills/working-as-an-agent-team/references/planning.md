@@ -25,9 +25,16 @@ tasks without reconstructing the planning conversation.
 
 ## Divide it into tasks
 
+- Derive the tasks from the requirements with the engineering skill's "Plan from a spec" rule
+  (`../../engineering/references/plan-from-a-spec.md`). A task is one of its steps; this file adds what a handoff to
+  workers needs.
 - Give each task one coherent outcome, dependencies, boundaries, and concrete acceptance criteria.
-- Size each task so its result fits in one review. Split a task whose change would be too large to review in one
-  sitting, and give preparatory refactors or mechanical moves their own task or commits.
+- Size each task by what one worker can finish and verify in one session, not by what one review can hold. A worker
+  can carry a whole feature slice; every extra task costs a brief, a worker rebuilding context, a review worker, and
+  your own context, and adds a seam where details get lost. A task too large for one review hands over several
+  checkpoints, such as ordered commits or stacked PRs, instead of becoming several tasks. Never split by layer or by
+  file. Preparatory refactors and mechanical moves get their own commits, and their own task only when dependents
+  must wait for their review.
 - Include the integration points necessary for the outcome. Scope is not just a list of files: say which behavior may
   change and which must remain intact.
 - For staged changes, distinguish adding a replacement, activating it, and removing the old path. State which task

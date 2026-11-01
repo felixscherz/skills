@@ -96,9 +96,10 @@ When the user wraps up, or before you stop after a meaningful chunk of work:
 
 ## Orchestrate larger work
 
-Work an item yourself when it fits one reviewable PR. When an item is larger than one agent should carry, or the user
-wants several items worked in parallel, load the `working-as-an-agent-team` skill. It plans the work for delegation and
-runs it through workers, in `plans/` and `tasks/` of this factory. The backlog item links to its plan.
+Work an item yourself when one agent can carry it, even when it ships as a few commits or stacked PRs. When an item
+is larger than one agent should carry, or the user wants several items worked in parallel, load the
+`working-as-an-agent-team` skill. It plans the work for delegation and runs it through workers, in `plans/` and
+`tasks/` of this factory. The backlog item links to its plan.
 
 ## References
 

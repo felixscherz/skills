@@ -54,6 +54,12 @@
       "prompt": "You are in a git repository at /work/api. A glob for **/factory.toml from the repository root returned nothing. The user says: \"Work on this as a team: split the billing module into its own package.\" How do you find out whether a factory already exists?",
       "expected_output": "The lead does not treat the empty glob as proof that no factory exists, and does not create one yet. It checks /work/api/.factory/factory.toml directly, because globs and file searches can omit the hidden, git-excluded .factory/ directory, and it uses the existing factory if the file is there.",
       "files": []
+    },
+    {
+      "id": 10,
+      "prompt": "We are planning, not executing. Plan this spec for a team: add a CSV export of a customer's invoices. It needs a query for the invoices in a date range, a formatter that turns invoices into CSV rows, an authenticated HTTP endpoint that streams the file, and tests. Prepare the plan for a separate lead session.",
+      "expected_output": "The plan derives tasks from the required behavior, not from the spec's list of parts. It does not create one task per layer (query, formatter, endpoint, tests). The export is one task, or at most a small number with a stated reason to split, delivering the end-to-end behavior with its tests. A task larger than one review hands over several commits or stacked PRs rather than being split into more tasks.",
+      "files": []
     }
   ]
 }

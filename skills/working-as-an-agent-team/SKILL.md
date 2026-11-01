@@ -75,9 +75,10 @@ backlog item: the item links to the plan and stays `in-progress` until the plan 
 
 ## Reviewable checkpoints
 
-A plan produces more change than anyone can review at once. Every accepted task leaves a checkpoint that can be
-reviewed on its own: a short series of commits, or a PR stacked on the previous task's. The `engineering` skill's
-"Keep work reviewable" rule (`../engineering/references/keep-work-reviewable.md`) covers how to shape them.
+A plan produces more change than anyone can review at once. Every accepted task leaves checkpoints that can be
+reviewed on their own: a short series of commits, or PRs stacked on the previous task's. A task can leave several
+checkpoints, so how much a worker carries and how much a reviewer reads are separate decisions. The `engineering`
+skill's "Keep work reviewable" rule (`../engineering/references/keep-work-reviewable.md`) covers how to shape them.
 
 ## Stop working as a team
 

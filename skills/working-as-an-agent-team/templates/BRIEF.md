@@ -55,7 +55,9 @@ Do not write anywhere else.
 - If you are asked to review work you implemented or whose design you recommended, say so and do not review it. Start
   a verdict with the task and revision you reviewed.
 - Commit at each verified step, so the work never ends as one large uncommitted diff. Verify each commit in a clean
-  checkout of it. If the work outgrows one review, stop and propose a split.
+  checkout of it. If the work outgrows one review, hand it over as several checkpoints in the form this brief names,
+  such as ordered commits or stacked PRs. Stop and propose a split only when the task outgrows what you can finish
+  and verify.
 
 ## How to report
 

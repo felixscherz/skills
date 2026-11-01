@@ -33,8 +33,8 @@ Size each item:
 
 - **S** - one or a few commits that change no observable behavior, such as a rename, a dead-code removal, or a
   missing test.
-- **M** - one PR that can be reviewed in one sitting.
-- **L** - more than one PR. Not worked directly: split it into several S or M items, or plan it with
+- **M** - work one agent can finish and verify in one session, shipped as one PR or a short stack of PRs.
+- **L** - more than one agent should carry. Not worked directly: split it into several S or M items, or plan it with
   `working-as-an-agent-team`.
 
 ## Find work
