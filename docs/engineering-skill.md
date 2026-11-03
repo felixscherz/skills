@@ -63,13 +63,14 @@ Written:
 - **Implement a spec** (`implement-a-spec.md`). Building from an accepted spec, inside its scope. Ends in Opening a PR.
 - **Opening a PR** (`opening-a-pr.md`). Getting a finished change past the checks and in front of a reviewer. The
   description's shape lives in `references/pull-request-description/`.
+- **Find the cause** (`find-the-cause.md`). The user has information about a bug, production error, or regression and
+  wants it investigated. Reproducing it and explaining what caused it come first; fixing it is not the goal. Ends in a
+  diagnosis.
 
 Planned:
 
 - **Orchestrate.** The agent acts as an orchestrator: it delegates work to subagents within one session and checks
   what they hand back. Work that has to outlive the session moves to the `working-as-an-agent-team` skill.
-- **Find the root cause.** The user has information about a bug or regression and wants it investigated. Reproducing
-  it and explaining what caused it come first; fixing it is not the goal. Ends in a diagnosis.
 - **Code review.** Reviewing a PR or a set of changes, my own or someone else's.
 
 ## Moving workflows out of references
@@ -77,7 +78,8 @@ Planned:
 Workflow references become playbooks, so `references/` holds only principles and document shapes.
 
 - `ship-changes/` became Opening a PR, with the description guidance and template kept as a reference.
-- `find-the-root-cause.md` becomes the Find the root cause playbook. Its principle, fix a defect where the bad state
-  is first created, stays as a short reference.
+- `find-the-root-cause.md` became the Find the cause playbook for investigations. The reference stays for its
+  principles, fix a defect where the bad state is first created and eliminate competing causes one by one, which also
+  apply when debugging inside other work.
 - `code-review.md` becomes the Code review playbook.
 - `plan-from-a-spec.md` and `test-driven-design.md` stay references that Implement a spec pulls in.

@@ -9,6 +9,10 @@ Such patches accumulate while the original defect keeps producing failures.
 - Follow the data and control flow backward. Ask "why did this value or state reach this point?" until you find the
   violated invariant and the operation that first broke it. Read the actual error, logs, and persisted data. When the
   evidence runs out, instrument the flow rather than guessing.
+- When more than one cause could explain the symptom, write each down as a hypothesis with what it predicts. Test them
+  one at a time with a check that only one of them passes, such as a log line, a value in the data, or a change to the
+  reproduction, and record what ruled each one out. Stop when one hypothesis is left and it explains all the evidence,
+  not when the first plausible one appears. When none is left, the list was incomplete: go back to the evidence.
 - Fix the invariant where it is created or owned, then test both that the original symptom disappears and that the
   underlying bad state is no longer produced. Check other consumers and producers for the same pattern, not just the
   reported instance.

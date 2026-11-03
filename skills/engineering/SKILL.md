@@ -1,6 +1,6 @@
 ---
 name: engineering
-description: Use for any non-trivial code change - features, bug fixes, refactors, writing or changing tests, designing types, modules, or APIs, designing a solution with the user before it is built ("let's design", "design this with me"), implementing a spec, shipping the change through a pull request, and reviewing a pull request or code changes ("review this PR", "code review", "review my branch", a PR number or URL). Also when the user asks to follow my engineering principles.
+description: Use for any non-trivial code change - features, bug fixes, refactors, writing or changing tests, designing types, modules, or APIs, designing a solution with the user before it is built ("let's design", "design this with me"), implementing a spec, investigating a bug or production error to find its root cause, shipping the change through a pull request, and reviewing a pull request or code changes ("review this PR", "code review", "review my branch", a PR number or URL). Also when the user asks to follow my engineering principles.
 ---
 
 # Engineering
@@ -60,6 +60,10 @@ choose not to do stays in the list with a one-line reason.
   design, kept as a spec when the user wants.
 - **Implement a spec** (`playbooks/implement-a-spec.md`). The user points to
   a spec or a written design and asks to build it.
+- **Find the cause** (`playbooks/find-the-cause.md`). The user brings
+  information about a bug in production, an error in a system, or a
+  regression, and asks what is wrong or why it happened. Ends in a diagnosis
+  backed by a reproduction, not a fix.
 - **Opening a PR** (`playbooks/opening-a-pr.md`). A change is done and needs
   to be pushed and integrated through a pull request, or a PR description
   needs writing or updating.
@@ -143,7 +147,8 @@ Steps to follow for a recurring kind of task.
 - **Test-driven design** (`references/test-driven-design.md`). Before
   implementing a feature or fixing a bug.
 - **Find the root cause** (`references/find-the-root-cause.md`). When debugging
-  a failure or investigating a bug, before choosing a fix.
+  a failure or investigating a bug, before choosing a fix, and when several
+  causes could explain a failure.
 - **Code review** (`references/code-review.md`). Reviewing a pull request or a
   set of code changes, your own or someone else's.
 
