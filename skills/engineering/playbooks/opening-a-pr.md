@@ -34,4 +34,6 @@ description needs writing or updating. Implement a spec ends here.
 
 ## Done
 
-The PR link and its CI status are in the reply, with CI green or each remaining failure explained.
+The reply holds the PR link and its CI status, with CI green or each remaining failure explained, and names anything
+the reviewer has to decide, such as a breaking change or a draft's missing input. The next playbook, once a reviewer
+responds, is Address feedback (`address-feedback.md`).

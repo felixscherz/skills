@@ -7,51 +7,10 @@ A review has two jobs:
 
 The first job is the one that usually gets skipped. Without a stated intent, a
 reviewer can only check that code looks reasonable, not that it does what it
-was supposed to do. So intent comes first, and the review output restates the
-change in the reviewer's own words so the author can catch a mismatch.
+was supposed to do. So intent comes first, and a review restates the change in
+the reviewer's own words so the author can catch a mismatch.
 
-Writing the PR description is part of shipping, not reviewing. See
-`pull-request-description/pull-request-description.md`.
-
-## Workflow
-
-### 1. Gather the material
-
-Collect the PR description, the full diff, the commit messages, linked issues
-or tickets, and CI status. For GitHub PRs, `gh pr view <n>`, `gh pr diff <n>`,
-`gh pr checks <n>` and `gh pr view <n> --comments` cover most of it. For a
-local branch, diff against the merge base with the target branch.
-
-When the branch name, commits, or notes reference an issue, read the issue and
-its discussion, including maintainer comments. They often settle behavior the
-diff must match.
-
-Read surrounding code, not just the diff. A change is only understandable in
-the context of what it touches.
-
-### 2. Establish the intent
-
-Before judging any code, write down in one or two sentences what the change is
-trying to achieve and why. The PR description should say so (see
-`pull-request-description/pull-request-description.md` for what a good one
-covers), but do not reject a description for following the project's own
-format instead of that template.
-
-If the motivation is missing or too vague to review against, stop and discuss
-it with the user before reviewing. Do not silently guess. The PR may be the
-user's own work or a third party's, so ask which, then agree on how to get the
-intent:
-
-- **User's own PR:** ask them for the motivation and offer to update the
-  description with it.
-- **Someone else's PR:** ask what the user knows about it. Offer to infer the
-  intent from commits, linked issues, branch name, and code, clearly marked as
-  inferred and confirmed by the user before relying on it. Offer to draft
-  questions for the author as a PR comment.
-
-A review against an unconfirmed intent must say so at the top of the output.
-
-### 3. Calibrate scrutiny
+## Calibrate scrutiny
 
 Not every line deserves the same depth. Assess each area of the change along
 two axes and spend attention accordingly:
@@ -70,17 +29,12 @@ spreads into everything built on top and is expensive to undo. An adapter at
 the edge (a database adapter, an HTTP client, a serializer) still has to be
 correct, but a clumsy one is cheap to replace later.
 
-State the calibration in the output, so the author knows which parts got deep
-scrutiny and which got a lighter pass.
-
 Review against the agreed behavior, supported operating conditions, and
 necessary safety constraints. Distinguish a defect in that contract from a
 proposal to strengthen it. Do not turn speculative hardening into an unstated
 acceptance criterion.
 
-### 4. Check the implementation against the intent
-
-With the intent fixed, ask whether the change actually achieves it:
+## Check the implementation against the intent
 
 - Trace the main code paths end to end. Does the behavior match the stated
   goal, including edge cases, error paths, concurrency, and empty or invalid
@@ -94,7 +48,7 @@ With the intent fixed, ask whether the change actually achieves it:
   Ask about them.
 - Is anything the intent implies missing from the diff?
 
-### 5. Naming
+## Naming
 
 Names are how a codebase carries its model. Check every new or changed name
 (types, functions, modules, fields, variables with a wide scope, config keys,
@@ -111,7 +65,7 @@ endpoints):
 An unclear name, a better name that is clearly available, or a name that does
 not align with the model is a **blocker**. Suggest the alternative.
 
-### 6. Changes to existing tests
+## Changes to existing tests
 
 New tests describe new behavior. A changed existing test means the behavior
 it pinned down has changed, or the test was bent to make the build pass.
@@ -133,7 +87,7 @@ snapshots, or golden files changed:
 A test that only moved, was renamed, or was rewritten against a new internal
 API while asserting the same behavior is a refactor. Say so and move on.
 
-### 7. Removed or weakened verification
+## Removed or weakened verification
 
 Treat any removal or weakening of verification as suspicious until justified.
 Enumerate every instance explicitly, for example:
@@ -152,7 +106,7 @@ question is whether the change to verification follows from the intended
 change to behavior, or whether it was made to get a red build green. If no
 justification exists, it is a **blocker**.
 
-### 8. Classify findings
+## Classify findings
 
 - **Blocker** - must be resolved before merging. This includes: the change does
   not achieve its intent, broken invariants, correctness or security bugs,
@@ -162,8 +116,8 @@ justification exists, it is a **blocker**.
 - **Non-blocker** - worth raising, fine to merge without. Suggestions, style,
   small refactors, follow-up ideas, questions that do not affect correctness.
 
-Weigh severity by the calibration from step 3. The same flaw can be a blocker
-in core domain code and a non-blocker in a throwaway script, except for the
+Weigh severity by the calibration above. The same flaw can be a blocker in
+core domain code and a non-blocker in a throwaway script, except for the
 categories named above as blockers.
 
 Every finding needs a location (`path:line`), what is wrong, why it matters,
@@ -174,47 +128,3 @@ reviewed contract or necessary safety constraints. Resolution may be a fix,
 removing unnecessary machinery, or an explicitly agreed narrower design. A
 finding does not authorize expanding scope or silently changing the contract.
 Disclosing a genuine invariant violation does not resolve it.
-
-## Output
-
-Present the review to the user in this shape:
-
-```markdown
-## Summary of changes
-
-<The intent and the change, in your own words, not copied from the PR
-description. What problem this solves, what the change does to solve it, and
-how the pieces fit. Written so the author can read it and say "yes, that is
-what I meant" or spot where the reviewer got it wrong. Mark it if the intent
-was inferred rather than stated.>
-
-## Review focus
-
-<Which areas got deep scrutiny and which got a lighter pass, and why, based
-on blast radius and longevity.>
-
-## Behavior changes
-
-<Each existing test whose expectations changed: the old behavior, the new
-behavior, and whether the intent covers it.>
-
-## Blockers
-
-1. **<short title>** - `path:line`
-   <What is wrong, why it matters, suggested fix.>
-
-## Non-blockers
-
-1. **<short title>** - `path:line`
-   <What and why, suggested change.>
-
-## Open questions
-
-<Questions for the author where the answer could change the verdict.>
-```
-
-Omit a section only if it is empty, and say "None" for Blockers rather than
-dropping it. Apply the `unslop` skill to the prose.
-
-Do not post the review or any comment to GitHub (or elsewhere) without the
-user's go-ahead. Offer to post it once the user has read it.

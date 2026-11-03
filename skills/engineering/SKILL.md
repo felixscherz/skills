@@ -1,6 +1,6 @@
 ---
 name: engineering
-description: Use for any non-trivial code change - features, bug fixes, refactors, writing or changing tests, designing types, modules, or APIs, designing a solution with the user before it is built ("let's design", "design this with me"), implementing a spec, investigating a bug or production error to find its root cause, shipping the change through a pull request, and reviewing a pull request or code changes ("review this PR", "code review", "review my branch", a PR number or URL). Also when the user asks to follow my engineering principles.
+description: Use for any non-trivial code change - features, bug fixes, refactors, writing or changing tests, designing types, modules, or APIs, designing a solution with the user before it is built ("let's design", "design this with me"), implementing a spec, investigating a bug or production error to find its root cause, shipping the change through a pull request, reviewing a pull request or code changes ("review this PR", "code review", "review my branch", a PR number or URL), and addressing review feedback on a change (PR comments, bot findings, a reviewer agent's output). Also when the user asks to follow my engineering principles.
 ---
 
 # Engineering
@@ -32,6 +32,11 @@ in terms of the model first, then the code. Starting deep in the code risks
 missing a wrong model, or chasing a local optimization when a global one is
 available.
 
+- In your first message on a task, restate the user's goal and the problem
+  behind it in your own words, and, when the task changes code, the smallest
+  change you expect to meet it. Go on without waiting for confirmation unless
+  the playbook says otherwise. When what you find rules out the change the
+  user asked for, show the evidence and stop.
 - Before changing code, understand the problem, the domain, and how the parts
   you are about to touch work together.
 - While reading code, check whether it still supports the model or has drifted
@@ -53,6 +58,10 @@ to a playbook below before anything else, and read it in full. Copy its steps
 word for word into your todo list before any task-specific items. A step you
 choose not to do stays in the list with a one-line reason.
 
+- **Make a change** (`playbooks/make-a-change.md`). The user asks for new or
+  changed behavior, such as a feature, an endpoint, a field, or a ticket with
+  clear scope, and there is no spec. The design is agreed in the conversation
+  and built in the same session.
 - **Design with me** (`playbooks/design-with-me.md`). The user wants to work
   out how to build something before it is built: a feature, a change that
   does not fit the current model, where functionality lives, how components
@@ -64,9 +73,38 @@ choose not to do stays in the list with a one-line reason.
   information about a bug in production, an error in a system, or a
   regression, and asks what is wrong or why it happened. Ends in a diagnosis
   backed by a reproduction, not a fix.
+- **Fix a bug** (`playbooks/fix-a-bug.md`). The cause of a bug is known, from
+  a diagnosis or because the user says what is wrong, and it needs fixing.
+  Strictly a fix: no new behavior, no cleanup on the side.
+- **Refactor** (`playbooks/refactor.md`). The user asks to restructure code
+  without changing what it does: rename, move, split, or merge modules,
+  change an internal API, or reshape code toward a better model.
 - **Opening a PR** (`playbooks/opening-a-pr.md`). A change is done and needs
   to be pushed and integrated through a pull request, or a PR description
   needs writing or updating.
+- **Review code** (`playbooks/review-code.md`). The user asks to review a
+  pull request, a branch, or a set of code changes, their own or someone
+  else's.
+- **Address feedback** (`playbooks/address-feedback.md`). A change has
+  received feedback, such as PR comments, bot findings, or a reviewer agent's
+  output, and the user asks to address it.
+
+Playbooks hand over to each other:
+
+- Make a change goes to Design with me when the design outgrows the
+  conversation.
+- Design with me is followed by Implement a spec, or by Make a change when
+  the design was not kept as a spec.
+- Find the cause is followed by Fix a bug.
+- Make a change, Implement a spec, Fix a bug, and Refactor end in Opening a
+  PR.
+- Opening a PR and Review code are followed by Address feedback.
+
+When more than one seems to fit, pick by what the user wants at the end.
+A bug report whose cause is unknown starts at Find the cause, even when the
+user asks for a fix; Fix a bug follows once the user accepts the diagnosis. A refactor that would change behavior is Make a change
+or Fix a bug, not Refactor. A request that names a spec is Implement a spec,
+even when the change is small.
 
 When no playbook fits, use the references below directly.
 
@@ -99,6 +137,8 @@ The shape of documents that hand work from one person or agent to the next.
 - **Pull request description**
   (`references/pull-request-description/pull-request-description.md`).
   Writing or updating a PR description.
+- **Review output** (`references/review-output.md`). Writing a code review,
+  or reading one to act on it.
 
 ### Principles
 
@@ -129,18 +169,6 @@ Rules that shape design and engineering decisions in any language.
   tasks, consumers, readiness probes, or dependencies that can go away.
 - **Test behavior** (`references/test-behavior.md`). Writing, changing, naming,
   or keeping a test, or about to reach for a mock or patch.
-- **Never make the same mistake twice** (`references/never-make-the-same-mistake-twice.md`).
-  After finding a bug, misusing a third-party API, or discovering a wrong
-  assumption about an external service or constraint.
-- **Don't break production** (`references/dont-break-production.md`). A
-  change alters behavior that callers, users, or other systems can observe,
-  including invisible semantics like durability, retries, ordering, or
-  error handling where the interface stays the same.
-
-### Workflows
-
-Steps to follow for a recurring kind of task.
-
 - **Plan from a spec** (`references/plan-from-a-spec.md`). Turning a spec,
   requirements, or a ticket into an implementation plan, or planning work
   that spans several steps or agents.
@@ -149,8 +177,16 @@ Steps to follow for a recurring kind of task.
 - **Find the root cause** (`references/find-the-root-cause.md`). When debugging
   a failure or investigating a bug, before choosing a fix, and when several
   causes could explain a failure.
-- **Code review** (`references/code-review.md`). Reviewing a pull request or a
-  set of code changes, your own or someone else's.
+- **Code review** (`references/code-review.md`). Judging a code change, your
+  own or someone else's: how closely to look, what makes a blocker, and
+  changes to names, tests, and verification.
+- **Never make the same mistake twice** (`references/never-make-the-same-mistake-twice.md`).
+  After finding a bug, misusing a third-party API, or discovering a wrong
+  assumption about an external service or constraint.
+- **Don't break production** (`references/dont-break-production.md`). A
+  change alters behavior that callers, users, or other systems can observe,
+  including invisible semantics like durability, retries, ordering, or
+  error handling where the interface stays the same.
 
 ### Language-specific
 

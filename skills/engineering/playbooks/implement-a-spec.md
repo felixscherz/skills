@@ -20,8 +20,7 @@ written design, the work is either small enough to need no playbook or belongs i
 
 ## Steps
 
-1. Read the spec in full. If its status is not `Accepted`, ask the user before building from it. Restate its goal in
-   your own words.
+1. Read the spec in full. If its status is not `Accepted`, ask the user before building from it.
 2. Read the nearest `CONTEXT.md` and the code the spec touches.
 3. List the normative requirements, and every ambiguity, gap, or contradiction between the spec and the code. Bring
    the list to the user and settle it before planning the parts that depend on it.

@@ -21,7 +21,7 @@ services (interactions, contracts, infrastructure).
 
 ## Steps
 
-1. Restate the user's goal and the problem behind it in your own words, and let them correct it before going on.
+1. Let the user correct your restatement of their goal and the problem behind it before going on.
 2. Read the nearest `CONTEXT.md` and the code it points to for this area. Describe the current model in the domain's
    words, and name any drift between model and code (`../references/domain-driven-design.md`).
 3. Separate requirements from suggestions and constraints, and write down what is unclear. Decide with the user how
@@ -44,5 +44,6 @@ services (interactions, contracts, infrastructure).
 
 ## Done
 
-The user confirmed the design. When they chose to keep it, an accepted spec exists and its path is in the reply. The
-next playbook is usually Implement a spec, in this session or another.
+The user confirmed the design. The reply summarizes it in a few lines with each decision and its reason, and lists
+what became a follow-up. When the user chose to keep it, an accepted spec exists and its path is in the reply. The next
+playbook is usually Implement a spec, in this session or another.
