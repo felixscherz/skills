@@ -92,6 +92,12 @@ propose changes and ask before editing.
   its index entry, since references are only reached through an index.
 - A rule with supporting files, such as a script, gets its own folder named
   after the rule, holding `<rule>.md` and those files.
+- One workflow per file in `playbooks/`: an H1 title, a short framing
+  paragraph, then `## Applies when`, `## Who decides`, `## Steps`, and
+  `## Done`. Each step names the references it needs at the point it needs
+  them. A playbook holds steps, not principles: a rule that applies beyond one
+  playbook belongs in `references/`. The reasoning behind this split is in
+  `docs/engineering-skill.md` at the root of the skills repo.
 - Language- or framework-specific rules go in `references/<language>/`. They
   may be longer and include examples, but must not restate the general rules
   they build on. Keep their examples consistent with the general rules, since
@@ -105,4 +111,4 @@ propose changes and ask before editing.
   This keeps the top-level index short and language-neutral.
 - Keep the indexes in sync when adding, renaming, or removing a file: the
   folder's `INDEX.md` for language references, `../engineering/SKILL.md` for
-  everything else.
+  everything else, and every playbook that links to the file.

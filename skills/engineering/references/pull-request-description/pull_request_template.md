@@ -17,7 +17,7 @@ Get the reviewer up to speed quickly and point them where to look.
 Start with the shape of the change as the smallest visual that makes it clear:
 pseudocode, a call tree, a file tree, or a Mermaid diagram, written as a `diff`
 when the surrounding shape already exists (see "Review guidance" in
-ship-changes.md). Keep only the steps, files, and boundaries that matter.
+pull-request-description.md). Keep only the steps, files, and boundaries that matter.
 
 Then list where the reviewer's judgement is needed, most important first, each
 with what to check there. Name tests whose expected behavior changed and any

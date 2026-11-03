@@ -8,6 +8,14 @@ hard once it has piled up, so checkpoint it for review as you go.
 - Start on a feature branch, or in a separate worktree, before the first
   change, never on the default branch. Creating the branch only when it is
   time to commit means the work so far happened where it did not belong.
+  Follow the repository's branch naming and commit message conventions
+  (check `AGENTS.md`, `CONTRIBUTING.md`, commit history, commitizen or
+  commitlint config).
+- When the work needs a separate checkout, and the repository has no
+  convention of its own, add a worktree at `.worktrees/<branch>` in the
+  primary checkout, with `/` in the branch name replaced by `-`. `.worktrees/`
+  is globally git-ignored. Leave worktrees in place until the user asks to
+  remove them.
 - Make each commit one reviewable unit: one purpose, a message that says why,
   and a state that builds and passes the tests. A reviewer should be able to
   read the commits in order and understand each one without the later ones.

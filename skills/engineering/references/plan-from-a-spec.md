@@ -7,6 +7,7 @@ them as large as one agent can carry.
 
 - Before planning, separate the spec's requirements from its suggestions. Requirements are observable behavior and
   hard constraints. Suggested designs, data shapes, and task lists are input to weigh, not decisions already made.
+  In a spec that marks parts `NORMATIVE` (see `spec.md`), those parts are requirements and the rest is suggestion.
 - Write down every ambiguity, gap, and contradiction you find, and settle them with the user before you plan the
   steps that depend on them. Record assumptions you make as assumptions, never as requirements. When the requirements
   only exist in conversation, write them down as the plan's first section and confirm them.

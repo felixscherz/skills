@@ -11,7 +11,7 @@ was supposed to do. So intent comes first, and the review output restates the
 change in the reviewer's own words so the author can catch a mismatch.
 
 Writing the PR description is part of shipping, not reviewing. See
-`ship-changes/ship-changes.md`.
+`pull-request-description/pull-request-description.md`.
 
 ## Workflow
 
@@ -33,8 +33,9 @@ the context of what it touches.
 
 Before judging any code, write down in one or two sentences what the change is
 trying to achieve and why. The PR description should say so (see
-`ship-changes/ship-changes.md` for what a good one covers), but do not reject a
-description for following the project's own format instead of that template.
+`pull-request-description/pull-request-description.md` for what a good one
+covers), but do not reject a description for following the project's own
+format instead of that template.
 
 If the motivation is missing or too vague to review against, stop and discuss
 it with the user before reviewing. Do not silently guess. The PR may be the

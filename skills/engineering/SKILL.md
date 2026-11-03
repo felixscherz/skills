@@ -1,6 +1,6 @@
 ---
 name: engineering
-description: Use for any non-trivial code change - features, bug fixes, refactors, writing or changing tests, designing types, modules, or APIs, shipping the change through a pull request, and reviewing a pull request or code changes ("review this PR", "code review", "review my branch", a PR number or URL). Also when the user asks to follow my engineering principles.
+description: Use for any non-trivial code change - features, bug fixes, refactors, writing or changing tests, designing types, modules, or APIs, designing a solution with the user before it is built ("let's design", "design this with me"), implementing a spec, shipping the change through a pull request, and reviewing a pull request or code changes ("review this PR", "code review", "review my branch", a PR number or URL). Also when the user asks to follow my engineering principles.
 ---
 
 # Engineering
@@ -41,15 +41,40 @@ available.
   links it gives for the task. When there is none, explore the code as usual
   and do not mention it.
 - Keep plans, investigation notes, and other files that are not product code
-  out of the repository. Use the task folder you were given, if any.
+  out of the repository. Use the task folder you were given, if any. A spec
+  is the exception: it is committed with the project (see
+  `references/spec.md`).
+
+## Playbooks
+
+A playbook is the workflow for one kind of task. It says who decides what,
+the steps to take, and which references to read at each step. Match the task
+to a playbook below before anything else, and read it in full. Copy its steps
+word for word into your todo list before any task-specific items. A step you
+choose not to do stays in the list with a one-line reason.
+
+- **Design with me** (`playbooks/design-with-me.md`). The user wants to work
+  out how to build something before it is built: a feature, a change that
+  does not fit the current model, where functionality lives, how components
+  or services interact, or how something can be tested. Ends in an agreed
+  design, kept as a spec when the user wants.
+- **Implement a spec** (`playbooks/implement-a-spec.md`). The user points to
+  a spec or a written design and asks to build it.
+- **Opening a PR** (`playbooks/opening-a-pr.md`). A change is done and needs
+  to be pushed and integrated through a pull request, or a PR description
+  needs writing or updating.
+
+When no playbook fits, use the references below directly.
 
 ## References
 
 The references hold the details. Each covers one topic, and the index says
-when it applies. Read a reference when its trigger fires, not before: do not
-read ahead for phases you have not reached, and do not batch-read references
-up front. Read a reference in full before applying it. Do not list the
-references you applied in your reply unless the user asks.
+when it applies. A playbook names the references for each of its steps; the
+index is for work no playbook covers. Read a reference when its trigger
+fires, not before: do not read ahead for phases you have not reached, and do
+not batch-read references up front. Read a reference in full before applying
+it. Do not list the references you applied in your reply unless the user
+asks.
 
 ### Context
 
@@ -60,6 +85,16 @@ searching.
   `CONTEXT.md` or its docs, one points to the wrong place, or a task adds,
   moves, renames, or removes a feature, a domain term, or a linked document in
   a repository that has one.
+
+### Documents
+
+The shape of documents that hand work from one person or agent to the next.
+
+- **Spec** (`references/spec.md`). Writing, reading, or changing a spec that
+  records an agreed design.
+- **Pull request description**
+  (`references/pull-request-description/pull-request-description.md`).
+  Writing or updating a PR description.
 
 ### Principles
 
@@ -109,9 +144,6 @@ Steps to follow for a recurring kind of task.
   implementing a feature or fixing a bug.
 - **Find the root cause** (`references/find-the-root-cause.md`). When debugging
   a failure or investigating a bug, before choosing a fix.
-- **Ship changes** (`references/ship-changes/ship-changes.md`). A change is
-  done and needs to be committed, pushed, and integrated through a pull
-  request, or a PR description needs writing or updating.
 - **Code review** (`references/code-review.md`). Reviewing a pull request or a
   set of code changes, your own or someone else's.
 
