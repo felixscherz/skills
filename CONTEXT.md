@@ -21,6 +21,10 @@ installed copies are overwritten on every update.
   `skills/reflect-on-engineering/`
 - **groove** - a convention for Python codebases built for agentic coding. `skills/groove/`
 - **pair-program** - a session with the user as navigator. `skills/pair-program/`
+- **create-verification-skill** and **maintain-verification-skill** - generate and maintain a project-local
+  `verify-<app>` skill that drives the real app like a user and captures proof, built on the repository's
+  `CONTEXT.md`. Based on Lauren Tan's pstack; credit in each skill's `README.md`. `skills/create-verification-skill/`,
+  `skills/maintain-verification-skill/`
 
 ### Working with agents
 
