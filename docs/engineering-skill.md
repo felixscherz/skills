@@ -89,10 +89,10 @@ Written:
 - **Address feedback** (`address-feedback.md`). Working through review feedback, from PR comments, bots, or a reviewer
   agent. Each item is a claim checked against the code before anything changes.
 
-Planned:
-
-- **Orchestrate.** The agent acts as an orchestrator: it delegates work to subagents within one session and checks
-  what they hand back. Work that has to outlive the session moves to the `working-as-an-agent-team` skill.
+- **Orchestrate** (`orchestrate.md`). The agent acts as an orchestrator: it wraps the playbook that fits the task,
+  runs its phases through subagents in a worktree, and checks what they hand back against the scope the user agreed.
+  It replaces the `agent-software-factory` and `working-as-an-agent-team` skills, which delegated through brief and
+  result files and let the scope drift.
 
 ## Moving workflows out of references
 

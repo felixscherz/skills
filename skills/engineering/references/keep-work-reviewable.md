@@ -11,11 +11,8 @@ hard once it has piled up, so checkpoint it for review as you go.
   Follow the repository's branch naming and commit message conventions
   (check `AGENTS.md`, `CONTRIBUTING.md`, commit history, commitizen or
   commitlint config).
-- When the work needs a separate checkout, and the repository has no
-  convention of its own, add a worktree at `.worktrees/<branch>` in the
-  primary checkout, with `/` in the branch name replaced by `-`. `.worktrees/`
-  is globally git-ignored. Leave worktrees in place until the user asks to
-  remove them.
+- When the work needs a separate checkout, use a worktree
+  (`worktrees.md`).
 - Make each commit one reviewable unit: one purpose, a message that says why,
   and a state that builds and passes the tests. A reviewer should be able to
   read the commits in order and understand each one without the later ones.

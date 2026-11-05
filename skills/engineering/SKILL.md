@@ -92,6 +92,10 @@ choose not to do stays in the list with a one-line reason.
 - **Address feedback** (`playbooks/address-feedback.md`). A change has
   received feedback, such as PR comments, bot findings, or a reviewer agent's
   output, and the user asks to address it.
+- **Orchestrate** (`playbooks/orchestrate.md`). The user asks to orchestrate
+  a task, delegate it to subagents, or work on it as an orchestrator. Wraps
+  the playbook the task matches and runs its steps through subagents in a
+  worktree.
 
 Playbooks hand over to each other:
 
@@ -103,6 +107,8 @@ Playbooks hand over to each other:
 - Make a change, Implement a spec, Fix a bug, Refactor, and Refactor a
   module end in Opening a PR.
 - Opening a PR and Review code are followed by Address feedback.
+- Orchestrate runs any of the others through subagents, in the same order
+  they would run without it.
 
 When more than one seems to fit, pick by what the user wants at the end.
 A bug report whose cause is unknown starts at Find the cause, even when the
@@ -163,6 +169,9 @@ Rules that shape design and engineering decisions in any language.
   first change of any task that ends in a commit or a review, at every
   commit, when uncommitted work grows beyond one purpose, or when splitting a
   diff or handing work over for review.
+- **Worktrees** (`references/worktrees.md`). Creating, using, or removing a
+  git worktree, or working in a repository other agents may be working in
+  at the same time.
 - **Program design** (`references/program-design.md`). Designing a new module,
   API, or model, deciding where code lives, or code that is hard to test.
 - **Deep modules** (`references/deep-modules.md`). Designing or changing a
