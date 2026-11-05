@@ -28,10 +28,6 @@ installed copies are overwritten on every update.
 
 ### Working with agents
 
-- **agent-software-factory** - a directory of member repositories with a backlog and memory, where agents find and
-  do work. `skills/agent-software-factory/`
-- **working-as-an-agent-team** - the factory agent as a lead that plans and delegates to workers.
-  `skills/working-as-an-agent-team/`
 - **benchmarking-the-harness** and **create-benchmark** - blinded experiments on how a skill or instruction change
   affects agent behavior. `skills/benchmarking-the-harness/`, `skills/create-benchmark/`
 - **author-skill** - how to write a skill that works across harnesses. `skills/author-skill/`
