@@ -12,13 +12,9 @@ the first user of an API, and code that is awkward to test is awkward to use.
   generation, environment variables, and network calls. Read configuration in
   one place at startup and pass the values in. Add a seam where a second
   implementation exists or a test needs one, not speculatively.
-- Make modules deep. A module earns its place when its interface is much
-  simpler than what it hides. A shallow module, whose interface is nearly as
-  complex as its implementation, such as a pass-through wrapper or a function
-  extracted only so it can be tested, adds a concept without removing one.
-  Before adding or keeping a module, ask whether deleting it would gather its
-  complexity in one place or just move it to the callers. Tests target the
-  interface, so everything behind it can change freely.
+- Make modules deep: an interface much simpler than what it hides (see
+  `deep-modules.md`). Tests target the interface, so everything behind it can
+  change freely.
 - When designing an API or model, write the calling code, a test or an
   example, before the implementation.
 - Let the layout say where code belongs. Every responsibility should have
@@ -32,6 +28,10 @@ the first user of an API, and code that is awkward to test is awkward to use.
   modules that must not depend on each other, check it with an
   import-contract tool (e.g. import-linter for Python, dependency-cruiser for
   TypeScript, ArchUnit for Java) rather than describing it in prose only.
+- Let the composition root, the place that assembles the application, import
+  concrete implementations to wire them together. It does no business work,
+  and its imports do not make those implementations part of a module's public
+  interface. Boundary checks name it as an explicit exception.
 - Names matter. A good name carries enough meaning for a reader to not have to
   dive into the implementation in order to understand the code. This holds
   for modules too: name a module after what it does (`slugs`, `retry`), never

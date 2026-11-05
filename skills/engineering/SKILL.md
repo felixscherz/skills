@@ -78,7 +78,11 @@ choose not to do stays in the list with a one-line reason.
   Strictly a fix: no new behavior, no cleanup on the side.
 - **Refactor** (`playbooks/refactor.md`). The user asks to restructure code
   without changing what it does: rename, move, split, or merge modules,
-  change an internal API, or reshape code toward a better model.
+  change an internal API, or reshape code toward a better model. For module
+  interface work, use Refactor a module.
+- **Refactor a module** (`playbooks/refactor-module.md`). The user asks to
+  improve a module's interface, hide its implementation, make it deeper, or
+  make it easier to use, without changing its behavior.
 - **Opening a PR** (`playbooks/opening-a-pr.md`). A change is done and needs
   to be pushed and integrated through a pull request, or a PR description
   needs writing or updating.
@@ -96,8 +100,8 @@ Playbooks hand over to each other:
 - Design with me is followed by Implement a spec, or by Make a change when
   the design was not kept as a spec.
 - Find the cause is followed by Fix a bug.
-- Make a change, Implement a spec, Fix a bug, and Refactor end in Opening a
-  PR.
+- Make a change, Implement a spec, Fix a bug, Refactor, and Refactor a
+  module end in Opening a PR.
 - Opening a PR and Review code are followed by Address feedback.
 
 When more than one seems to fit, pick by what the user wants at the end.
@@ -161,6 +165,9 @@ Rules that shape design and engineering decisions in any language.
   diff or handing work over for review.
 - **Program design** (`references/program-design.md`). Designing a new module,
   API, or model, deciding where code lives, or code that is hard to test.
+- **Deep modules** (`references/deep-modules.md`). Designing or changing a
+  module's interface, deciding what a module hides, or callers that repeat
+  work, decisions, or knowledge the module could own.
 - **Type system** (`references/type-system.md`). Designing types, signatures, or
   data shapes, or reaching for a plain string, dict, or bool that carries
   meaning.

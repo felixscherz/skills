@@ -79,6 +79,8 @@ Written:
   the fix does not need, such as new behavior, cleanup, or adjacent bugs, becomes a follow-up.
 - **Refactor** (`refactor.md`). The structure changes and the behavior does not. Starts by agreeing with the user
   which behavior is preserved and pinning it with tests; bugs and missing features found on the way become follow-ups.
+- **Refactor a module** (`refactor-module.md`). Makes a module deeper: compares interface alternatives as caller code,
+  agrees the target and the consumers it must protect with the user, then pins behavior and migrates callers.
 - **Opening a PR** (`opening-a-pr.md`). Getting a finished change past the checks and in front of a reviewer. The
   description's shape lives in `references/pull-request-description/`.
 - **Review code** (`review-code.md`). Reviewing a PR or a set of changes, my own or someone else's. The principles

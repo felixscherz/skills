@@ -24,6 +24,13 @@ accident and never lightly.
     something downstream consumes
 - Judge by actual use, not documented intent. If a caller depends on a
   behavior, it is part of the contract, whether or not it was meant to be.
+- Know which consumers you can see. In an application whose callers all live
+  in the repository, a code interface can change together with its callers.
+  A package or library has callers you cannot see, so its public API is a
+  contract. Wire formats are contracts in both: a database schema, an HTTP
+  request or response, a message or event payload, a file format, or CLI
+  output can be read by other services, by older versions still deployed, by
+  stored data, or by tools outside the repository, even in an application.
 - Find the consumers: search the workspace for callers, check the workspace
   map, dashboards, and access logs. When you cannot tell who depends on the
   behavior, assume someone does.

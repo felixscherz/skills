@@ -12,6 +12,11 @@ seams (see `program-design.md`).
   the entry point that currently invokes it. A direct test of the replacement
   component does not prove the application uses it. Start from fresh state
   where existing resources could otherwise hide missing initialization.
+- When a public interface gains tests, judge each existing test of internals
+  on its own rather than deleting them all because the interface is covered.
+  Keep one that checks behavior the interface tests do not reach or that
+  pinpoints failures in hard logic; delete one that only fixes how the code
+  is arranged.
 - Avoid mocks and patches. At a real external boundary (a third-party API, the
   clock), pass in a fake through a seam instead of patching. When no seam
   exists, push back and revisit the design instead of patching around it.
