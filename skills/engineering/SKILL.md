@@ -1,6 +1,6 @@
 ---
 name: engineering
-description: Use for software engineering work in a codebase - building features, fixing and debugging bugs, refactoring, writing tests, designing modules or APIs, prototyping, explaining how a system works, and opening, reviewing, or addressing feedback on pull requests. Also when the user asks to follow my engineering principles.
+description: Use for software engineering work in a codebase - building features, fixing and debugging bugs, refactoring, writing tests, designing modules or APIs, prototyping, explaining how a system works, opening, reviewing, or addressing feedback on pull requests, and cleaning up stale branches and worktrees. Also when the user asks to follow my engineering principles.
 ---
 
 # Engineering
@@ -135,6 +135,9 @@ which and why in your reply.
 - **Address feedback** (`playbooks/address-feedback.md`). A change has
   received feedback, such as PR comments, bot findings, or a reviewer agent's
   output, and the user asks to address it.
+- **Repository cleanup** (`playbooks/repository-cleanup.md`). The user asks
+  to clean up, prune, or find stale worktrees or branches, such as the ones
+  past tasks left behind. Removes only what the user approves.
 - **Orchestrate** (`playbooks/orchestrate.md`). The user asks to orchestrate
   a task, delegate it to subagents, or work on it as an orchestrator. Wraps
   the playbook the task matches and runs its steps through subagents in a

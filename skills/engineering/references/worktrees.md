@@ -30,6 +30,7 @@ agent stays in its own worktree and leaves the shared checkout alone.
 - Use plain `git worktree` commands rather than a harness's own worktree feature, so the layout is the same in every
   harness and visible to every agent.
 - Leave a task's worktree in place until the user asks to remove it. Then run `git worktree remove <path>`. It refuses
-  when the worktree has uncommitted changes; report them instead of forcing. Delete the branch only when it is merged.
+  when the worktree has uncommitted changes; report them instead of forcing. Delete the branch only when it is merged. To
+  clean up the worktrees and branches that past tasks left behind, follow `../playbooks/repository-cleanup.md`.
 - A temporary worktree you create for one check, such as verifying a commit (`git worktree add --detach
   .worktrees/verify-<sha> <sha>`), is yours to remove as soon as the check is done.
