@@ -31,6 +31,8 @@ installed copies are overwritten on every update.
 - **benchmarking-the-harness** and **create-benchmark** - blinded experiments on how a skill or instruction change
   affects agent behavior. `skills/benchmarking-the-harness/`, `skills/create-benchmark/`
 - **author-skill** - how to write a skill that works across harnesses. `skills/author-skill/`
+- **strand** - a short-lived folder for work across several repositories: worktrees under `repos/`, plus `STATUS.md`,
+  a journal, and an `AGENTS.md` that explains the strand to any agent started there. `skills/strand/`
 
 ### Communication
 
