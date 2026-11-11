@@ -1,6 +1,6 @@
 ---
 name: engineering
-description: Use for any non-trivial code change - features, bug fixes, refactors, writing or changing tests, designing types, modules, or APIs, designing a solution with the user before it is built ("let's design", "design this with me"), implementing a spec, answering a question about a system without changing it ("how does this work", "is this feasible", "analyze", a feasibility check), building a prototype or proof of concept ("prototype", "POC", "spike", "just try it"), investigating a bug or production error to find its root cause, shipping the change through a pull request, reviewing a pull request or code changes ("review this PR", "code review", "review my branch", a PR number or URL), and addressing review feedback on a change (PR comments, bot findings, a reviewer agent's output). Also when the user asks to follow my engineering principles.
+description: Use for software engineering work in a codebase - building features, fixing and debugging bugs, refactoring, writing tests, designing modules or APIs, prototyping, explaining how a system works, and opening, reviewing, or addressing feedback on pull requests. Also when the user asks to follow my engineering principles.
 ---
 
 # Engineering
