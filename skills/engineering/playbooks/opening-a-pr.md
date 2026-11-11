@@ -7,7 +7,7 @@ a reviewer with enough context to judge it quickly. The reviewer is usually the 
 ## Applies when
 
 A change is done and needs to be pushed and integrated through a pull request or merge request, or an open PR's
-description needs writing or updating. Implement a spec ends here.
+description needs writing or updating. Build a feature ends here.
 
 ## Who decides
 

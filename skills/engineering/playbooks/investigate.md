@@ -44,4 +44,4 @@ belongs in Design with me (`design-with-me.md`).
 The reply opens with the answer in a sentence or two. Then it explains how the thing works or why the verdict holds,
 with the evidence for each claim, and names what was not checked and what is still uncertain. A feasibility answer
 adds what it would take, the main risk, and a recommendation. When the user goes ahead, the next playbook is usually
-Design with me, or Make a change for something small. When the answer is no, nothing follows.
+Design with me, or Build a feature for something small. When the answer is no, nothing follows.

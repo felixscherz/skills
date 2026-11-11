@@ -9,7 +9,7 @@ commits. The other rules of this skill apply only where they make the next cycle
 
 The user asks for a prototype, a proof of concept, or a spike, says to just try something or just build it, or works
 on a throwaway or hobby project where nothing depends on the code. When the result ships to users or other code will
-be built on it, use Make a change (`make-a-change.md`).
+be built on it, use Build a feature (`feature.md`).
 
 ## Who decides
 
@@ -37,5 +37,5 @@ be built on it, use Make a change (`make-a-change.md`).
 
 After each cycle, the reply says what works now, how to run or see it, and what the agent chose where the request left
 it open. It says plainly that the code is a prototype. When the user wants to make it real, the reply gives the list of
-shortcuts, and the next playbook is Design with me or Make a change, where the user decides whether to harden the
+shortcuts, and the next playbook is Design with me or Build a feature, where the user decides whether to harden the
 prototype or rebuild it.

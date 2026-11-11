@@ -97,10 +97,11 @@ named in a step is part of that step: open it and read it in full when you
 reach the step, before doing what the step says. When you skip a step, say
 which and why in your reply.
 
-- **Make a change** (`playbooks/make-a-change.md`). The user asks for new or
+- **Build a feature** (`playbooks/feature.md`). The user asks for new or
   changed behavior, such as a feature, an endpoint, a field, or a ticket with
-  clear scope, and there is no spec. The design is agreed in the conversation
-  and built in the same session.
+  clear scope, or points to a spec or written design and asks to build it.
+  The design comes from the spec, or is agreed in the conversation and built
+  in the same session.
 - **Design with me** (`playbooks/design-with-me.md`). The user wants to work
   out how to build something before it is built: a feature, a change that
   does not fit the current model, where functionality lives, how components
@@ -114,8 +115,6 @@ which and why in your reply.
 - **Prototype** (`playbooks/prototype.md`). The user wants a proof of
   concept, a spike, or a throwaway project built fast to learn something.
   Production concerns are out and the agent decides how to build it.
-- **Implement a spec** (`playbooks/implement-a-spec.md`). The user points to
-  a spec or a written design and asks to build it.
 - **Find the cause** (`playbooks/find-the-cause.md`). The user brings
   information about a bug in production, an error in a system, or a
   regression, and asks what is wrong or why it happened. Ends in a diagnosis
@@ -146,8 +145,8 @@ A bug report whose cause is unknown starts at Find the cause, even when the
 user asks for a fix; Fix a bug follows once the user accepts the diagnosis.
 A question about something that works is Investigate; a question about
 something that failed is Find the cause. A refactor that would change
-behavior is Make a change or Fix a bug, not Refactor. A request that names a
-spec is Implement a spec, even when the change is small. A request to try
+behavior is Build a feature or Fix a bug, not Refactor. A request that names
+a spec is Build a feature, even when the change is small. A request to try
 something out quickly is Prototype, even when it looks like a feature.
 
 When no playbook fits, use the references below directly.

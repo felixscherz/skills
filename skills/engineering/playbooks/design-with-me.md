@@ -56,4 +56,4 @@ services (interactions, contracts, infrastructure).
 
 The user confirmed the design. The reply summarizes it in a few lines with each decision and its reason, and lists
 what became a follow-up. When the user chose to keep it, an accepted spec exists and its path is in the reply. The next
-playbook is usually Implement a spec, in this session or another.
+playbook is usually Build a feature, in this session or another.

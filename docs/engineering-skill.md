@@ -61,9 +61,9 @@ load with the skill and carry the principles into every session; the references 
 I stay in the loop for design. An agent does not come up with a design and implement it without my agreement. There
 are two ways the design reaches me:
 
-- **In the conversation.** For a change whose design fits in a few lines, Make a change proposes it, waits for my
+- **In the conversation.** For a change whose design fits in a few lines, Build a feature proposes it, waits for my
   choice on each open decision, and builds it in the same session. No spec, no written plan.
-- **As a spec.** For a larger design, Design with me ends, optionally, in a spec that records it; Implement a spec
+- **As a spec.** For a larger design, Design with me ends, optionally, in a spec that records it; Build a feature
   starts from such a spec. The spec is the hand-off, and it is where I review.
 
 A spec holds the background, the reasoning, the alternatives considered, and the design. Parts marked `NORMATIVE` must
