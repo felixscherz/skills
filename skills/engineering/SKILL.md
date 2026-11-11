@@ -104,7 +104,8 @@ which and why in your reply.
 - **Design with me** (`playbooks/design-with-me.md`). The user wants to work
   out how to build something before it is built: a feature, a change that
   does not fit the current model, where functionality lives, how components
-  or services interact, or how something can be tested. Ends in an agreed
+  or services interact, or how something can be tested. The agent clears up
+  unclear requirements first, then designs on its own. Ends in an agreed
   design, kept as a spec when the user wants.
 - **Investigate** (`playbooks/investigate.md`). The user asks how a service,
   codebase, or library works, whether something is feasible or worth doing,
