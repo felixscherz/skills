@@ -36,7 +36,8 @@ one branch or one PR. When it would take several PRs, propose the split and orch
    the file. Keep it to the current state; it is not a log.
 4. Split the playbook into phases. A phase ends where the playbook waits for the user or where a reviewable checkpoint
    exists, such as commits. Usually:
-   - Build a feature: design and plan (its steps 1 to 4), build (5 to 8), review.
+   - Build a feature: settle the design (its steps 1 to 3), build (4 to 8), review. When the build is too large for
+     one subagent, split it into vertical slices (`../references/deliver-in-small-steps.md`), one phase each.
    - Find the cause, then Fix a bug: diagnose, fix, review.
    - Refactor: plan, build, review.
 

@@ -10,7 +10,7 @@ answer, not with questions it could have settled itself.
 The user asks how a service, a codebase, or a library works, whether a change, an upgrade, or an integration is
 feasible, or asks to analyze or compare options. Nothing has failed and nothing is being designed yet. A failure to
 explain belongs in Find the cause (`find-the-cause.md`), and working out a solution the user has decided to build
-belongs in Design with me (`design-with-me.md`).
+belongs in Design (`design.md`).
 
 ## Who decides
 
@@ -44,4 +44,4 @@ belongs in Design with me (`design-with-me.md`).
 The reply opens with the answer in a sentence or two. Then it explains how the thing works or why the verdict holds,
 with the evidence for each claim, and names what was not checked and what is still uncertain. A feasibility answer
 adds what it would take, the main risk, and a recommendation. When the user goes ahead, the next playbook is usually
-Design with me, or Build a feature for something small. When the answer is no, nothing follows.
+Design, or Build a feature for something small. When the answer is no, nothing follows.

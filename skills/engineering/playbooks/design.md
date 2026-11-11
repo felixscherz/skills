@@ -1,9 +1,10 @@
-# Design with me
+# Design
 
 The agent designs on its own. It clears up the requirements at the start when they are unclear, then investigates the
 code and works out a design without checking in on each decision. Each choice follows the tenets in `../SKILL.md` and
 the patterns the codebase already uses. The user reviews the finished design, and the result is a design both sides
-agree is valid, and optionally a spec that keeps it.
+agree is valid. Design is the process; a spec (`../references/spec.md`) is the document it may end in, which records
+the design and its decisions.
 
 ## Applies when
 
@@ -48,12 +49,12 @@ services (interactions, contracts, infrastructure).
 9. Present the design: the model, then each decision with its reason and the main alternative it beat. Name any choice
    that needs the user's approval, and ask whether the design is valid. When the user changes something, go back to
    the affected step and rework what depends on it.
-10. Ask whether to keep the design. If yes, write it as a spec (`../references/spec.md`) with status `Draft`, ask the
+10. Ask whether to record the design in a spec. If yes, write the spec (`../references/spec.md`) with status `Draft`, ask the
     user which parts are `NORMATIVE` when that is not clear from the conversation, and set it to `Accepted` once they
     approve it.
 
 ## Done
 
 The user confirmed the design. The reply summarizes it in a few lines with each decision and its reason, and lists
-what became a follow-up. When the user chose to keep it, an accepted spec exists and its path is in the reply. The next
+what became a follow-up. When the user chose to record it, an accepted spec exists and its path is in the reply. The next
 playbook is usually Build a feature, in this session or another.

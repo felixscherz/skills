@@ -63,12 +63,20 @@ are two ways the design reaches me:
 
 - **In the conversation.** For a change whose design fits in a few lines, Build a feature proposes it, waits for my
   choice on each open decision, and builds it in the same session. No spec, no written plan.
-- **As a spec.** For a larger design, Design with me ends, optionally, in a spec that records it; Build a feature
+- **As a spec.** For a larger design, Design ends, optionally, in a spec that records it; Build a feature
   starts from such a spec. The spec is the hand-off, and it is where I review.
 
-A spec holds the background, the reasoning, the alternatives considered, and the design. Parts marked `NORMATIVE` must
-be built exactly as written; the rest is guidance the implementer may adapt and must report. Its shape is defined in
-`references/spec.md`, so the playbook that writes a spec and the one that reads it share one definition.
+Design is the process and a spec is its optional artifact: the document that records the agreed design and the
+decisions behind it. A spec holds the background, the reasoning, the alternatives considered, and the design.
+Parts marked `NORMATIVE` must be built exactly as written; the rest is guidance the implementer may adapt and must
+report. Its shape is defined in `references/spec.md`, so the playbook that writes a spec and the one that reads it share
+one definition.
+
+There is no implementation plan between the spec and the build. Current models are strong enough to choose their own
+steps from a spec, and slicing it into a fixed plan first takes that judgment away. `plan-from-a-spec.md` was removed
+for this reason; its one rule that is not about planning, slicing steps vertically, moved to
+`references/deliver-in-small-steps.md`. A spec too large for one agent goes through Orchestrate, which splits the
+build into slices for subagents.
 
 ## Playbooks
 
@@ -94,5 +102,5 @@ Workflow references become playbooks, so `references/` holds only principles and
 - `code-review.md` became the Review code playbook. The reference keeps the principles: calibrating scrutiny, naming
   as a blocker, changed tests, weakened verification, and classifying findings. The output template moved to
   `review-output.md`, a document shape.
-- `plan-from-a-spec.md` and `find-the-root-cause.md` are listed under principles in `SKILL.md`, and the "Workflows"
+- `find-the-root-cause.md` is listed under principles in `SKILL.md`, and the "Workflows"
   group of references is gone. `test-driven-design.md` was merged into `test-behavior.md`.

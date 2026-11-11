@@ -1,8 +1,9 @@
 # Spec
 
-A spec records a design the user agreed to, so that someone who was not in the conversation can build it and later
-understand why it looks the way it does. It is the hand-off between designing and implementing. Unlike a plan, it says
-what to build and why, not in which steps.
+Design is the process of working out how to build something; a spec is the document that may come out of it. A spec
+records a design the user agreed to and the decisions behind it, so that someone who was not in the conversation can
+build it and later understand why it looks the way it does. It is the hand-off between designing and implementing. It
+says what to build and why, not in which steps.
 
 - Put it where the project already keeps design documents. When there is no obvious place, use `docs/specs/<slug>.md`
   in the directory you are working in: the repository root, or the root of the bounded context that has its own

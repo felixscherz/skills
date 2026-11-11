@@ -8,9 +8,9 @@ back to the user whatever the design did not settle.
 ## Applies when
 
 The user asks for new or changed behavior, such as a feature, an endpoint, a field, an option, or a ticket with clear
-scope, or points to a spec or written design and asks to build it. Without a spec, the design must fit in one
+scope, or points to a spec and asks to build it. Without a spec, the design must fit in one
 conversation. When it spans several services, has many open decisions that depend on each other, or the user wants it
-kept, it belongs in Design with me first.
+recorded in a spec, it belongs in Design first.
 
 ## Who decides
 
@@ -32,7 +32,7 @@ kept, it belongs in Design with me first.
 2. Read the code the change touches, and look at how neighboring code solves the same problem.
 3. Settle the design before building:
    - With a spec, list the normative requirements, and every ambiguity, gap, or contradiction between the spec and the
-     code. Bring the list to the user and settle it before planning the parts that depend on it.
+     code. Bring the list to the user and settle it before building the parts that depend on it.
    - Without a spec, check whether the request fits the current model. When it does not, the model change is part of
      the design, not a special case (`../references/redesign-from-first-principles.md`,
      `../references/domain-driven-design.md`). Decide how much to build now and what becomes a follow-up
@@ -40,11 +40,11 @@ kept, it belongs in Design with me first.
      types, where the code lives, how callers see the change, and how it will be verified
      (`../references/program-design.md`, `../references/type-system.md`, `../references/test-behavior.md`). For each
      open decision, give the options and your recommendation, and wait for the user's choice unless no decision is
-     open. When the proposal grows past a few decisions or reaches across services, stop and suggest Design with me
-     (`design-with-me.md`).
-4. When the work spans several steps, plan them (`../references/plan-from-a-spec.md`) and share the plan with the
-   user. With a spec, every normative requirement has a step that delivers it and a check that proves it. Continue
-   unless step 3 left something open.
+     open. When the proposal grows past a few decisions or reaches across services, stop and suggest Design
+     (`design.md`).
+4. When the work spans several steps, choose them yourself, each ending in a verified state
+   (`../references/deliver-in-small-steps.md`). With a spec, every normative requirement gets a check that proves it.
+   Continue unless step 3 left something open.
 5. Build each step, following Changing code in `../SKILL.md`. Read `../references/type-system.md` and
    `../references/program-design.md` for new types and modules.
 6. When the code shows the design does not work, or raises something the design did not settle, pause the affected

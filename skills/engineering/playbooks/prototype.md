@@ -37,5 +37,5 @@ be built on it, use Build a feature (`feature.md`).
 
 After each cycle, the reply says what works now, how to run or see it, and what the agent chose where the request left
 it open. It says plainly that the code is a prototype. When the user wants to make it real, the reply gives the list of
-shortcuts, and the next playbook is Design with me or Build a feature, where the user decides whether to harden the
+shortcuts, and the next playbook is Design or Build a feature, where the user decides whether to harden the
 prototype or rebuild it.

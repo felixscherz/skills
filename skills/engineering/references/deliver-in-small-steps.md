@@ -21,3 +21,6 @@ user has not made yet.
 - Split larger work into steps that each end in a working, verified state.
   Commit each step before starting the next, so any step is a safe place to
   stop.
+- Slice steps vertically. Each step delivers behavior a user or caller can
+  observe, through every layer it needs. "Add the model", "add the
+  repository", "add the endpoint" are commits inside a step, not steps.

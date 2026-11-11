@@ -99,15 +99,15 @@ which and why in your reply.
 
 - **Build a feature** (`playbooks/feature.md`). The user asks for new or
   changed behavior, such as a feature, an endpoint, a field, or a ticket with
-  clear scope, or points to a spec or written design and asks to build it.
+  clear scope, or points to a spec and asks to build it.
   The design comes from the spec, or is agreed in the conversation and built
   in the same session.
-- **Design with me** (`playbooks/design-with-me.md`). The user wants to work
+- **Design** (`playbooks/design.md`). The user wants to work
   out how to build something before it is built: a feature, a change that
   does not fit the current model, where functionality lives, how components
   or services interact, or how something can be tested. The agent clears up
   unclear requirements first, then designs on its own. Ends in an agreed
-  design, kept as a spec when the user wants.
+  design, recorded in a spec when the user wants.
 - **Investigate** (`playbooks/investigate.md`). The user asks how a service,
   codebase, or library works, whether something is feasible or worth doing,
   or which of several options fits, and nothing has failed. Read-only. Ends
@@ -220,9 +220,6 @@ Rules that shape design and engineering decisions in any language.
 - **Test behavior** (`references/test-behavior.md`). Before implementing a
   feature or fixing a bug, when writing, changing, naming, or keeping a test,
   or about to reach for a mock or patch.
-- **Plan from a spec** (`references/plan-from-a-spec.md`). Turning a spec,
-  requirements, or a ticket into an implementation plan, or planning work
-  that spans several steps or agents.
 - **Find the root cause** (`references/find-the-root-cause.md`). When debugging
   a failure or investigating a bug, before choosing a fix, and when several
   causes could explain a failure.
