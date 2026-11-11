@@ -21,27 +21,18 @@ written design, the work is either small enough to need no playbook or belongs i
 ## Steps
 
 1. Read the spec in full. If its status is not `Accepted`, ask the user before building from it.
-2. Read the nearest `CONTEXT.md` and the code the spec touches.
+2. Read the code the spec touches.
 3. List the normative requirements, and every ambiguity, gap, or contradiction between the spec and the code. Bring
    the list to the user and settle it before planning the parts that depend on it.
 4. Plan the steps from the spec (`../references/plan-from-a-spec.md`) and share the plan with the user. Every
    normative requirement has a step that delivers it and a check that proves it. Continue unless step 3 left
    something open.
-5. Start a branch or worktree (`../references/keep-work-reviewable.md`).
-6. For each step, write the test first and see it fail for the intended reason (`../references/test-driven-design.md`,
-   `../references/test-behavior.md`). Implement until it passes, run the project's checks, and commit before the next
-   step. Read the principle references as they apply: `../references/type-system.md` and
-   `../references/program-design.md` for new types and modules, `../references/dont-break-production.md` when observable
-   behavior changes, and the language index for the language you write in.
-7. Stay in scope (`../references/deliver-in-small-steps.md`). When the work grows, a normative part turns out wrong,
-   or a bug outside the spec shows up, pause the affected step and bring it to the user. If the spec changes, update it
-   first (`../references/spec.md`). A bug you fix gets the treatment in
-   `../references/never-make-the-same-mistake-twice.md`.
-8. Check every normative requirement against its passing check, and every adaptation against the spec's intent.
-9. When the repository has a `CONTEXT.md`, update it for the features and terms the change adds
-   (`../references/context.md`).
-10. Run Opening a PR (`opening-a-pr.md`). Set the spec's status to `Implemented` in the same change when it completes
-    the spec.
+5. Build each step of the plan, following Changing code in `../SKILL.md`. Read `../references/type-system.md` and
+   `../references/program-design.md` for new types and modules.
+6. When a normative part turns out wrong, or the code raises something the spec did not settle, pause the affected
+   step and bring it to the user. If the spec changes, update it first (`../references/spec.md`).
+7. Check every normative requirement against its passing check, and every adaptation against the spec's intent.
+8. Set the spec's status to `Implemented` in the same change when it completes the spec.
 
 ## Done
 

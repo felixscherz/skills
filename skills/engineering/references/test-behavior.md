@@ -1,10 +1,21 @@
 # Test behavior
 
 The best tests are examples of someone using the code. They call the public
-API the way a user would and assert what that user would observe. A test full
-of mocks and patches is a design signal: the code is tightly coupled and lacks
-seams (see `program-design.md`).
+API the way a user would and assert what that user would observe. Writing the
+test first is design work: it is the first use of the new API, and code
+written test-first tends toward better design because testability shapes it
+from the start. A test full of mocks and patches is a design signal: the code
+is tightly coupled and lacks seams (see `program-design.md`).
 
+- Before implementing, state how you will verify the feature works or the bug
+  is gone.
+- Write the test first and run it. Confirm it fails, and fails for the
+  intended reason, before writing the fix or feature.
+- For a bug, the failing test is the reproduction. Don't fix what you have not
+  reproduced.
+- When a test would be clunky or cannot cover the behavior, use the closest
+  other check. A runnable one-off script, or steps for the user to verify in a
+  test environment after deploying. Say which check you used and why.
 - Test through the public API. When a test reaches into internals, ask whether
   it sits at the right level, or whether the behavior is better tested from
   further out, maybe without calling this code directly.

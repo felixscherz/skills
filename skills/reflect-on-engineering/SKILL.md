@@ -56,9 +56,8 @@ you cannot tie to something that happened in the scope.
   how strong the evidence is.
 - **Sharpen, remove, or add.** Prefer sharpening or removing a rule over adding
   one. A rule that never changes a decision is a candidate for removal.
-- **Right skill.** Some findings belong in another skill, such as
-  `pair-program`, or in the global `AGENTS.md`. Name the
-  target.
+- **Right skill.** Some findings belong in another skill, such as `groove`,
+  or in the global `AGENTS.md`. Name the target.
 
 ## Report
 
@@ -87,6 +86,12 @@ propose changes and ask before editing.
 - The skill lives in
   `~/workspaces/personal/skills/skills/engineering/`. Remind the
   user to commit changes there.
+- `../engineering/SKILL.md` opens with the tenets under "What I care about":
+  one line each, at most fifteen, each naming the reference that holds the
+  detail. When a reference changes what it stands for, update its tenet. A
+  new tenet replaces a weaker one.
+- Steps that every code-changing playbook shares live under "Changing code"
+  in `../engineering/SKILL.md`, not in the playbooks.
 - One rule per file in `references/`: an H1 title, a short framing paragraph,
   and a few bullets. No frontmatter: when a rule applies is stated once, in
   its index entry, since references are only reached through an index.

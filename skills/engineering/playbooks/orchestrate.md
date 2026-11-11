@@ -36,9 +36,9 @@ one branch or one PR. When it would take several PRs, propose the split and orch
    the file. Keep it to the current state; it is not a log.
 4. Split the playbook into phases. A phase ends where the playbook waits for the user or where a reviewable checkpoint
    exists, such as commits. Usually:
-   - Make a change: design (its steps 1 to 4), build (5 to 8), review.
+   - Make a change: design (its steps 1 to 4), build (5), review.
    - Find the cause, then Fix a bug: diagnose, fix, review.
-   - Refactor, Refactor a module, Implement a spec: plan, build, review.
+   - Refactor, Implement a spec: plan, build, review.
 
    Tell the user the phases in one line.
 5. Run each phase as one subagent, one phase at a time. Give the subagent everything in its prompt, not in files:

@@ -34,7 +34,7 @@ of `../references/review-output.md`.
    with the rest.
 5. Fix each item in the commit or stacked PR that owns the code, not on top of the stack
    (`../references/keep-work-reviewable.md`). When the item is a bug, write the failing test first
-   (`../references/test-driven-design.md`). When the fix changes observable behavior, apply
+   (`../references/test-behavior.md`). When the fix changes observable behavior, apply
    `../references/dont-break-production.md`.
 6. Run the project's checks. Push only with the user's go-ahead, and watch CI (`gh pr checks --watch`).
 7. When the fixes changed what the PR does, update its description

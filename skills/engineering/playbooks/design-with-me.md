@@ -35,7 +35,7 @@ services (interactions, contracts, infrastructure).
 6. Work through the open decisions one at a time, the ones others depend on first, usually the domain model. For
    each, give two or three options with their tradeoffs and your recommendation, and wait for the user's choice.
 7. Agree how the design will be verified: which behavior is tested, and through which API
-   (`../references/test-driven-design.md`, `../references/test-behavior.md`).
+   (`../references/test-behavior.md`).
 8. Summarize the whole design in a few lines with each decision and its reason, and ask whether it is valid. When the
    user changes something, go back to the affected step.
 9. Ask whether to keep the design. If yes, write it as a spec (`../references/spec.md`) with status `Draft`, ask the

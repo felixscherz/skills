@@ -23,24 +23,20 @@ When the cause is not known yet, run Find the cause (`find-the-cause.md`) first.
 1. State the bug in one line each: what should happen, what happens, and the cause. When the cause comes from the user,
    check it against the code before building on it. When the code says otherwise, bring it back to the user.
 2. Write the failing test first, or take over the reproduction from Find the cause. Run it and confirm it fails for the
-   stated cause (`../references/test-driven-design.md`, `../references/test-behavior.md`).
-3. Start a branch or worktree (`../references/keep-work-reviewable.md`).
-4. Fix the invariant where the bad state is created or owned, not where it becomes visible
-   (`../references/find-the-root-cause.md`). Make the smallest change that does it. A guard that only silences the
-   symptom is not a fix.
-5. Check the scope of the diff. Every changed line serves the fix. Move anything else out: a refactor the fix does not
-   need, new behavior, or an adjacent bug becomes a follow-up (`../references/deliver-in-small-steps.md`). When the fix
-   needs a preparatory refactor, it goes in its own commit before the fix.
-6. Check the other producers and consumers of the same state for the same defect
-   (`../references/find-the-root-cause.md`). Report what you find. Fix only the instances that are part of this bug.
-7. Run the test and the project's checks. Commit the test with the fix, and keep the output of the test failing without
+   stated cause (`../references/test-behavior.md`).
+3. Fix the invariant where the bad state is created or owned, not where it becomes visible
+   (`../references/find-the-root-cause.md`). A guard that only silences the symptom is not a fix. When the fix needs a
+   preparatory refactor, it goes in its own commit before the fix.
+4. Check the other producers and consumers of the same state for the same defect
+   (`../references/find-the-root-cause.md`). Fix the instances that share this cause, and report the rest.
+5. Run the test and the project's checks. Commit the test with the fix, and keep the output of the test failing without
    the fix for the PR.
-8. When the fix changes behavior someone could rely on, even wrong behavior, apply
+6. When the fix changes behavior someone could rely on, even wrong behavior, apply
    `../references/dont-break-production.md`.
-9. Ask whether the whole class of mistake can be caught automatically, and propose the check
-   (`../references/never-make-the-same-mistake-twice.md`). Add it in this change only when it is cheap and the user
-   agrees.
-10. Run Opening a PR (`opening-a-pr.md`).
+7. Ask whether the whole class of mistake can be caught automatically
+   (`../references/never-make-the-same-mistake-twice.md`). Add the check when it is light, and propose it when it needs
+   new tooling or CI setup.
+8. Finish as Changing code in `../SKILL.md` describes.
 
 ## Done
 

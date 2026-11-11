@@ -36,9 +36,8 @@ Each playbook is one file in `playbooks/` with:
 - **Done.** What the playbook hands back, what the final reply holds, and which playbook usually comes next. The reply
   is where I review the work, so each playbook says what it contains rather than leaving it to the agent.
 
-When a playbook applies, the agent copies its steps word for word into its todo list before any task-specific items.
-A step it skips stays in the list with a one-line reason, so a skipped step is a visible decision rather than a
-forgotten one.
+An agent that skips a step says which and why in its reply. An earlier version had the agent copy the steps into its
+todo list; no session did, so the rule is gone.
 
 ## Routing
 
@@ -47,7 +46,15 @@ first, then how they hand over to each other and how to pick one when several se
 index of references, as a fallback for work no playbook covers.
 
 Rules that apply to every task, such as restating the goal in the first message, live in `SKILL.md` under "Start of a
-task" instead of being repeated as the first step of each playbook.
+task" instead of being repeated as the first step of each playbook. The steps every code-changing playbook shares
+(branch, test first, commit per step, update `CONTEXT.md`, open a PR) live there too, under "Changing code".
+
+## Tenets
+
+`SKILL.md` opens with "What I care about": about fifteen one-line tenets, each naming the reference that holds the
+detail. They exist because agents read the playbook and stopped there. In the first week of playbooks, six sessions
+opened a playbook and none opened a reference its steps named, so the principles never reached the work. The tenets
+load with the skill and carry the principles into every session; the references stay as depth.
 
 ## Design stays with the user
 
@@ -65,34 +72,16 @@ be built exactly as written; the rest is guidance the implementer may adapt and 
 
 ## Playbooks
 
-Written:
+The list of playbooks, with when each applies, is the index in `SKILL.md`. Two of them take a different posture from
+the rest:
 
-- **Make a change** (`make-a-change.md`). New or changed behavior without a spec: the design is agreed in the
-  conversation and built in the same session. Moves to Design with me when the design outgrows the conversation.
-- **Design with me** (`design-with-me.md`). Working out a solution together with the user, at the level of one
-  codebase or across components and services. Ends in an agreed design, kept as a spec when the user wants.
-- **Implement a spec** (`implement-a-spec.md`). Building from an accepted spec, inside its scope. Ends in Opening a PR.
-- **Find the cause** (`find-the-cause.md`). The user has information about a bug, production error, or regression and
-  wants it investigated. Reproducing it and explaining what caused it come first; fixing it is not the goal. Ends in a
-  diagnosis.
-- **Fix a bug** (`fix-a-bug.md`). The cause is known, from Find the cause or from the user. Strictly a fix: anything
-  the fix does not need, such as new behavior, cleanup, or adjacent bugs, becomes a follow-up.
-- **Refactor** (`refactor.md`). The structure changes and the behavior does not. Starts by agreeing with the user
-  which behavior is preserved and pinning it with tests; bugs and missing features found on the way become follow-ups.
-- **Refactor a module** (`refactor-module.md`). Makes a module deeper: compares interface alternatives as caller code,
-  agrees the target and the consumers it must protect with the user, then pins behavior and migrates callers.
-- **Opening a PR** (`opening-a-pr.md`). Getting a finished change past the checks and in front of a reviewer. The
-  description's shape lives in `references/pull-request-description/`.
-- **Review code** (`review-code.md`). Reviewing a PR or a set of changes, my own or someone else's. The principles
-  live in `references/code-review.md` and the output shape in `references/review-output.md`, which Address feedback
-  also reads.
-- **Address feedback** (`address-feedback.md`). Working through review feedback, from PR comments, bots, or a reviewer
-  agent. Each item is a claim checked against the code before anything changes.
+- **Investigate** is read-only and autonomous: the agent settles every fact itself and comes back with an answer,
+  which may be "no".
+- **Prototype** suspends the production rules and the design gate: the agent decides how to build and the user
+  reacts to results.
 
-- **Orchestrate** (`orchestrate.md`). The agent acts as an orchestrator: it wraps the playbook that fits the task,
-  runs its phases through subagents in a worktree, and checks what they hand back against the scope the user agreed.
-  It replaces the `agent-software-factory` and `working-as-an-agent-team` skills, which delegated through brief and
-  result files and let the scope drift.
+**Orchestrate** replaces the `agent-software-factory` and `working-as-an-agent-team` skills. It is frozen until a real
+session has used it.
 
 ## Moving workflows out of references
 
@@ -105,5 +94,5 @@ Workflow references become playbooks, so `references/` holds only principles and
 - `code-review.md` became the Review code playbook. The reference keeps the principles: calibrating scrutiny, naming
   as a blocker, changed tests, weakened verification, and classifying findings. The output template moved to
   `review-output.md`, a document shape.
-- `plan-from-a-spec.md`, `test-driven-design.md`, and `find-the-root-cause.md` are listed under principles in
-  `SKILL.md`, and the "Workflows" group of references is gone.
+- `plan-from-a-spec.md` and `find-the-root-cause.md` are listed under principles in `SKILL.md`, and the "Workflows"
+  group of references is gone. `test-driven-design.md` was merged into `test-behavior.md`.
