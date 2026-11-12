@@ -28,7 +28,9 @@ installed copies are overwritten on every update.
 ### Working with agents
 
 - **benchmarking-the-harness** and **create-benchmark** - blinded experiments on how a skill or instruction change
-  affects agent behavior. `skills/benchmarking-the-harness/`, `skills/create-benchmark/`
+  affects agent behavior, as Harbor tasks run with opencode baked into one native-arch base image, graded by an LLM
+  judge in the verifier. The base image, the Harbor agent and the judge are in
+  `skills/benchmarking-the-harness/assets/`; the task template is in `skills/create-benchmark/assets/`.
 - **author-skill** - how to write a skill that works across harnesses. `skills/author-skill/`
 - **strand** - a short-lived folder for work across several repositories: worktrees under `repos/`, plus `STATUS.md`,
   a journal, and an `AGENTS.md` that explains the strand to any agent started there. `skills/strand/`
