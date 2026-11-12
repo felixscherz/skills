@@ -29,7 +29,7 @@ of `../references/review-output.md`.
    evidence, or unclear.
 3. Decide each item: fix, dismiss with a reason, or ask. Weigh confirmed items as blocker or non-blocker
    (`../references/code-review.md`), and check each fix against the scope of the change
-   (`../references/deliver-in-small-steps.md`). A non-blocker that is out of scope becomes a follow-up.
+   (`../references/optimize-for-shipping.md`). A non-blocker that is out of scope becomes a follow-up.
 4. Bring the items that wait for the user, as listed under Who decides, in one list with a recommendation each. Go on
    with the rest.
 5. Fix each item in the commit or stacked PR that owns the code, not on top of the stack

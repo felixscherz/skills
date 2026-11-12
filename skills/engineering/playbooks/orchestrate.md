@@ -37,7 +37,7 @@ one branch or one PR. When it would take several PRs, propose the split and orch
 4. Split the playbook into phases. A phase ends where the playbook waits for the user or where a reviewable checkpoint
    exists, such as commits. Usually:
    - Build a feature: settle the design (its steps 1 to 3), build (4 to 8), review. When the build is too large for
-     one subagent, split it into vertical slices (`../references/deliver-in-small-steps.md`), one phase each.
+     one subagent, split it into vertical slices (`../references/optimize-for-shipping.md`), one phase each.
    - Find the cause, then Fix a bug: diagnose, fix, review.
    - Refactor: plan, build, review.
 
@@ -62,7 +62,7 @@ one branch or one PR. When it would take several PRs, propose the split and orch
    (`address-feedback.md`). Review again with another fresh subagent when the changes go beyond the trivial.
 9. Stop and ask the user before going on when the work grows: a prerequisite that was not in the scope, a second repair
    round on the same problem, a diff that outgrows the agreed design, or a subagent proposing extra work. Bring the
-   evidence, the smallest way to stay in scope, and your recommendation (`../references/deliver-in-small-steps.md`).
+   evidence, the smallest way to stay in scope, and your recommendation (`../references/optimize-for-shipping.md`).
 10. When the user authorizes it, have a subagent run Opening a PR (`opening-a-pr.md`). Otherwise stop at the reviewed
     branch.
 11. Mark the task done in `STATUS.md`. Leave the worktree in place (`../references/worktrees.md`).

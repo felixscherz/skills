@@ -34,7 +34,7 @@ services (interactions, contracts, infrastructure).
    words, and name any drift between model and code (`../references/domain-driven-design.md`).
 3. Find how neighboring code solves similar problems: its structure, naming, error handling, and tests. Where the
    codebase has a convention, the design follows it, even where a tenet says otherwise.
-4. Decide how much to build now and what becomes a follow-up (`../references/deliver-in-small-steps.md`).
+4. Decide how much to build now and what becomes a follow-up (`../references/optimize-for-shipping.md`).
 5. Decide the level, and read the references it calls for. In a codebase: `../references/program-design.md`,
    `../references/deep-modules.md`, `../references/type-system.md`. Across components or services: bounded contexts in
    `../references/domain-driven-design.md`, `../references/dont-break-production.md`, and

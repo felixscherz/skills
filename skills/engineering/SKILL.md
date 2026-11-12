@@ -13,7 +13,7 @@ to act on the line and need more than the line says.
 
 1. Think in the model before the code. Name everything in the domain's words, one name per concept (`references/domain-driven-design.md`).
 2. A requirement that does not fit the model gets a model change, not a special case (`references/redesign-from-first-principles.md`).
-3. Solve the immediate problem with the smallest coherent solution, and name the fuller design as a follow-up (`references/deliver-in-small-steps.md`).
+3. The goal is a shipped change. Scope each change to the smallest coherent solution that can ship on its own and safely, and name the fuller design as a follow-up (`references/optimize-for-shipping.md`).
 4. Say how you will verify the work before you build it. Write the test first and see it fail for the intended reason (`references/test-behavior.md`).
 5. Test behavior through the public API, with fakes at real boundaries instead of mocks and patches (`references/test-behavior.md`).
 6. Keep a pure core with side effects at the edges and dependencies passed in. Code that is awkward to test is awkward to use (`references/program-design.md`).
@@ -195,10 +195,10 @@ Rules that shape design and engineering decisions in any language.
 - **Redesign from first principles** (`references/redesign-from-first-principles.md`).
   Requirements change or are added, a drift is found, or you are about to add
   a special case for an edge case.
-- **Deliver in small steps** (`references/deliver-in-small-steps.md`). Deciding
-  how much to build for a request, before proposing an architecture or
-  design, when a fix suggests a larger redesign, or planning work that spans
-  several changes.
+- **Optimize for shipping** (`references/optimize-for-shipping.md`). Deciding
+  how much to build for a request, how a change ships safely, before
+  proposing an architecture or design, when a fix suggests a larger redesign,
+  or planning work that spans several changes.
 - **Keep work reviewable** (`references/keep-work-reviewable.md`). Before the
   first change of any task that ends in a commit or a review, at every
   commit, when uncommitted work grows beyond one purpose, or when splitting a

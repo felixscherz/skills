@@ -75,7 +75,7 @@ one definition.
 There is no implementation plan between the spec and the build. Current models are strong enough to choose their own
 steps from a spec, and slicing it into a fixed plan first takes that judgment away. `plan-from-a-spec.md` was removed
 for this reason; its one rule that is not about planning, slicing steps vertically, moved to
-`references/deliver-in-small-steps.md`. A spec too large for one agent goes through Orchestrate, which splits the
+`references/optimize-for-shipping.md`. A spec too large for one agent goes through Orchestrate, which splits the
 build into slices for subagents.
 
 ## Playbooks
