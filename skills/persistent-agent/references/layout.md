@@ -17,7 +17,7 @@ agents/                  # the agents home
 └── <agent>/
 ```
 
-A session is always started in `agents/<agent>/`, never in `agents/`.
+An agent's first prompt is always run in `agents/<agent>/`, never in `agents/` or another agent's folder.
 
 ## Shared `agents/AGENTS.md`
 

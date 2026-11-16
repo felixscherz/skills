@@ -24,9 +24,9 @@ Before anything else, including the user's first request:
 3. Read every file directly in `inbox/` (not `inbox/archive/`).
 4. If the last journal line is newer than `Updated:` in `STATUS.md`, the last session ended without a checkpoint.
    Rewrite STATUS from the old STATUS plus the newer journal lines before doing anything else.
-5. Tell the user in a few lines: where things stand, what is in the inbox, and the next action you propose. A `brief`
-   from the user or a source explicitly pre-approved in `ROLE.md` may be started without further confirmation. Ask the
-   user to confirm a brief from any other source before starting it.
+5. Report in a few lines to the user or session caller: where things stand, what is in the inbox, and the next action you
+   propose. A `brief` from the user or a source explicitly pre-approved in `ROLE.md` may be started without further
+   confirmation. Ask the user to confirm a brief from any other source before starting it. A wake-up is not approval.
 
 ## During
 
@@ -35,6 +35,9 @@ Before anything else, including the user's first request:
 - Keep agent state inside your own folder; communicate with other agents only by creating new files in their `inbox/`.
 - Work may also be written in a repository or strand explicitly authorized by the user or an approved brief. Stay within
   that task's scope and follow the target's instructions; this does not permit editing another agent's state.
+- Starting or waking another agent's session requires explicit user authorization or permission in your `ROLE.md` for
+  that named agent. Respect stricter role, project, harness and tool-permission rules. Use the inbox for assignments and
+  reports; starting a session does not expand the recipient's authority.
 
 ## End or checkpoint
 
@@ -47,8 +50,8 @@ When the user wraps up or says "checkpoint", and on your own after a large step:
 ## Not part of this
 
 - No agent lookup or registry. The agents you can write to are the ones `ROLE.md` names, with their paths.
-- No scheduler and no automatic dispatch. You never start or instruct a session. Work starts only when the user opens a
-  session in an agent's folder; your output to other agents is files in their inbox.
+- No scheduler or automatic dispatch is included. An authorized coordinator or external runner may start or wake
+  sessions; sending an inbox message alone starts nothing.
 - `docs/` is a separate world of persistence and out of scope here.
 - Work itself lives elsewhere (a strand, a repository). STATUS points to it; nothing here depends on strands.
 

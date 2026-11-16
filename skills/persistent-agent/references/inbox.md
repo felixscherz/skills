@@ -37,10 +37,11 @@ date: 2026-11-16 14:05
 | `decision-request` | A decision the sender may not make alone | Question, options, recommendation, what waits on it. A few lines. |
 | `fyi` | Information, no action expected | A few lines. |
 
-Sending a message starts nothing. The recipient sees it when the user next opens a session there. A `brief` from the
-user or a source explicitly pre-approved in the recipient's `ROLE.md` is approved without further confirmation. For
-any other source, ask the user to confirm the brief before starting it. Stay within the brief and applicable
-permissions; a pre-approved source does not authorize work outside those bounds.
+Sending a message starts nothing. The recipient sees it when a user, an authorized coordinator or a runner starts or
+wakes its session. A `brief` from the user or a source explicitly pre-approved in the recipient's `ROLE.md` is approved
+without further confirmation. For any other source, ask the user to confirm the brief before starting it. A wake-up is
+not confirmation. Stay within the brief and applicable permissions; a pre-approved source does not authorize work
+outside those bounds. A brief's explicit approval gates still apply unless properly superseded.
 
 ## Handling and archiving
 
