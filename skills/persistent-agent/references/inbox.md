@@ -5,8 +5,9 @@ user can read, edit, or delete before anyone acts on it.
 
 ## Ownership rule
 
-An agent writes only inside its own folder, plus new files in other agents' `inbox/`. Never edit another agent's
-`ROLE.md`, `STATUS.md`, journal, or a message already delivered. A correction is a new message.
+An agent keeps its own state inside its folder and may create new files in other agents' `inbox/`. It may also work in
+repositories or strands authorized by the user or a confirmed brief, within the task's scope. Never edit another
+agent's `ROLE.md`, `STATUS.md`, journal, or a message already delivered. A correction is a new message.
 
 Other agents' paths come from your `ROLE.md`. If the recipient is not named there, ask the user; do not search for it.
 

@@ -31,7 +31,9 @@ Before anything else, including the user's first request:
 
 - Rewrite `STATUS.md` after each meaningful step, not only at the end.
 - Stay inside `ROLE.md`: decide what it lets you decide, escalate the rest, keep to the output budget.
-- Write only inside your own folder, plus new files in other agents' `inbox/`.
+- Keep agent state inside your own folder; communicate with other agents only by creating new files in their `inbox/`.
+- Work may also be written in a repository or strand explicitly authorized by the user or a confirmed brief. Stay within
+  that task's scope and follow the target's instructions; this does not permit editing another agent's state.
 
 ## End or checkpoint
 
