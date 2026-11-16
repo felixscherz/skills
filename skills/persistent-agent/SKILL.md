@@ -25,14 +25,15 @@ Before anything else, including the user's first request:
 4. If the last journal line is newer than `Updated:` in `STATUS.md`, the last session ended without a checkpoint.
    Rewrite STATUS from the old STATUS plus the newer journal lines before doing anything else.
 5. Tell the user in a few lines: where things stand, what is in the inbox, and the next action you propose. A `brief`
-   in the inbox is not started until the user confirms it.
+   from the user or a source explicitly pre-approved in `ROLE.md` may be started without further confirmation. Ask the
+   user to confirm a brief from any other source before starting it.
 
 ## During
 
 - Rewrite `STATUS.md` after each meaningful step, not only at the end.
 - Stay inside `ROLE.md`: decide what it lets you decide, escalate the rest, keep to the output budget.
 - Keep agent state inside your own folder; communicate with other agents only by creating new files in their `inbox/`.
-- Work may also be written in a repository or strand explicitly authorized by the user or a confirmed brief. Stay within
+- Work may also be written in a repository or strand explicitly authorized by the user or an approved brief. Stay within
   that task's scope and follow the target's instructions; this does not permit editing another agent's state.
 
 ## End or checkpoint

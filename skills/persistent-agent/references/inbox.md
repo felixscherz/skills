@@ -6,7 +6,7 @@ user can read, edit, or delete before anyone acts on it.
 ## Ownership rule
 
 An agent keeps its own state inside its folder and may create new files in other agents' `inbox/`. It may also work in
-repositories or strands authorized by the user or a confirmed brief, within the task's scope. Never edit another
+repositories or strands authorized by the user or an approved brief, within the task's scope. Never edit another
 agent's `ROLE.md`, `STATUS.md`, journal, or a message already delivered. A correction is a new message.
 
 Other agents' paths come from your `ROLE.md`. If the recipient is not named there, ask the user; do not search for it.
@@ -37,8 +37,10 @@ date: 2026-11-16 14:05
 | `decision-request` | A decision the sender may not make alone | Question, options, recommendation, what waits on it. A few lines. |
 | `fyi` | Information, no action expected | A few lines. |
 
-Sending a message starts nothing. The recipient sees it when the user next opens a session there, and a `brief` is
-started only after the user confirms it in that session.
+Sending a message starts nothing. The recipient sees it when the user next opens a session there. A `brief` from the
+user or a source explicitly pre-approved in the recipient's `ROLE.md` is approved without further confirmation. For
+any other source, ask the user to confirm the brief before starting it. Stay within the brief and applicable
+permissions; a pre-approved source does not authorize work outside those bounds.
 
 ## Handling and archiving
 

@@ -13,7 +13,8 @@ Start from `templates/ROLE.md`. Keep it under a screen; it is read on every boot
 - **Output budget** - how much it may produce before stopping: for example "at most 3 briefs per session", "one PR
   per brief", "summaries of 10 lines". This is the throttle that keeps review manageable; never leave it out.
 - **Other agents** - the agents this one may write to, each with a path to its folder and one line on what it does.
-  The user writes this list by hand. There is no lookup: an agent not listed here does not exist for this one.
+  The user writes this list by hand and explicitly identifies any sources whose briefs are pre-approved. Listing an
+  agent alone does not approve its briefs. There is no lookup: an agent not listed here does not exist for this one.
 
 An agent that plans for others also gets, in its own words: "You never start or instruct sessions yourself. Your
 output is briefs in inboxes and a summary for the user."
