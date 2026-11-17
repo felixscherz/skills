@@ -4,7 +4,14 @@ Use this when an authorized coordinator or external runner starts or wakes persi
 OpenCode V2; for current API shapes check the running server's `/openapi.json` and the
 [API](https://opencode.ai/docs/api), [client](https://opencode.ai/docs/build/client),
 [instructions](https://opencode.ai/docs/instructions) and [permissions](https://opencode.ai/docs/permissions) guides.
-The session routes are experimental. No runner or automatic dispatch is installed by this skill.
+The session routes are experimental. This skill installs no runner or automatic dispatch. If the repository configures
+the persistent-agent MCP server, use its `list_agents`, `wake_agent`, `wait_for_change` and `context_status` tools;
+the API commands below are the fallback when the MCP server is unavailable.
+
+For `wake_agent`, provide one direct prompt or the name of an existing inbox message and a unique request ID. Reuse that
+ID only for an exact retry. If creation or prompt admission is uncertain, inspect the reported session and receipt before
+taking further action; do not retry with a new ID to bypass the guard. MCP admission does not mean work completed.
+`wait_for_change` runs only while called. Discovery and session metadata do not authorize any assignment.
 
 ## Authority and handoffs
 
@@ -12,9 +19,11 @@ The session routes are experimental. No runner or automatic dispatch is installe
   session control for that named agent. A role that prohibits session control still wins. An external runner also needs
   the user's authorization. Follow any stricter project, harness and tool rules; API access is not permission to bypass
   them. The destination agent must follow its own role, brief and permissions.
-- Put assignments, decisions and reports in the recipient's inbox, not just in a session prompt. A prompt to process
-  the inbox is a wake-up, not a new brief or confirmation. A user brief or a source pre-approved in the recipient's
-  role may start without another confirmation; other briefs and explicit gates still need the required approval.
+- Assignments may be sent by inbox brief or a direct prompt from an authorized coordinator. Identify the sender in a
+  direct prompt and record the assignment in the recipient's STATUS. A prompt to process the inbox is a wake-up, not a
+  brief or confirmation. A user assignment or a source pre-approved in the recipient's role may start without another
+  confirmation; other sources and explicit gates still need the required approval. Send durable reports and decisions
+  through inboxes.
 - A coordinator handles reports and ordinary decisions within its role and task constraints. Escalate only what falls
   outside those constraints or requires the user's review. Keep ownership of each agent's status, journal and inbox with
   that agent. An orchestrator does not modify another agent's state to unblock it.
@@ -99,7 +108,8 @@ inbox report explicitly.
 ## Wake, observe and follow up
 
 After the file is in the inbox and session identity is verified, send `POST /api/session/{sessionID}/prompt` with a
-short wake-up such as `{"text":"Process your inbox according to your role and instructions."}`. The API admits the
+short wake-up such as `{"text":"Process your inbox according to your role and instructions."}`. Alternatively, an
+authorized coordinator may send a direct assignment with its own identity and scope. The API admits the
 input asynchronously; a successful response is not proof the work completed. Reuse an idle session when appropriate;
 if an authorized session is already running, do not start a second worker for that agent. Queue a follow-up only when
 it is genuinely needed, using `delivery: "queue"`; do not repeatedly queue the same wake-up for an unchanged blocker.
@@ -129,3 +139,17 @@ inboxes, session state and pending permissions after restarts. Do not infer comp
 repeatedly retry a blocked or failed task. OpenCode event subscriptions are live-only, with no replay or automatic
 reconnection; use them as wake-up hints and reconcile durable state on reconnect. These are runner requirements, not
 features provided by this skill.
+
+## Session length
+
+Use the configured MCP `context_status` for the calling session and `list_agents` for members. It reports the latest
+completed model call's input usage, including cached input, not cumulative session tokens. At 150,000 tokens inform the
+user or coordinator; at 300,000 warn and recommend a fresh session at the next safe boundary. Do not repeatedly announce
+the same threshold without a new crossing. A missing measurement is unknown, not zero. These are advisory signals, not
+automatic interrupts or compaction. Check at milestones and before reuse; an MCP tool cannot notify an idle caller by
+itself. OpenCode may compact automatically, but compaction is lossy and does not replace a durable checkpoint.
+
+For a completed engineering assignment, checkpoint and prefer a new session for the next distinct assignment. A small
+related follow-up can stay in the current session. A coordinator can keep several assignments in flight, then checkpoint
+at a coherent milestone: agent names, session IDs, current assignments, decisions, artifacts, pending messages and next
+actions. Never abandon pending permissions or input, or start a second worker, to reduce context.

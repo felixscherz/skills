@@ -1,7 +1,8 @@
 # Inbox
 
-How agents and the user reach an agent: one markdown file per message in its `inbox/`. Every message is a file the
-user can read, edit, or delete before anyone acts on it.
+One way agents and the user reach an agent is a markdown file per message in its `inbox/`. Every message is a file the
+user can read, edit, or delete before anyone acts on it. Authorized coordinators may also send direct session prompts;
+record assignments and decisions from them in STATUS and send durable reports through the recipient's inbox.
 
 ## Ownership rule
 
@@ -37,11 +38,12 @@ date: 2026-11-16 14:05
 | `decision-request` | A decision the sender may not make alone | Question, options, recommendation, what waits on it. A few lines. |
 | `fyi` | Information, no action expected | A few lines. |
 
-Sending a message starts nothing. The recipient sees it when a user, an authorized coordinator or a runner starts or
-wakes its session. A `brief` from the user or a source explicitly pre-approved in the recipient's `ROLE.md` is approved
-without further confirmation. For any other source, ask the user to confirm the brief before starting it. A wake-up is
-not confirmation. Stay within the brief and applicable permissions; a pre-approved source does not authorize work
-outside those bounds. A brief's explicit approval gates still apply unless properly superseded.
+Sending an inbox message starts nothing. The recipient sees it when a user, an authorized coordinator or a runner starts
+or wakes its session. An assignment from the user or a source explicitly pre-approved in the recipient's `ROLE.md` is
+approved without further confirmation, whether delivered by inbox or direct prompt. For any other source, ask the user
+to confirm before starting. A wake-up is not confirmation. Stay within the assignment and applicable permissions; a
+pre-approved source does not authorize work outside those bounds. Explicit approval gates still apply unless properly
+superseded.
 
 ## Handling and archiving
 

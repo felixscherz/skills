@@ -25,19 +25,28 @@ Before anything else, including the user's first request:
 4. If the last journal line is newer than `Updated:` in `STATUS.md`, the last session ended without a checkpoint.
    Rewrite STATUS from the old STATUS plus the newer journal lines before doing anything else.
 5. Report in a few lines to the user or session caller: where things stand, what is in the inbox, and the next action you
-   propose. A `brief` from the user or a source explicitly pre-approved in `ROLE.md` may be started without further
-   confirmation. Ask the user to confirm a brief from any other source before starting it. A wake-up is not approval.
+   propose. An assignment from the user or a source explicitly pre-approved in `ROLE.md` may be started without further
+   confirmation, whether delivered as an inbox brief or a direct prompt. Confirm assignments from other sources with the
+   user. A wake-up alone is not an assignment or approval.
 
 ## During
 
 - Rewrite `STATUS.md` after each meaningful step, not only at the end.
 - Stay inside `ROLE.md`: decide what it lets you decide, escalate the rest, keep to the output budget.
-- Keep agent state inside your own folder; communicate with other agents only by creating new files in their `inbox/`.
-- Work may also be written in a repository or strand explicitly authorized by the user or an approved brief. Stay within
+- Keep agent state inside your own folder. Send durable reports and decisions through recipient inboxes. An authorized
+  coordinator may also send an assignment or follow-up by direct session prompt; identify the sender and do not present
+  a relayed message as a direct user instruction. Record direct assignments and decisions in STATUS before acting.
+- Work may also be written in a repository or strand explicitly authorized by the user or an approved assignment. Stay within
   that task's scope and follow the target's instructions; this does not permit editing another agent's state.
 - Starting or waking another agent's session requires explicit user authorization or permission in your `ROLE.md` for
   that named agent. Respect stricter role, project, harness and tool-permission rules. Use the inbox for assignments and
-  reports; starting a session does not expand the recipient's authority.
+  reports when a durable handoff is needed; starting a session does not expand the recipient's authority.
+- Keep an engineering member session focused on one assignment by default. A closely related follow-up may use the same
+  session. After reporting and checkpointing, prefer a fresh session for the next assignment. Coordinators can span
+  parallel assignments and should rotate at a coherent milestone. Never interrupt active work or abandon pending user
+  input or permissions to rotate.
+- When resuming an old session after role or skill guidance changed, read the current files before applying their rules.
+  Explicit brief gates and tool permissions still apply.
 
 ## End or checkpoint
 
@@ -49,7 +58,8 @@ When the user wraps up or says "checkpoint", and on your own after a large step:
 
 ## Not part of this
 
-- No agent lookup or registry. The agents you can write to are the ones `ROLE.md` names, with their paths.
+- Discovery may list other agents, but does not grant authority to instruct them. Use the paths and permissions in
+  `ROLE.md` or the user's explicit instructions.
 - No scheduler or automatic dispatch is included. An authorized coordinator or external runner may start or wake
   sessions; sending an inbox message alone starts nothing.
 - `docs/` is a separate world of persistence and out of scope here.
