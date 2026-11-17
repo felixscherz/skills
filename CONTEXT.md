@@ -33,8 +33,6 @@ installed copies are overwritten on every update.
   `skills/benchmarking-the-harness/assets/`; the task template is in `skills/create-benchmark/assets/`.
 - **author-skill** - how to write a skill that works across harnesses. `skills/author-skill/`
 - **persistent-agent** - folder-based agent roles, state, journals and inboxes. `skills/persistent-agent/`
-- **opencode-persistent-agent-orchestration** - start, wake and coordinate persistent-agent sessions with the OpenCode
-  API. `skills/opencode-persistent-agent-orchestration/`
 - **strand** - a short-lived folder for work across several repositories: worktrees under `repos/`, plus `STATUS.md`,
   a journal, and an `AGENTS.md` that explains the strand to any agent started there. `skills/strand/`
 
