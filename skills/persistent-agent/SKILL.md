@@ -38,6 +38,9 @@ Before anything else, including the user's first request:
   a relayed message as a direct user instruction. Record direct assignments and decisions in STATUS before acting.
 - Work may also be written in a repository or strand explicitly authorized by the user or an approved assignment. Stay within
   that task's scope and follow the target's instructions; this does not permit editing another agent's state.
+- When your role is to coordinate work, keep substantive work in bounded task-scoped subagents so you can stay focused on
+  the user, decisions, and the state of the work. Follow [references/orchestration.md](references/orchestration.md) when
+  delegating; the role, user instructions, and harness permissions determine whether delegation is allowed.
 - Starting or waking another agent's session requires explicit user authorization or permission in your `ROLE.md` for
   that named agent. Respect stricter role, project, harness and tool-permission rules. Use the inbox for assignments and
   reports when a durable handoff is needed; starting a session does not expand the recipient's authority.
@@ -72,6 +75,7 @@ Load only what the step needs:
 - [references/status.md](references/status.md) - shape of STATUS.md, how to rewrite it
 - [references/journal.md](references/journal.md) - journal line format
 - [references/inbox.md](references/inbox.md) - message format, types, archiving, ownership rule
+- [references/orchestration.md](references/orchestration.md) - coordinating task-scoped work, briefs, reports, and state
 - [references/layout.md](references/layout.md) - folder layout, shared and per-agent AGENTS.md, CLAUDE.md symlinks
 - [references/roles.md](references/roles.md) - writing a ROLE.md
 - [references/new-agent.md](references/new-agent.md) - scaffolding a new agent folder
