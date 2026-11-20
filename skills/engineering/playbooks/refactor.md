@@ -9,7 +9,8 @@ bugs: either one changes behavior and becomes its own change.
 The user asks to restructure code without changing what it does: rename, move, split, or merge modules, change an
 internal API, remove duplication, or reshape code toward a model that fits it better. It also covers making a module
 deeper: giving callers a simpler interface and moving into the module the complexity they carry today. A module can be
-a package, class, function, or another unit with an interface and an implementation.
+a package, class, function, or another unit with an interface and an implementation. When the user wants a codebase's
+design improved but has no target shape in mind, or the code is hard to test, use the test-led loop below.
 
 ## Who decides
 
@@ -51,6 +52,28 @@ a package, class, function, or another unit with an interface and an implementat
 9. Check the result against step 1: every preserved behavior passes its pin, and only the listed interfaces changed.
    For a module's interface, take the depth measures again and compare caller code with the agreed target.
 10. Finish as Changing code in `../SKILL.md` describes.
+
+## Test-led loop
+
+When nobody can name the target shape up front, let tests find it. Difficulty writing a good test points at the design
+problem, and each fix cuts out a piece of the code that can be tested on its own. This loop replaces steps 3, 4, and 6;
+steps 1, 2, 5, and 7 to 10 still apply.
+
+1. Try to write a useful test for a piece of behavior, or to improve an existing one. A useful test works the way a
+   caller would use the code: it calls only the public interface, at the right level of abstraction, and asserts what
+   the caller observes. It does not pin the implementation or reach into internals (`../references/test-behavior.md`).
+2. When that test is hard to write, write down why, in concrete terms: a dependency with side effects is created inside
+   the code instead of passed in, the behavior is only reachable through a private function, setup needs half the
+   system, or the existing test only works by mocking or patching.
+3. Find the smallest change that makes the test a little easier, and make it as its own commit with the existing tests
+   green. Typical changes: introduce a seam where there is none so a fake can replace a patch, pull a pure function out
+   of code that mixes logic and side effects, or make a hidden step reachable through a public interface
+   (`../references/program-design.md`). The change stays inside the interfaces agreed in step 1; ask before going
+   beyond them.
+4. Write the test the change made possible, or rewrite the existing one to drop its mocks, patches, and reach into
+   internals. Commit it.
+5. Repeat from 1 with the next behavior. Keep the list of reasons from step 2: it shows where the design is weak, and
+   the reply reports it with the change that answered each reason.
 
 ## Done
 
