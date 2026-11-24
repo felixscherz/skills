@@ -53,7 +53,9 @@ available.
 
 - In your first message on a task, restate the user's goal and the problem
   behind it in your own words, and, when the task changes code, the smallest
-  change you expect to meet it. Go on without waiting for confirmation unless
+  change you expect to meet it. Name the playbook you are following, such as
+  "I'll follow the Fix a bug playbook", or say that none fits and you are
+  working from the references. Go on without waiting for confirmation unless
   the playbook says otherwise. When what you find rules out the change the
   user asked for, show the evidence and stop.
 - Before changing code, understand the problem, the domain, and how the parts

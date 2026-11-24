@@ -46,7 +46,8 @@ first, then how they hand over to each other and how to pick one when several se
 index of references, as a fallback for work no playbook covers.
 
 Rules that apply to every task, such as restating the goal in the first message, live in `SKILL.md` under "Start of a
-task" instead of being repeated as the first step of each playbook. The steps every code-changing playbook shares
+task" instead of being repeated as the first step of each playbook. The first message also names the playbook the
+agent picked, so a wrong route shows up before any work starts rather than later as wrong behavior. The steps every code-changing playbook shares
 (branch, test first, commit per step, update `CONTEXT.md`, open a PR) live there too, under "Changing code".
 
 ## Tenets

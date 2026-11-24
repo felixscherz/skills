@@ -22,22 +22,35 @@ you used at the top of your reply.
 
 ## Gather evidence
 
-Read `../engineering/SKILL.md` and the references that affected decisions in
-the work. Read other references when needed to verify a suspected conflict or
-missing rule. Then walk through the work and note:
+Read `../engineering/SKILL.md`, the playbook the agent named in its first
+message, and the references that affected decisions in the work. Read other
+playbooks and references when needed to verify a suspected conflict, a wrong
+route, or a missing rule. Then walk through the work and note:
 
 - **Rules applied.** Which rules were read, and which decision each one
-  changed. A rule that was read but changed nothing is a signal too.
+  changed. A rule that was read but changed nothing is a signal too. So is a
+  reference a playbook step named that was never opened: agents tend to stop
+  at the playbook, and the principle then never reaches the work.
 - **User corrections.** Every time the user redirected, rejected, or corrected
   the work. These are the strongest evidence. Ask whether a rule would have
   prevented the correction, or whether a rule caused it.
 - **Stated preferences.** Anything the user said about how they want code
   written, tested, reviewed, or discussed that no rule captures.
-- **Triggering.** A rule that should have been loaded but was not, or one that
-  was loaded without applying. Both point at the "when" text in the index in
-  `SKILL.md`.
-- **Friction.** A rule that was ambiguous, contradicted another rule or the
-  codebase, or pushed toward a worse result.
+- **Routing.** Check each layer that decides what gets read. The skill itself:
+  did it load, or did the agent work without it (its description, and the
+  global `AGENTS.md` line that points to it). The playbook: was the one the
+  agent named the right one, and if the user redirected it, which rule under
+  "When more than one seems to fit" in `SKILL.md` would have sent it there.
+  The references: one that should have been read and was not, or one read
+  without applying, points at its "when" text in the index or at the step
+  that should name it.
+- **Skipped steps.** Steps the agent said it skipped, and why. A step skipped
+  for the same reason more than once does not fit the work it is written for.
+- **Rules that misfired.** A rule that was ambiguous, contradicted another
+  rule or the codebase, or pushed toward a worse result. This is friction
+  with the rules, not the code friction the agent lists under "Friction" in
+  its reply. Code friction goes to the follow-up tracker; it is evidence here
+  only when the skill should have caught it and did not.
 - **Flags.** Problems with a rule that the agent already raised during the
   work, as the engineering skill asks it to. Treat each as a finding to
   verify, not as settled.
@@ -91,7 +104,11 @@ propose changes and ask before editing.
   detail. When a reference changes what it stands for, update its tenet. A
   new tenet replaces a weaker one.
 - Steps that every code-changing playbook shares live under "Changing code"
-  in `../engineering/SKILL.md`, not in the playbooks.
+  in `../engineering/SKILL.md`, and what to do about friction under "When
+  code resists", not in the playbooks.
+- When a change alters how the skill is structured or routes work, such as a
+  new playbook, a moved section, or a rule about what every reply holds,
+  record the reason in `docs/engineering-skill.md`.
 - One rule per file in `references/`: an H1 title, a short framing paragraph,
   and a few bullets. No frontmatter: when a rule applies is stated once, in
   its index entry, since references are only reached through an index.
@@ -117,4 +134,6 @@ propose changes and ask before editing.
   This keeps the top-level index short and language-neutral.
 - Keep the indexes in sync when adding, renaming, or removing a file: the
   folder's `INDEX.md` for language references, `../engineering/SKILL.md` for
-  everything else, and every playbook that links to the file.
+  everything else, and every playbook that links to the file. A new or
+  renamed playbook also needs its place under "When more than one seems to
+  fit" when its situation borders another playbook's.
