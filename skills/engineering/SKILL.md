@@ -24,7 +24,7 @@ to act on the line and need more than the line says.
 11. Every mistake found should make its whole class harder to repeat, with the lightest check that catches it (`references/never-make-the-same-mistake-twice.md`).
 12. Code is judged by how it is used. Changing behavior someone relies on needs sign-off, proof nobody uses it, or the old behavior kept available (`references/dont-break-production.md`).
 13. Keep work reviewable while it happens: a branch before the first change, one purpose per commit, a commit after every verified step (`references/keep-work-reviewable.md`).
-14. A change is done when its checks pass and it sits in front of a reviewer who can see what it is for (`playbooks/opening-a-pr.md`).
+14. A change is done when it is a PR with green CI, ready for a human reviewer who can see what it is for and who you expect to find no blocker (`playbooks/opening-a-pr.md`).
 15. Scale the rigor to blast radius and longevity. Core domain code gets all of the above; a prototype or one-off script gets almost none of it (`playbooks/prototype.md`).
 
 ## Know when rules do not apply
@@ -87,8 +87,12 @@ them. They do not apply to Prototype.
 - When the repository has a `CONTEXT.md` and the change adds, moves, renames,
   or removes a feature, a term, or a module, update it in the same change
   (`references/context.md`).
-- Finish with Opening a PR (`playbooks/opening-a-pr.md`). Without the user's
-  go-ahead to push, stop at a reviewable branch and report it.
+- Finish with Opening a PR (`playbooks/opening-a-pr.md`). The work is done
+  when it is a PR with green CI that is ready for human review: you reviewed
+  your own diff as Review code does and expect a human reviewer to find no
+  blocker. Without the user's go-ahead to push, stop at a branch in the same
+  state, with the project's checks passing, and report it. The next playbook
+  is Address feedback once a reviewer responds.
 
 ## When code resists
 

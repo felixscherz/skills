@@ -36,7 +36,7 @@ one branch or one PR. When it would take several PRs, propose the split and orch
    the file. Keep it to the current state; it is not a log.
 4. Split the playbook into phases. A phase ends where the playbook waits for the user or where a reviewable checkpoint
    exists, such as commits. Usually:
-   - Build a feature: settle the design (its steps 1 to 3), build (4 to 8), review. When the build is too large for
+   - Build a feature: settle the design (its steps 1 to 3), build (4 to 9), review. When the build is too large for
      one subagent, split it into vertical slices (`../references/optimize-for-shipping.md`), one phase each.
    - Find the cause, then Fix a bug: diagnose, fix, review.
    - Refactor: plan, build, review.
@@ -69,6 +69,13 @@ one branch or one PR. When it would take several PRs, propose the split and orch
 
 ## Done
 
-A reviewed branch, or a PR when opening one is authorized, that meets the agreed scope. The reply states the outcome
-against done when, the commits or the PR link, the decisions the user made along the way, how the work was verified
-and reviewed, and the follow-ups. When the PR gets feedback, the next playbook is Address feedback, run the same way.
+The outcome meets "done when" from step 1, and the wrapped playbook's Done holds. For a playbook that changes code
+that is the end state under Changing code in `../SKILL.md`: a reviewed PR with green CI, ready for human review, or a
+reviewed branch when opening a PR is not authorized.
+
+When the work grows beyond the scope (step 9) or waits on a decision, it stops there, and the reply brings the
+evidence, the smallest way to stay in scope, and a recommendation.
+
+The reply states the outcome against done when, the commits or the PR link, the decisions the user made along the way,
+how the work was verified and reviewed, and the follow-ups. When the PR gets feedback, the next playbook is Address
+feedback, run the same way.

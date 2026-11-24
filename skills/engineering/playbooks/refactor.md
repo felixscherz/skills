@@ -29,9 +29,11 @@ design improved but has no target shape in mind, or the code is hard to test, us
    their callers. For a module's interface, start from its callers: trace them, list the jobs they do and the behavior
    they rely on, and find consumers outside the codebase, such as callers of a package and readers of a wire format.
    Agree both lists with the user before touching code.
-2. Pin the preserved behavior. Find the tests that cover it through the public API, at a level that survives the
-   change (`../references/test-behavior.md`). Where it is not covered, write the missing tests against the current code
-   and see them pass. Type checks and lint are not a pin.
+2. Pin the preserved behavior on a branch of its own (`../references/keep-work-reviewable.md`). Find the tests that
+   cover it through the public API, at a level that survives the change (`../references/test-behavior.md`). Where it
+   is not covered, write the missing tests against the current code, see them pass, and commit them on that branch.
+   Type checks and lint are not a pin. The pinning branch is reviewed as its own PR, so the reviewer can judge the pin
+   apart from the move. When the existing tests already pin everything, there is no pinning branch.
 3. Name the target shape: the concept the code is missing, or the drift it fixes, and what the modules and types look
    like after (`../references/redesign-from-first-principles.md`, `../references/program-design.md`,
    `../references/domain-driven-design.md`, `../references/type-system.md`). When the refactor is broad, propose it
@@ -39,8 +41,8 @@ design improved but has no target shape in mind, or the code is hard to test, us
 4. When the target is a module's interface, find the complexity callers carry that the module could own and record the
    depth measures (`../references/deep-modules.md`). Sketch at least two different interfaces as caller code, propose
    one with caller code before and after, and wait for the user.
-5. Start a branch or worktree (`../references/keep-work-reviewable.md`) and commit the pinning tests first, on their
-   own.
+5. Start the refactor's branch from the pinning branch, so its PR stacks on the pinning PR, or from the default branch
+   when there is no pinning branch (`../references/keep-work-reviewable.md`).
 6. Move in small steps that keep the pin green, and commit each one. Keep mechanical commits, such as renames and
    moves, apart from reshaping commits. Migrate every caller of a changed internal interface and delete the old one in
    the same change, unless outside consumers need it kept. Check renames against strings, config, and docs that the
@@ -51,7 +53,7 @@ design improved but has no target shape in mind, or the code is hard to test, us
 8. When you find a bug or a missing feature, write it down as a follow-up and keep its current behavior.
 9. Check the result against step 1: every preserved behavior passes its pin, and only the listed interfaces changed.
    For a module's interface, take the depth measures again and compare caller code with the agreed target.
-10. Finish as Changing code in `../SKILL.md` describes.
+10. Finish as Changing code in `../SKILL.md` describes, for both branches, as stacked PRs with the pinning PR first.
 
 ## Test-led loop
 
@@ -74,10 +76,21 @@ steps 1, 2, 5, and 7 to 10 still apply.
    internals. Commit it.
 5. Repeat from 1 with the next behavior. Keep the list of reasons from step 2: it shows where the design is weak, and
    the reply reports it with the change that answered each reason.
+6. Stop when every behavior listed in step 1 of Steps has a useful test without mocks, patches, or reach into
+   internals, or when the next change would go beyond the agreed interfaces. Report the behaviors still without a
+   useful test and what blocks each.
 
 ## Done
 
-A branch, or a PR when opening one is authorized, whose commits change the structure and leave the pinned behavior
-unchanged. The reply names the preserved behavior and the tests that pin it, the shape before and after, the
-interfaces that changed, and the bugs and features found along the way as follow-ups. For a module's interface, it
-shows caller code before and after with the depth measures, and how outside consumers are handled.
+Two stacked PRs, or only the second when no pin had to be written, each in the end state under Changing code in `../SKILL.md`: green CI, ready for human review. The
+first holds the pinning tests, passing against the current code. The second holds the refactor: every preserved
+behavior from step 1 passes its pin, and only the interfaces listed there changed.
+
+When a pin has to change because the behavior is changing (step 7), or the target shape waits on the user, the work
+stops at the last green commit, and the reply shows the evidence and a recommendation.
+
+The reply names the preserved behavior and the tests that pin it, the shape before and after, the interfaces that
+changed, and the bugs and features found along the way as follow-ups. For a module's interface, it shows caller code
+before and after with the depth measures, and how outside consumers are handled. After the test-led loop, it lists the
+reasons tests were hard to write and the change that answered each. The next playbook, once a reviewer responds, is
+Address feedback (`address-feedback.md`).

@@ -116,9 +116,14 @@ propose changes and ask before editing.
   after the rule, holding `<rule>.md` and those files.
 - One workflow per file in `playbooks/`: an H1 title, a short framing
   paragraph, then `## Applies when`, `## Who decides`, `## Steps`, and
-  `## Done`. Done says what the final reply holds and which playbook usually
-  comes next. Each step names the references it needs at the point it needs
-  them. A playbook holds steps, not principles: a rule that applies beyond one
+  `## Done`. The first step states what success looks like for the task, and
+  a later step checks the result against it. Done opens with the end state as
+  conditions an agent can check, then names each exit that is not success,
+  such as blocked on the user or a "no", and what the reply says for it, then
+  what the final reply holds and which playbook usually comes next. A
+  playbook that changes product code ends in the shared end state under
+  "Changing code" in `../engineering/SKILL.md` instead of restating it. Each
+  step names the references it needs at the point it needs them. A playbook holds steps, not principles: a rule that applies beyond one
   playbook belongs in `references/`. The reasoning behind this split is in
   `docs/engineering-skill.md` at the root of the skills repo.
 - Language- or framework-specific rules go in `references/<language>/`. They

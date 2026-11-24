@@ -40,8 +40,14 @@ dashboard, or a description of what users saw.
 
 ## Done
 
-A diagnosis in the reply: the symptom, the cause with the file and line where the bad state is created, the chain from
-cause to symptom, and the evidence for each link. It names the reproduction and how to run it, the candidate causes
-that were eliminated and what ruled each out, and anything that is still unexplained. It may say where a fix belongs,
-without making it. The next step is the user's: usually a bug fix, which starts from the reproduction as its failing
-test.
+The cause is proven: a reproduction fails the way the report describes, for the reason named, and every link in the
+chain from cause to symptom has evidence.
+
+When the failure cannot be reproduced, the cause is not proven, and the reply says so first. It gives the most likely
+cause, what the evidence supports and what it does not, and the evidence or access that would settle it.
+
+The diagnosis in the reply: the symptom, the cause and where the bad state is created (a file and line, or the config,
+data, or system that holds it), the chain from cause to symptom, and the evidence for each link. It names the
+reproduction and how to run it, the candidate causes that were eliminated and what ruled each out, and anything that
+is still unexplained. It may say where a fix belongs, without making it. The next step is the user's: usually Fix a
+bug (`fix-a-bug.md`), which starts from the reproduction as its failing test.

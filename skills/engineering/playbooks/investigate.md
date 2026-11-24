@@ -36,10 +36,16 @@ belongs in Design (`design.md`).
    change, find who relies on the behavior it would alter (`../references/dont-break-production.md`).
 5. Keep what you observed apart from what you inferred. Give each claim its evidence: a file and line, a command and
    its output, or a link to the documentation.
-6. Reach a verdict and recommend. For feasibility that is yes, no, or yes under named conditions, with what it would
+6. Reach a verdict and check it against what step 1 said would answer the question. Then recommend. For feasibility that is yes, no, or yes under named conditions, with what it would
    take and the main risk. Do not soften a no into a plan.
 
 ## Done
+
+The answer settles the question as step 1 framed it. Every claim carries its evidence, and what was observed is kept
+apart from what was inferred.
+
+When part of the question cannot be settled, such as a system out of reach, the reply says which part, what would
+settle it, and how the answer changes either way.
 
 The reply opens with the answer in a sentence or two. Then it explains how the thing works or why the verdict holds,
 with the evidence for each claim, and names what was not checked and what is still uncertain. A feasibility answer

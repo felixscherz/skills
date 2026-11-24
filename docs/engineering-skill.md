@@ -33,8 +33,11 @@ Each playbook is one file in `playbooks/` with:
 - **Who decides.** Where the user is in the loop: which decisions wait for them, and what the agent settles alone.
 - **Steps.** Ordered, each with the references it pulls in. A step names its reference at the point it applies, not
   in a list at the top.
-- **Done.** What the playbook hands back, what the final reply holds, and which playbook usually comes next. The reply
-  is where I review the work, so each playbook says what it contains rather than leaving it to the agent.
+- **Done.** The end state that must hold, as conditions an agent can check against what the first step set out to
+  show; the exits that are not success, such as blocked or a "no", and what the reply says for each; what the final
+  reply holds; and which playbook usually comes next. Without a checkable end state an agent cannot tell when it has
+  finished, and a reply that only describes the work hides whether it succeeded. The reply is where I review the work,
+  so each playbook says what it contains rather than leaving it to the agent.
 
 An agent that skips a step says which and why in its reply. An earlier version had the agent copy the steps into its
 todo list; no session did, so the rule is gone.

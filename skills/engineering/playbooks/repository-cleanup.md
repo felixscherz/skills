@@ -59,7 +59,9 @@ current repository unless the user names others. Remote branches are out of scop
 
 ## Done
 
-The reply lists what was removed with each branch's last tip, so the user can restore one with
-`git branch <name> <sha>`, what was kept and why, and anything that needs the user's decision, such as Gone branches
-with unmerged commits, dirty worktrees, and unregistered directories. Nothing usually follows; a Gone branch the user
-wants to keep may go on to Opening a PR (`opening-a-pr.md`).
+Every approved item is removed, nothing else is, and each removed branch's last tip is recorded.
+
+The reply lists what was removed with each branch's last tip, so the user can restore one with `git branch <name>
+<sha>`, what was kept and why, and anything that needs the user's decision, such as Gone branches with unmerged
+commits, dirty worktrees, and unregistered directories. Nothing usually follows; a Gone branch the user wants to keep
+may go on to Opening a PR (`opening-a-pr.md`).

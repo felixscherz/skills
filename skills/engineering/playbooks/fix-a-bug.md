@@ -40,6 +40,12 @@ When the cause is not known yet, run Find the cause (`find-the-cause.md`) first.
 
 ## Done
 
-A branch, or a PR when opening one is authorized, with the fix and its test. The reply states the bug, the cause, the
-fix and where it sits, the test output before and after the fix, and the follow-ups: other instances found, adjacent
-bugs, and the proposed check against the class of mistake.
+The change is in the end state under Changing code in `../SKILL.md`: a PR with green CI, ready for human review. Its
+test failed without the fix for the stated cause and passes with it.
+
+When the code contradicts the stated cause (step 1), or the right fix is larger than a fix, the work stops before the
+fix, and the reply shows the evidence and the options with a recommendation.
+
+The reply states the bug, the cause, the fix and where it sits, the test output before and after the fix, and the
+follow-ups: other instances found, adjacent bugs, and the proposed check against the class of mistake. The next
+playbook, once a reviewer responds, is Address feedback (`address-feedback.md`).

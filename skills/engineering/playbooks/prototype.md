@@ -35,7 +35,10 @@ be built on it, use Build a feature (`feature.md`).
 
 ## Done
 
-After each cycle, the reply says what works now, how to run or see it, and what the agent chose where the request left
-it open. It says plainly that the code is a prototype. When the user wants to make it real, the reply gives the list of
-shortcuts, and the next playbook is Design or Build a feature, where the user decides whether to harden the
-prototype or rebuild it.
+Each cycle ends with the prototype running and the user able to see it. The playbook ends when the prototype has shown
+what step 1 set out to show, either way, or when the user stops.
+
+After each cycle, the reply says whether the prototype shows what step 1 set out to show yet, what works now, how to
+run or see it, and what the agent chose where the request left it open. It says plainly that the code is a prototype.
+When the user wants to make it real, the reply gives the list of shortcuts, and the next playbook is Design or Build a
+feature, where the user decides whether to harden the prototype or rebuild it.

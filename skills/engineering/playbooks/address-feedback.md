@@ -36,7 +36,8 @@ of `../references/review-output.md`.
    (`../references/keep-work-reviewable.md`). When the item is a bug, write the failing test first
    (`../references/test-behavior.md`). When the fix changes observable behavior, apply
    `../references/dont-break-production.md`.
-6. Run the project's checks. Push only with the user's go-ahead, and watch CI (`gh pr checks --watch`).
+6. Run the project's checks. Push only with the user's go-ahead, and watch CI (`gh pr checks --watch`). When a fix
+   went into an earlier commit, the push rewrites history: say it needs a force push when asking.
 7. When the fixes changed what the PR does, update its description
    (`../references/pull-request-description/pull-request-description.md`).
 8. Draft a reply per thread: the fix and its commit, or the reason for dismissing it. Post them only with the user's
@@ -44,5 +45,12 @@ of `../references/review-output.md`.
 
 ## Done
 
-Every item has a decision. The reply lists each item with its decision, the commit that fixed it or the reason it was
-dismissed, the items waiting for the user, the follow-ups, and the CI status when something was pushed.
+Every item has a decision, each fix is committed where the code it fixes lives, and the project's checks pass. When
+something was pushed, the PR is back in the end state under Changing code in `../SKILL.md`: green CI, ready for
+another round of human review, with a description that matches the diff.
+
+Items that wait for the user stay open, and the work on them waits. The reply lists them with a recommendation each.
+
+The reply lists each item with its decision, the commit that fixed it or the reason it was dismissed, the items
+waiting for the user, the drafted replies, the follow-ups, and the CI status when something was pushed. When the
+reviewer responds again, the next playbook is Address feedback again.

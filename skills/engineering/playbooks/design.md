@@ -55,6 +55,12 @@ services (interactions, contracts, infrastructure).
 
 ## Done
 
-The user confirmed the design. The reply summarizes it in a few lines with each decision and its reason, and lists
-what became a follow-up. When the user chose to record it, an accepted spec exists and its path is in the reply. The next
-playbook is usually Build a feature, in this session or another.
+The user confirmed the design. It meets every requirement from step 1, every open decision from step 7 has a choice
+and a reason, and it says how it will be verified.
+
+When the work shows the request should not be built as asked, such as a requirement that conflicts with behavior
+others rely on, the reply shows the evidence and the options and waits for the user.
+
+The reply summarizes the design in a few lines with each decision and its reason, and lists what became a follow-up.
+When the user chose to record it, an accepted spec exists and its path is in the reply. The next playbook is usually
+Build a feature, in this session or another.

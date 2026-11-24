@@ -46,6 +46,11 @@ PR", "code review", "review my branch", a PR number or URL.
 
 ## Done
 
-The review in the reply, in the shape of `../references/review-output.md`, with an unconfirmed intent marked at the
-top. Nothing is posted without the user's go-ahead. When the author or an agent acts on the review, the next playbook is
-Address feedback.
+The review checks the change against an intent the user confirmed, or marks the intent as unconfirmed at the top.
+Every finding is backed by the code and classified as blocker or non-blocker.
+
+When the intent cannot be established (step 2), the review waits, and the reply holds the questions for the user or
+the author.
+
+The review in the reply, in the shape of `../references/review-output.md`. Nothing is posted without the user's go-
+ahead. When the author or an agent acts on the review, the next playbook is Address feedback.

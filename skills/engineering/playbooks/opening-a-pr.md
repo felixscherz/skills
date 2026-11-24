@@ -21,19 +21,28 @@ description needs writing or updating. Build a feature ends here.
    config (`.github/workflows/`, `.gitlab-ci.yml`, ...), `Makefile`, `justfile`, or package scripts rather than
    guessing. Everything must pass. Never skip, weaken, or delete a check to get green. If a check fails for a reason
    unrelated to the change, confirm that by running it on the default branch, and say so in the PR.
-2. Read your own diff as a reviewer would. Remove debug output, commented-out code, and unrelated changes. Split the
-   commits so each is one reviewable unit, and propose stacked PRs when the change is too large for one review
-   (`../references/keep-work-reviewable.md`).
+2. Review your own diff the way Review code does (`review-code.md`, steps 2 to 7): against the change's intent, every
+   new name, and every changed test. Fix every blocker it finds, so you expect a human reviewer to find none. Remove
+   debug output, commented-out code, and unrelated changes. Split the commits so each is one reviewable unit, and
+   propose stacked PRs when the change is too large for one review (`../references/keep-work-reviewable.md`).
 3. Write the description (`../references/pull-request-description/pull-request-description.md`).
 4. Push and open the PR with the platform's CLI: `gh pr create` for GitHub, `glab mr create` for GitLab. Pass the
    description through a file (`--body-file`) so formatting survives. Target the branch the repository integrates
    into, usually the default branch. Open it as a draft only when it still needs input before it is reviewable, and
    say what input.
 5. Watch CI (`gh pr checks --watch`) and fix failures. A PR with red CI is not done.
-6. When feedback or new commits change the scope, update the description so it still matches the diff.
 
 ## Done
 
-The reply holds the PR link and its CI status, with CI green or each remaining failure explained, and names anything
-the reviewer has to decide, such as a breaking change or a draft's missing input. The next playbook, once a reviewer
-responds, is Address feedback (`address-feedback.md`).
+The PR is open, its CI is green, and it is ready for human review: your own review left no blocker, and the
+description says what the change is for and matches the diff. The reply holds the PR link and the CI status, and names
+anything the reviewer has to decide, such as a breaking change.
+
+When the PR cannot get there, the reply says why:
+
+- Without the user's go-ahead to push, it names the branch, confirms the project's checks pass on it, and says it is
+  ready to push.
+- When a CI failure is unrelated to the change, it shows the same failure on the default branch, and the PR says so.
+- When the PR needs input before it is reviewable, it is a draft, and the reply says what input.
+
+The next playbook, once a reviewer responds, is Address feedback (`address-feedback.md`).

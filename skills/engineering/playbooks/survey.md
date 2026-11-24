@@ -24,7 +24,8 @@ A request to improve a named module, or to act on a finding, is Refactor (`refac
 
 1. Read the nearest `CONTEXT.md` and name the core of the domain: the parts whose behavior matters most. From the
    history, find the files that change most often, and the commits that touched many files for a small change
-   (`git log --stat`). Survey where the two overlap first.
+   (`git log --stat`). Survey where the two overlap first, a few areas at a time. Stop when new probes only repeat
+   causes already found, and ask before going wider.
 2. For each of those wide commits, trace why every file had to change. A file that changed only because it knows
    something another file also knows is friction (`../references/friction.md`).
 3. Probe each area by doing the work. Write a useful test of a key behavior through its public interface, as
@@ -41,7 +42,11 @@ A request to improve a named module, or to act on a finding, is Refactor (`refac
 
 ## Done
 
-Nothing is committed. The reply opens with the top findings in a sentence each. Then, for each finding in rank order:
-the cause, the evidence (the moments from step 3, files and lines, the commits from step 2), the shape that would remove
-it, a rough size, and the next playbook. It ends with the areas surveyed and the ones left out. When the user picks a
-finding, the next playbook is Refactor or Design. When the user asks, the findings go into the follow-up tracker.
+Nothing is committed and the probes are discarded. Every finding rests on a moment where the work resisted, findings
+with one cause are merged, and the list is ranked. A survey that finds no friction worth its cost says so; that is a
+valid result.
+
+The reply opens with the top findings in a sentence each. Then, for each finding in rank order: the cause, the
+evidence (the moments from step 3, files and lines, the commits from step 2), the shape that would remove it, a rough
+size, and the next playbook. It ends with the areas surveyed and the ones left out. When the user picks a finding, the
+next playbook is Refactor or Design. When the user asks, the findings go into the follow-up tracker.

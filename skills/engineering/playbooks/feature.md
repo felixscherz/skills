@@ -52,11 +52,17 @@ recorded in a spec, it belongs in Design first.
 7. Check the result against the design: with a spec, every normative requirement against its passing check and every
    adaptation against the spec's intent; without one, the change against the agreed proposal.
 8. When the change completes a spec, set its status to `Implemented` in the same change.
+9. Finish as Changing code in `../SKILL.md` describes.
 
 ## Done
 
-A branch, or a PR when opening one is authorized, that implements the agreed design. The reply states the design as
-built in a few lines and says how it was verified. With a spec, it maps each normative requirement to the check that
-proves it and lists each adaptation of unmarked guidance with its reason. Without one, it names any point where the
-build departed from the proposal and why. It lists what remains open or became a follow-up. The next playbook is
-usually Opening a PR (`opening-a-pr.md`).
+The change is in the end state under Changing code in `../SKILL.md`: a PR with green CI, ready for human review. With
+a spec, every normative requirement has a passing check. The build matches the agreed design, or names each departure.
+
+When a decision from step 3 or 6 is still open, the work stops at the last verified step, and the reply names the
+decision, its options, and a recommendation.
+
+The reply states the design as built in a few lines and says how it was verified. With a spec, it maps each normative
+requirement to the check that proves it and lists each adaptation of unmarked guidance with its reason. Without one,
+it names any point where the build departed from the proposal and why. It lists what remains open or became a follow-
+up. The next playbook, once a reviewer responds, is Address feedback (`address-feedback.md`).
