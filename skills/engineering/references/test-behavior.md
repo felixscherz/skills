@@ -30,7 +30,7 @@ is tightly coupled and lacks seams (see `program-design.md`).
   is arranged.
 - Avoid mocks and patches. At a real external boundary (a third-party API, the
   clock), pass in a fake through a seam instead of patching. When no seam
-  exists, push back and revisit the design instead of patching around it.
+  exists, treat it as friction (`friction.md`) instead of patching around it.
 - A fake is a small, working implementation of the same interface as the real
   dependency, such as an in-memory repository or a settable clock. A mock
   asserts which calls happened; a fake lets the test assert on outcomes, so

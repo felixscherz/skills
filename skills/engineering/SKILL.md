@@ -15,8 +15,8 @@ to act on the line and need more than the line says.
 2. A requirement that does not fit the model gets a model change, not a special case (`references/redesign-from-first-principles.md`).
 3. The goal is a shipped change. Scope each change to the smallest coherent solution that can ship on its own and safely, and name the fuller design as a follow-up (`references/optimize-for-shipping.md`).
 4. Say how you will verify the work before you build it. Write the test first and see it fail for the intended reason (`references/test-behavior.md`).
-5. Test behavior through the public API, with fakes at real boundaries instead of mocks and patches (`references/test-behavior.md`).
-6. Keep a pure core with side effects at the edges and dependencies passed in. Code that is awkward to test is awkward to use (`references/program-design.md`).
+5. Test behavior through the public API. Keep a pure core with side effects at the edges and dependencies passed in, so tests use fakes instead of mocks and patches (`references/test-behavior.md`, `references/program-design.md`).
+6. Friction is a design signal. When a good test will not come together or a simple change touches many files, name the cause before working around it, then fix it or raise it (`references/friction.md`).
 7. Make modules deep: a simple interface that hides a lot, judged from the caller's side (`references/deep-modules.md`).
 8. Let types carry meaning. Make illegal states unrepresentable, and never pass a bare primitive for a domain value (`references/type-system.md`).
 9. Names matter enough to block a change. A reader should understand a name without opening the implementation (`references/code-review.md`).
@@ -88,6 +88,24 @@ them. They do not apply to Prototype.
 - Finish with Opening a PR (`playbooks/opening-a-pr.md`). Without the user's
   go-ahead to push, stop at a reviewable branch and report it.
 
+## When code resists
+
+Friction is a design signal (`references/friction.md`). When a good test
+will not come together or a simple change spreads across many files, stop
+before writing the workaround, such as the patch, the copied code, or the
+special case, and name the cause. Prototype skips this.
+
+- Fix it in the task only when the task's own change needs the fix, the fix
+  stays inside the code the task already touches, and it keeps behavior. It
+  goes in its own commit before the change it enables.
+- Otherwise leave the code as it is and raise the friction: its moment, its
+  cause, and the shape that would remove it. Raise it in the follow-up
+  tracker for this work, the place that the repository's `AGENTS.md` or
+  `CONTEXT.md`, the agent folder, or the strand names for follow-ups. When
+  none is named, list it under "Friction" in the reply.
+- Never work around friction silently. A workaround that stays in the change
+  is named in the reply next to the friction behind it.
+
 ## Playbooks
 
 A playbook is the workflow for one kind of task. It says who decides what,
@@ -112,6 +130,10 @@ which and why in your reply.
   codebase, or library works, whether something is feasible or worth doing,
   or which of several options fits, and nothing has failed. Read-only. Ends
   in an answer backed by evidence, which may be "no".
+- **Survey a codebase** (`playbooks/survey.md`). The user wants to apply
+  forward pressure on a codebase: find what to improve or tasks to do, or
+  where the code is hard to work with, without naming a target. Read-only.
+  Ends in a ranked list of friction findings with evidence.
 - **Prototype** (`playbooks/prototype.md`). The user wants a proof of
   concept, a spike, or a throwaway project built fast to learn something.
   Production concerns are out and the agent decides how to build it.
@@ -147,7 +169,9 @@ When more than one seems to fit, pick by what the user wants at the end.
 A bug report whose cause is unknown starts at Find the cause, even when the
 user asks for a fix; Fix a bug follows once the user accepts the diagnosis.
 A question about something that works is Investigate; a question about
-something that failed is Find the cause. A refactor that would change
+something that failed is Find the cause. A request to find what to improve
+is Survey a codebase; once the user picks a finding, it is Refactor or
+Design. A refactor that would change
 behavior is Build a feature or Fix a bug, not Refactor. A request that names
 a spec is Build a feature, even when the change is small. A request to try
 something out quickly is Prototype, even when it looks like a feature.
@@ -211,6 +235,9 @@ Rules that shape design and engineering decisions in any language.
 - **Deep modules** (`references/deep-modules.md`). Designing or changing a
   module's interface, deciding what a module hides, or callers that repeat
   work, decisions, or knowledge the module could own.
+- **Friction** (`references/friction.md`). The work resists: a good test
+  will not come together, a simple change touches many files, or you are
+  about to write a patch, copied code, or a special case to get past it.
 - **Type system** (`references/type-system.md`). Designing types, signatures, or
   data shapes, or reaching for a plain string, dict, or bool that carries
   meaning.

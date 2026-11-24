@@ -56,6 +56,18 @@ detail. They exist because agents read the playbook and stopped there. In the fi
 opened a playbook and none opened a reference its steps named, so the principles never reached the work. The tenets
 load with the skill and carry the principles into every session; the references stay as depth.
 
+## Friction
+
+The references say what good looks like, but an agent in the middle of a task does not notice that it is violating
+one. It notices what it is doing: writing a patch, copying a transformation, editing a tenth file for a one-line
+change. `references/friction.md` lists design signals in that form, each pointing to the reference with the cure.
+
+What to do about friction applies to every code-changing playbook, so it lives in `SKILL.md` under "When code
+resists" rather than in a reference an agent might not open: fix it in the task only when the task's change needs it,
+otherwise raise it in the follow-up tracker, or in the reply when there is none. It is not a separate skill because it
+only arises during engineering work, when this skill is already loaded. Survey a codebase is the same signals sought
+on purpose.
+
 ## Design stays with the user
 
 I stay in the loop for design. An agent does not come up with a design and implement it without my agreement. There
@@ -80,11 +92,13 @@ build into slices for subagents.
 
 ## Playbooks
 
-The list of playbooks, with when each applies, is the index in `SKILL.md`. Two of them take a different posture from
+The list of playbooks, with when each applies, is the index in `SKILL.md`. Three of them take a different posture from
 the rest:
 
 - **Investigate** is read-only and autonomous: the agent settles every fact itself and comes back with an answer,
   which may be "no".
+- **Survey a codebase** is read-only and autonomous too, but goes looking for work rather than answering a question:
+  it pushes on the code the way real work would and returns ranked friction findings for me to pick from.
 - **Prototype** suspends the production rules and the design gate: the agent decides how to build and the user
   reacts to results.
 
