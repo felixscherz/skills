@@ -12,6 +12,11 @@ Two goals:
 2. Harness-level behavior (like auto-invocation) is configured for each
    harness's own convention, so all harnesses behave the same.
 
+This skill covers where a skill lives and how its file is shaped. For what a
+skill should say and depend on, such as tools or paths that differ between
+users, there is the user-invoked `skill-design` skill. When a skill you are
+writing depends on such things, suggest the user run it.
+
 ## Global or project-local
 
 - **Global** - useful across repositories (personal workflow, general
