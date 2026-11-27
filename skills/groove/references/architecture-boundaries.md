@@ -114,7 +114,8 @@ use cases, ports, errors, and any fakes for its ports.
     when the rule is in its language.
     It changes the lower modules
     through their public rules and repositories,
-    in one unit of work while they share a store,
+    in one unit of work when the domain requires an atomic change
+    and they share a store,
     and through events otherwise.
     When the rule is in a lower module's language instead,
     that module commits its own change and records an event,

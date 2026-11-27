@@ -117,8 +117,8 @@ with `include_external_packages = true`,
 so contracts can forbid frameworks as well as project packages.
 Write each contract `name` as the instruction,
 because it is what the failure prints.
-For the layout in `fastapi-applications.md` (contexts `bookings` and `billing`),
-four contracts cover the architecture:
+For an example service with `bookings` and `billing` contexts,
+four contracts can cover its chosen architecture:
 
 ```toml
 [[tool.importlinter.contracts]]

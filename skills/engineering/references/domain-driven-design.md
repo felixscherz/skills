@@ -71,10 +71,13 @@ not only entities.
   loads inputs through ports,
   lets the domain decide,
   persists results,
-  and owns the transaction boundary:
-  one use case,
-  one unit of work.
-  Run every rule before the first write.
+  and makes the transaction and failure boundary explicit.
+  Decide which writes must commit together
+  and how independent effects recover from partial failure.
+  Use a unit of work when it helps enforce that boundary;
+  not every multi-write operation needs one.
+  Run rules on loaded values before writing where possible,
+  and enforce concurrency-sensitive invariants at the store boundary.
   Entry points delegate to one use case.
   Use cases do not call other use cases,
   and domain services do not orchestrate other services.

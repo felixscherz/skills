@@ -71,6 +71,14 @@ not up front.
     to invoke Uvicorn or another server directly.
     The startup path owns configuration and logging before application initialization.
     Tests exercise the installed command.
+- **Application composition and lifecycle**
+  (`references/application-composition.md`).
+  Wiring a service, HTTP adapter, worker, or long-lived resource,
+  or deciding who owns startup and shutdown.
+  - Compose shared dependencies once per intended scope;
+    entry points receive them rather than building their own.
+    Choose one lifecycle owner per resource,
+    and supervise the service independently of HTTP when its job requires it.
 - **Releases**
   (`references/releases.md`).
   Setting up or changing package versioning,
@@ -229,6 +237,11 @@ These questions cover the rest:
    Do the release notes explain breaking changes?
    Are artifacts built from the checked, clean tagged commit,
    with downloads retained for as long as the release is supported?
+10. **Composition and lifecycle.** Do entry points use the same intended instances,
+    without hidden import-time construction?
+    Is each resource owned and supervised by exactly one lifecycle,
+    including partial startup and shutdown?
+    Where readiness is exposed, do it and the tests reflect the work the service can actually accept?
 
 ## Report back
 

@@ -86,11 +86,12 @@ src/acme/
 - **Infrastructure implements ports**
   against the real world: files, databases, HTTP, other modules.
   It is the only layer that may touch them.
-- **A unit of work
-  when a use case writes more than once.** Its protocol lives in the `usecases/ports.py` of the module
-  whose use case needs it,
+- **A unit of work for writes that must commit together.** Its protocol lives in the `usecases/ports.py` of the module
+  whose use case owns that transaction,
   and lists only the repositories that must commit together.
-  One use case is one unit of work.
+  Multiple writes do not by themselves require a unit of work.
+  When effects cannot commit together,
+  make their partial-failure and recovery policy explicit.
 - **A layer may start as a file.** In a package module, `domain.py` becomes `domain/` when it grows.
   The contracts treat both the same.
 - **Entry points are a layer too.** HTTP routes, CLI commands,
@@ -265,7 +266,8 @@ is doing I/O.
   not a port passed in as an argument.
 - Does a use case run all its rules
   before its first write?
-- Did a use case start writing twice without a unit of work?
+- Did writes that must commit together get a unit of work,
+  and do independent effects have an explicit failure and recovery policy?
 - Did you add a module?
   Add it to the layers contract between modules.
   If it is a package,

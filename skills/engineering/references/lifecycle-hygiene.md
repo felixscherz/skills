@@ -19,6 +19,17 @@ These failures stay invisible in tests and surface in production.
   including the dependencies and tasks that job needs.
   A listening port or a metrics endpoint
   is not proof of that.
+- Start prerequisites before accepting work,
+  and keep liveness distinct from readiness.
+  Withdraw readiness as soon as shutdown begins;
+  prevent an in-flight startup from marking it ready again.
+  A startup-complete check alone is not ongoing health monitoring.
 - Shutdown is idempotent
   and releases every resource the service opened:
   tasks, consumers, clients, and connections.
+- Give every task and resource one lifecycle owner,
+  including resources allocated before startup fails or is cancelled.
+  Stop accepting work before its dependencies,
+  use a bounded overall shutdown budget,
+  and report incomplete cleanup rather than claiming it succeeded.
+  Cancellation and cleanup failures must not silently hide the original failure.
