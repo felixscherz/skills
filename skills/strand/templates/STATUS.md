@@ -1,7 +1,6 @@
 # Status: {{name}}
 
-Status: active
-Updated: {{YYYY-MM-DD}}
+Status: active Updated: {{YYYY-MM-DD}}
 
 ## Now
 

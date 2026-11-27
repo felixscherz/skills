@@ -2,7 +2,8 @@
 
 ## Responsibility
 
-{{what this agent owns, and what it does not}}
+{{what this agent owns,
+and what it does not}}
 
 ## Decides alone
 
@@ -10,8 +11,11 @@
 
 ## Escalates
 
-- {{what}} -> {{to whom, as which message type}}
-- Anything for the user -> {{path to the inbox where their review collects}}, as a `decision-request`
+- {{what}} -> {{to whom,
+  as which message type}}
+- Anything for the user -> {{path to the inbox
+  where their review collects}},
+  as a `decision-request`
 
 ## Output budget
 

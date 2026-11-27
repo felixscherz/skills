@@ -13,7 +13,8 @@ date: {{YYYY-MM-DD HH:MM}}
 
 ## Where
 
-{{where the work lives: strand, repository, branch, or path}}
+{{where the work lives:
+strand, repository, branch, or path}}
 
 ## Acceptance criteria
 
@@ -21,8 +22,10 @@ date: {{YYYY-MM-DD HH:MM}}
 
 ## Constraints
 
-- {{what must not change, limits, things to leave alone}}
+- {{what must not change, limits,
+  things to leave alone}}
 
 ## Stop and ask when
 
-- {{condition under which to stop and send a decision-request instead of continuing}}
+- {{condition under which to stop and send a decision-request
+  instead of continuing}}

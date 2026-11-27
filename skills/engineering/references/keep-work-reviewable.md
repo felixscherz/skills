@@ -1,51 +1,90 @@
 # Keep work reviewable
 
-Work nobody can review cannot be trusted or shipped. A reviewer can judge a
-change that does one thing and fits in one sitting. A large diff that mixes
-purposes gets skimmed or sent back. Splitting work is easy while it happens and
-hard once it has piled up, so checkpoint it for review as you go.
+Work nobody can review cannot be trusted or shipped.
+A reviewer can judge a change that does one thing
+and fits in one sitting.
+A large diff that mixes purposes gets skimmed or sent back.
+Splitting work is easy while it happens and hard once it has piled up,
+so checkpoint it for review as you go.
 
-- Start on a feature branch, or in a separate worktree, before the first
-  change, never on the default branch. Creating the branch only when it is
-  time to commit means the work so far happened where it did not belong.
+- Start on a feature branch,
+  or in a separate worktree,
+  before the first change,
+  never on the default branch.
+  Creating the branch only when it is time to commit
+  means the work so far happened where it did not belong.
   Follow the repository's branch naming and commit message conventions
-  (check `AGENTS.md`, `CONTRIBUTING.md`, commit history, commitizen or
-  commitlint config).
-- When the work needs a separate checkout, use a worktree
-  (`worktrees.md`).
-- Make each commit one reviewable unit: one purpose, a message that says why,
-  and a state that builds and passes the tests. A reviewer should be able to
-  read the commits in order and understand each one without the later ones.
-- Separate mechanical changes from behavior changes. A rename, move,
-  formatting pass, or preparatory refactor gets its own commit before the
-  change that needs it, so the reviewer can skim it and focus on the risk.
-- In markdown files, put each sentence on its own line (semantic line breaks, sembr.org).
-  Editing a sentence then changes one line in the diff, and a review comment or suggestion targets that sentence.
-  Hard-wrapping at a fixed width reflows the whole paragraph on a one-word edit.
-  Where a repository already wraps differently, follow it, and rewrap only in a commit of its own.
-  This is for committed files only: GitHub and GitLab render a single newline in PR descriptions, comments, and issues as a line break.
-- Commit as you go. When a step passes its check, commit it before starting
-  the next one. When uncommitted work starts to serve more than one purpose,
-  commit what is done before going on. This matters most when working
-  unattended: a long run that commits only at the end leaves one diff that
-  must be taken apart by hand, rebuilding intermediate versions of files that
-  later steps changed.
-- When work has accumulated anyway, split it before asking for review. Stage by
-  file or hunk into commits that each stand on their own, and verify each
-  commit, not only the last. Never hand over one large commit because
-  splitting is tedious.
-- Verify a commit in a clean checkout of it, such as a temporary worktree
-  (`git worktree add <dir> <sha>`), not in a working tree that still holds
-  later uncommitted changes. Those changes make the check pass or fail for
-  reasons the commit does not contain. Report which commit the check ran on.
-- When the whole change is too large for one review, ship it as stacked PRs.
-  Each PR holds one reviewable unit, targets the branch of the PR below it,
-  and leaves the default branch working if merged on its own. Each description
-  names the stack's order and the PR's place in it. Rebase and retarget the
-  stack as lower PRs merge.
-- For work that will span several reviews, plan the split before building:
-  say which commits or PRs the work becomes, and in which order.
-- A checkpoint is not permission to ship. Committing on the feature branch is
-  part of the work, but pushing, opening PRs, and merging still follow the
-  user's instructions. Where they are not authorized, stop at a reviewable
-  state, report it, and do not pile more work on top unasked.
+  (check `AGENTS.md`, `CONTRIBUTING.md`, commit history,
+  commitizen or commitlint config).
+- When the work needs a separate checkout,
+  use a worktree (`worktrees.md`).
+- Make each commit one reviewable unit:
+  one purpose, a message that says why,
+  and a state that builds and passes the tests.
+  A reviewer should be able to read the commits
+  in order and understand each one without the later ones.
+- Separate mechanical changes from behavior changes.
+  A rename, move, formatting pass,
+  or preparatory refactor gets its own commit
+  before the change that needs it,
+  so the reviewer can skim it
+  and focus on the risk.
+- In markdown files,
+  put each sentence on its own line
+  (semantic line breaks, sembr.org).
+  Editing a sentence then changes one line in the diff,
+  and a review comment or suggestion targets that sentence.
+  Hard-wrapping at a fixed width
+  reflows the whole paragraph
+  on a one-word edit.
+  Where a repository already wraps differently, follow it,
+  and rewrap only in a commit of its own.
+  This is for committed files only:
+  GitHub and GitLab render a single newline
+  in PR descriptions, comments, and issues as a line break.
+- Commit as you go.
+  When a step passes its check,
+  commit it before starting the next one.
+  When uncommitted work starts to serve more than one purpose,
+  commit what is done before going on.
+  This matters most when working unattended:
+  a long run that commits only at the end leaves
+  one diff that must be taken apart by hand,
+  rebuilding intermediate versions of files
+  that later steps changed.
+- When work has accumulated anyway,
+  split it before asking for review.
+  Stage by file or hunk into commits
+  that each stand on their own,
+  and verify each commit,
+  not only the last.
+  Never hand over one large commit
+  because splitting is tedious.
+- Verify a commit in a clean checkout of it,
+  such as a temporary worktree
+  (`git worktree add <dir> <sha>`),
+  not in a working tree
+  that still holds later uncommitted changes.
+  Those changes make the check pass or fail
+  for reasons the commit does not contain.
+  Report which commit the check ran on.
+- When the whole change is too large for one review,
+  ship it as stacked PRs.
+  Each PR holds one reviewable unit,
+  targets the branch of the PR below it,
+  and leaves the default branch working if merged on its own.
+  Each description names the stack's order
+  and the PR's place in it.
+  Rebase and retarget the stack
+  as lower PRs merge.
+- For work that will span several reviews,
+  plan the split before building:
+  say which commits or PRs the work becomes,
+  and in which order.
+- A checkpoint is not permission to ship.
+  Committing on the feature branch is part of the work,
+  but pushing, opening PRs,
+  and merging still follow the user's instructions.
+  Where they are not authorized,
+  stop at a reviewable state, report it,
+  and do not pile more work on top unasked.

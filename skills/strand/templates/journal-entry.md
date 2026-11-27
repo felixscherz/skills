@@ -6,7 +6,8 @@
 
 ## Done
 
-{{what was done, naming files, branches, commits, and PRs}}
+{{what was done,
+naming files, branches, commits, and PRs}}
 
 ## Decided
 
@@ -14,4 +15,5 @@
 
 ## Open
 
-{{what is unresolved, and who decides it}}
+{{what is unresolved,
+and who decides it}}

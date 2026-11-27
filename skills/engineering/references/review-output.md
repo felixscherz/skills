@@ -1,13 +1,24 @@
 # Review output
 
-A review is read by the author, who has to act on it, and sometimes by an agent that addresses the feedback. Both need
-to see quickly whether the reviewer understood the change, which parts got close scrutiny, and what must change before
-merging. The categories are defined in `code-review.md`.
+A review is read by the author,
+who has to act on it,
+and sometimes by an agent that addresses the feedback.
+Both need to see quickly
+whether the reviewer understood the change,
+which parts got close scrutiny,
+and what must change before merging.
+The categories are defined in `code-review.md`.
 
-- Write the summary in your own words, not copied from the PR description, so the author can spot where the reviewer
-  got the intent wrong. Mark it when the intent was inferred rather than stated.
-- Omit a section only if it is empty, and say "None" for Blockers rather than dropping it.
-- Number the findings, so a reply or an agent addressing them can refer to each one.
+- Write the summary in your own words,
+  not copied from the PR description,
+  so the author can spot where the reviewer got the intent wrong.
+  Mark it when the intent was inferred rather than stated.
+- Omit a section only if it is empty,
+  and say "None" for Blockers
+  rather than dropping it.
+- Number the findings,
+  so a reply or an agent addressing them
+  can refer to each one.
 - Apply the `unslop` skill to the prose.
 
 ```markdown

@@ -2,39 +2,58 @@
 
 ## The rule
 
-Domain code is a functional core wrapped in an imperative shell.
+Domain code is a functional core
+wrapped in an imperative shell.
 
-- **Functional core.** Domain logic takes values and returns values. It does
-  not read the clock, generate randomness or IDs, read configuration or the
-  environment, or perform I/O. Whatever it needs from the outside world is a
-  parameter: `issue(invoice, now)` takes the time, it does not fetch it.
-- **Imperative shell.** Thin code around the core that gathers inputs, calls
-  the core, and persists or sends the results. In a domain module this is
-  the use case (see `module-layout.md`). The shell gets the outside world
-  through injected protocols, never by calling it directly.
-- **Ports.** Each external factor has a protocol: `Clock`, `Rng`,
-  `IdGenerator`, repositories, gateways for external services, typed
-  settings.
-- **Fakes ship with the port.** The module that defines a protocol also
-  defines and exports its fake (`FakeClock`, `InMemoryInvoiceRepository`),
+- **Functional core.** Domain logic takes values and returns values.
+  It does not read the clock,
+  generate randomness or IDs,
+  read configuration or the environment,
+  or perform I/O.
+  Whatever it needs from the outside world is a parameter:
+  `issue(invoice, now)` takes the time,
+  it does not fetch it.
+- **Imperative shell.** Thin code around the core
+  that gathers inputs, calls the core,
+  and persists or sends the results.
+  In a domain module this is the use case
+  (see `module-layout.md`).
+  The shell gets the outside world through injected protocols,
+  never by calling it directly.
+- **Ports.**
+  Each external factor has a protocol:
+  `Clock`, `Rng`,
+  `IdGenerator`, repositories,
+  gateways for external services,
+  typed settings.
+- **Fakes ship with the port.** The module that defines a protocol also defines
+  and exports its fake (`FakeClock`,
+  `InMemoryInvoiceRepository`),
   in `fakes.py` next to `ports.py`.
-  Tests use those fakes. They do not write their own, and they do not patch.
-- **Adapters.** Real implementations (`SystemClock`, `JsonFileInvoiceRepository`)
-  live in `infrastructure/` of the module that owns the port. A small port
-  module like `clock` may keep port, fake, and real implementation together
-  in one file, `clock.py`, with its own ignore.
-- **Composition root only.** Only the composition root constructs real
-  implementations and passes them in. No default argument constructs one:
-  `clock: Clock = SystemClock()` is banned, as is `clock: Clock | None = None`
-  followed by a fallback to the real one.
-- **Configuration.** The composition root reads the environment once, into a
-  typed settings object, and passes values or the object in. Nothing else
-  reads `os.environ`.
+  Tests use those fakes.
+  They do not write their own,
+  and they do not patch.
+- **Adapters.** Real implementations (`SystemClock`,
+  `JsonFileInvoiceRepository`)
+  live in `infrastructure/` of the module that owns the port.
+  A small port module like `clock` may keep port, fake,
+  and real implementation together in one file,
+  `clock.py`, with its own ignore.
+- **Composition root only.** Only the composition root constructs real implementations
+  and passes them in.
+  No default argument constructs one:
+  `clock: Clock = SystemClock()` is banned,
+  as is `clock: Clock | None = None` followed by a fallback
+  to the real one.
+- **Configuration.** The composition root reads the environment once,
+  into a typed settings object,
+  and passes values or the object in.
+  Nothing else reads `os.environ`.
 
 ### Domain IDs are values, not generation formats
 
-Opaque domain IDs are string-backed, frozen value objects owned by their
-domain concept:
+Opaque domain IDs are string-backed,
+frozen value objects owned by their domain concept:
 
 ```python
 from dataclasses import dataclass
@@ -45,26 +64,39 @@ class InvoiceId:
     value: str
 ```
 
-Do not use `NewType` for a domain ID: it distinguishes types statically but
-returns the underlying string at runtime, with no `.value` or validation
-hook. Frozen dataclasses provide value equality and hashing, and different
-ID classes stay distinct even when their strings match.
+Do not use `NewType` for a domain ID:
+it distinguishes types statically
+but returns the underlying string at runtime,
+with no `.value` or validation hook.
+Frozen dataclasses
+provide value equality and hashing,
+and different ID classes stay distinct
+even when their strings match.
 
-Generation and representation are separate decisions. The ID adapter may
-use UUIDs, but returns a string; the use case wraps it in `InvoiceId` before
-calling the domain. Domain code neither generates IDs nor imports `uuid`.
-This is a representation policy, not a claim that a supplied `UUID` value
-is impure. A business requirement for UUID semantics needs an explicit
-exception and a reason in the check configuration.
+Generation and representation are separate decisions.
+The ID adapter may use UUIDs,
+but returns a string;
+the use case wraps it in `InvoiceId`
+before calling the domain.
+Domain code neither generates IDs nor imports `uuid`.
+This is a representation policy,
+not a claim that a supplied `UUID` value is impure.
+A business requirement for UUID semantics
+needs an explicit exception
+and a reason in the check configuration.
 
-Add only established validation rules. The wrapper provides a home for
-validation later; it does not justify inventing blank checks, length limits,
-or whitespace trimming now. Normalization changes identity. Unwrap `.value`
-when formatting output, serializing, or translating between contexts.
-Adapters wrap strings when loading; the persisted representation need not
-change.
+Add only established validation rules.
+The wrapper provides a home for validation later;
+it does not justify inventing blank checks,
+length limits, or whitespace trimming now.
+Normalization changes identity.
+Unwrap `.value` when formatting output,
+serializing, or translating between contexts.
+Adapters wrap strings when loading;
+the persisted representation need not change.
 
-The direct calls this rule keeps out of domain code and shells:
+The direct calls this rule
+keeps out of domain code and shells:
 
 | Factor | Direct call | Injected through |
 |---|---|---|
@@ -80,24 +112,36 @@ The direct calls this rule keeps out of domain code and shells:
 ## Why
 
 A function that calls `datetime.now()` gives a different answer every time.
-An agent cannot reproduce a failure, cannot write an exact assertion, and
-reaches for `mock.patch`, which couples the test to the implementation's
-import paths. With the factor injected, every test is a plain function call
-with exact inputs and outputs, and the signature shows what the code depends
-on before anyone reads the body.
+An agent cannot reproduce a failure,
+cannot write an exact assertion,
+and reaches for `mock.patch`,
+which couples the test to the implementation's import paths.
+With the factor injected,
+every test is a plain function call
+with exact inputs and outputs,
+and the signature shows what the code depends on
+before anyone reads the body.
 
-A pure core is also what an agent can change most safely: no hidden state,
-nothing to set up, and the type checker sees every input. Fakes next to the
-port mean one fake per factor, kept in sync with the protocol, instead of a
-slightly different hand-rolled stub in every test file.
+A pure core
+is also what an agent can change most safely:
+no hidden state, nothing to set up,
+and the type checker sees every input.
+Fakes next to the port mean one fake per factor,
+kept in sync with the protocol,
+instead of a slightly different hand-rolled stub in every test file.
 
-Default arguments are banned because they turn the explicit path into the
-long way round. Once `clock: Clock = SystemClock()` exists, callers stop
-passing a clock, and the dependency disappears from every call site.
+Default arguments are banned
+because they turn the explicit path
+into the long way round.
+Once `clock: Clock = SystemClock()` exists,
+callers stop passing a clock,
+and the dependency disappears from every call site.
 
 ## Example
 
-The clock module owns the port, the real implementation, and the fake:
+The clock module owns the port,
+the real implementation,
+and the fake:
 
 ```python
 # acme/clock.py
@@ -160,9 +204,11 @@ def test_issue_sets_issued_at() -> None:
 
 ## Codify it
 
-ruff, configured in `pyproject.toml`. `TID251` bans the direct calls with a
-message that names the port to use. `B008` bans calls in default arguments,
-which catches `clock: Clock = SystemClock()`:
+ruff, configured in `pyproject.toml`.
+  `TID251` bans the direct calls
+with a message that names the port to use.
+  `B008` bans calls in default arguments,
+  which catches `clock: Clock = SystemClock()`:
 
 ```toml
 [tool.ruff.lint]
@@ -185,8 +231,9 @@ select = ["E", "F", "I", "UP", "B", "DTZ", "TID251"]
 "src/acme/*/infrastructure/*.py" = ["TID251"]  # adapters implement ports against the real world
 ```
 
-ruff's `banned-api` does not catch the `open` builtin, so semgrep covers file
-I/O:
+ruff's `banned-api`
+does not catch the `open` builtin,
+  so semgrep covers file I/O:
 
 ```yaml
 - id: io-outside-adapter
@@ -205,31 +252,46 @@ I/O:
     exclude: ["**/infrastructure/**"]
 ```
 
-Add the HTTP and database clients your project uses to `banned-api` the same
-way (for example `"httpx".msg = ...`), with an ignore for their adapters.
+Add the HTTP and database clients your project uses
+to `banned-api`
+the same way (for example `"httpx".msg = ...`),
+with an ignore for their adapters.
 
-For ID representation, enable external-package analysis in import-linter
-and add a forbidden contract from package domain layers and each single-file
-domain module to `uuid` (see the example project's `pyproject.toml`, which
-lists `acme.customers` explicitly). Add new single-file domain modules to
-that contract. Single-file port modules containing a real ID adapter, such
-as `ids.py`, may still import `uuid`.
+For ID representation,
+enable external-package analysis
+in import-linter
+and add a forbidden contract from package domain layers
+and each single-file domain module to `uuid`
+(see the example project's `pyproject.toml`, which lists `acme.customers` explicitly).
+Add new single-file domain modules to that contract.
+Single-file port modules
+containing a real ID adapter,
+such as `ids.py`,
+may still import `uuid`.
 
-The example's `semgrep.yml` rejects `NewType` definitions whose names end in
-`Id` outside adapters, including in single-file modules. Other uses of
-`NewType` remain allowed. Review the remaining details, such as whether a
-dataclass is frozen and its value is a string, by hand.
+The example's `semgrep.yml` rejects `NewType` definitions
+whose names end in `Id` outside adapters,
+including in single-file modules.
+Other uses of `NewType` remain allowed.
+Review the remaining details,
+such as whether a dataclass is frozen
+and its value is a string, by hand.
 
 ## Review by hand
 
-- For each new core function: given the same arguments, does it always
-  return the same result and touch nothing else? The checks catch known
-  calls, not a new library that reads the clock.
-- For each new port: does the module also export a fake, and do the tests
-  use it?
-- Is each opaque domain ID a string-backed, frozen value object? Does its
-  validation enforce established rules rather than assumptions? Outside the
-  value object's own behavior, are primitives unwrapped only for formatting,
+- For each new core function:
+  given the same arguments,
+  does it always return the same result
+  and touch nothing else?
+  The checks catch known calls,
+  not a new library that reads the clock.
+- For each new port:
+  does the module also export a fake,
+  and do the tests use it?
+- Is each opaque domain ID a string-backed, frozen value object?
+  Does its validation enforce established rules rather than assumptions?
+  Outside the value object's own behavior,
+  are primitives unwrapped only for formatting,
   serialization, or translation?
-- Is there a `port: Port | None = None` with a fallback to the real
-  implementation? `B008` does not catch it.
+- Is there a `port: Port | None = None` with a fallback to the real implementation?
+  `B008` does not catch it.

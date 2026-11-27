@@ -1,20 +1,39 @@
 # Python project tooling
 
-How to turn the general rules on checks, seams, layout, naming, and fakes into tooling for a Python project. Use it
-where the project has no established setup, or to fill a gap in one. The reasoning behind each rule lives in the
-general references; this file only says how to enforce it in Python.
+How to turn the general rules
+on checks, seams, layout, naming, and fakes
+into tooling for a Python project.
+Use it where the project has no established setup,
+or to fill a gap in one.
+The reasoning behind each rule lives in the general references;
+this file only says how to enforce it in Python.
 
 ## One command verifies a change
 
-- Pin tools in a dev dependency group and commit `uv.lock`. Run every tool through `uv run --locked`, so hooks, local
-  runs, and CI use the same versions. Install `just` from PyPI (`rust-just`) to lock it too.
-- `uv run --locked just check` is the single entry point for humans, agents, and CI. CI runs `uv sync --locked` and
-  that command, nothing else. The README points at it.
-- Static checks are defined only in `.pre-commit-config.yaml`, as `repo: local` hooks with `language: system`. The
-  justfile runs `pre-commit run --all-files` instead of repeating the commands. Whole-project checks (ty,
-  import-linter, deptry, custom scripts) set `pass_filenames: false` and `always_run: true`.
-- Tests run in `just test`, never in a pre-commit hook. Keep coverage options out of pytest `addopts` so running one
-  test file does not fail the coverage floor. Measure branch coverage and set `fail_under`; the floor only goes up.
+- Pin tools in a dev dependency group
+  and commit `uv.lock`.
+  Run every tool through `uv run --locked`,
+  so hooks, local runs, and CI use the same versions.
+  Install `just` from PyPI (`rust-just`)
+  to lock it too.
+- `uv run --locked just check`
+  is the single entry point for humans, agents, and CI.
+  CI runs `uv sync --locked`
+  and that command, nothing else.
+  The README points at it.
+- Static checks are defined only in `.pre-commit-config.yaml`, as `repo: local` hooks with `language: system`.
+  The justfile runs `pre-commit run --all-files`
+  instead of repeating the commands.
+  Whole-project checks
+  (ty, import-linter, deptry, custom scripts)
+  set `pass_filenames: false` and `always_run: true`.
+- Tests run in `just test`,
+  never in a pre-commit hook.
+  Keep coverage options out of pytest `addopts`
+  so running one test file
+  does not fail the coverage floor.
+  Measure branch coverage and set `fail_under`;
+  the floor only goes up.
 
 ```just
 check: lint test
@@ -28,7 +47,9 @@ test:
 
 ## Lint and type rules
 
-Select these Ruff rules on top of the usual `E`, `F`, `I`, `B`, `UP`, `ASYNC`, `ANN`:
+Select these Ruff rules on top of the usual `E`,
+  `F`, `I`, `B`, `UP`,
+  `ASYNC`, `ANN`:
 
 | Rule | Why |
 | --- | --- |
@@ -39,13 +60,20 @@ Select these Ruff rules on top of the usual `E`, `F`, `I`, `B`, `UP`, `ASYNC`, `
 | `PGH003`, `PGH004` | No blanket `# type: ignore` or `# noqa` |
 | `RUF100` | No unused `# noqa` |
 
-Use ty with `--error-on-warning` and `unused-ignore-comment = "error"`. Suppress with `# ty: ignore[<rule>]`, never a
-bare ignore. `# pragma: no cover` carries a reason: `# pragma: no cover - process entrypoint`.
+Use ty with `--error-on-warning`
+  and `unused-ignore-comment = "error"`.
+  Suppress with `# ty: ignore[<rule>]`,
+  never a bare ignore.
+  `# pragma: no cover` carries a reason:
+  `# pragma: no cover - process entrypoint`.
 
 ## Ban side effects outside adapters
 
-Ruff's `banned-api` rejects direct calls to time, sleeping, randomness, ID generation, environment, and HTTP clients.
-Each message names the replacement, so the failure tells the reader what to inject.
+Ruff's `banned-api` rejects direct calls to time,
+sleeping, randomness, ID generation, environment, and HTTP clients.
+Each message names the replacement,
+so the failure tells the reader
+what to inject.
 
 ```toml
 [tool.ruff.lint.flake8-tidy-imports.banned-api]
@@ -63,19 +91,34 @@ Each message names the replacement, so the failure tells the reader what to inje
 "tests/**" = ["TID251"]  # fixtures may use real values; collaborators still come from fakes
 ```
 
-- Ban specific call paths where the module's types stay useful (`datetime.datetime.now`, `uuid.uuid4`), so
-  value types such as `datetime` remain usable in annotations. ID representation is a separate modeling decision:
-  `UUID` is a pure value type, but do not use it for opaque domain IDs merely because the generator uses UUIDs
-  (see `domain-modeling.md`). A stricter project policy, such as Groove's string-backed ID value objects,
-  also forbids `uuid` imports in domain code. Ban whole modules (`random`, `httpx`) when the seam does not
-  expose their types.
-- Settings read the environment through pydantic-settings, so they need no exemption.
+- Ban specific call paths
+  where the module's types stay useful
+  (`datetime.datetime.now`, `uuid.uuid4`),
+  so value types
+  such as `datetime` remain usable in annotations.
+  ID representation is a separate modeling decision:
+  `UUID` is a pure value type,
+  but do not use it for opaque domain IDs
+  merely because the generator uses UUIDs
+  (see `domain-modeling.md`).
+  A stricter project policy,
+  such as Groove's string-backed ID value objects,
+  also forbids `uuid` imports in domain code.
+  Ban whole modules (`random`, `httpx`)
+  when the seam does not expose their types.
+- Settings read the environment
+  through pydantic-settings,
+  so they need no exemption.
 
 ## Import contracts
 
-Use import-linter with `include_external_packages = true`, so contracts can forbid frameworks as well as project
-packages. Write each contract `name` as the instruction, because it is what the failure prints. For the layout in
-`fastapi-applications.md` (contexts `bookings` and `billing`), four contracts cover the architecture:
+Use import-linter
+with `include_external_packages = true`,
+so contracts can forbid frameworks as well as project packages.
+Write each contract `name` as the instruction,
+because it is what the failure prints.
+For the layout in `fastapi-applications.md` (contexts `bookings` and `billing`),
+four contracts cover the architecture:
 
 ```toml
 [[tool.importlinter.contracts]]
@@ -111,27 +154,45 @@ ignore_imports = [
 ]
 ```
 
-- Parentheses mark a layer as optional, so a context without routes still passes. `|` makes `api` and
-  `infrastructure` independent: routes reach adapters only through use cases handed over by wiring.
-- Add a `protected` contract per context (`protected_modules = ["service.bookings.**"]`,
-  `allowed_importers = ["service.bookings"]`) when its `__init__.py` defines the public API, so other contexts and
-  wiring cannot reach into its internals.
-- Forbidding `asyncio` in the domain flags async code there: domain code that needs to await is doing I/O.
+- Parentheses mark a layer as optional,
+  so a context without routes still passes.
+  `|` makes `api` and `infrastructure` independent:
+  routes reach adapters only through use cases handed over by wiring.
+- Add a `protected` contract per context
+  (`protected_modules = ["service.bookings.**"]`,
+  `allowed_importers = ["service.bookings"]`)
+  when its `__init__.py` defines the public API,
+  so other contexts and wiring
+  cannot reach into its internals.
+- Forbidding `asyncio`
+  in the domain flags async code there:
+  domain code that needs to await is doing I/O.
 
-- Every `ignore_imports` entry carries a comment saying why. A new entry is a design decision; prefer moving the
-  shared code to the layer that owns it.
-- Keep `allow_indirect_imports` off for core contracts. Turn it on only for adapter contracts where the indirect
-  path through the composition root is intended.
-- Add every database and network driver to the core's forbidden modules when it is introduced.
+- Every `ignore_imports` entry
+  carries a comment saying why.
+  A new entry is a design decision;
+  prefer moving the shared code
+  to the layer that owns it.
+- Keep `allow_indirect_imports` off for core contracts.
+  Turn it on only for adapter contracts
+  where the indirect path through the composition root is intended.
+- Add every database and network driver
+  to the core's forbidden modules
+  when it is introduced.
 
 ## Dependency hygiene
 
-Run `deptry src` as a hook: every imported package is declared, every declared runtime dependency is used, and dev
-packages are not imported from `src/`. Every ignore in `[tool.deptry]` carries a comment naming the reason.
+Run `deptry src` as a hook:
+every imported package is declared,
+every declared runtime dependency is used,
+and dev packages are not imported from `src/`.
+Every ignore in `[tool.deptry]`
+carries a comment naming the reason.
 
 ## Custom hooks
 
-Small rules that no tool covers become local hooks whose `name` or `entry` is the fix-it message.
+Small rules that no tool covers become local hooks
+whose `name` or `entry` is the fix-it message.
 
 ```yaml
 - id: no-mocks
@@ -149,12 +210,21 @@ Small rules that no tool covers become local hooks whose `name` or `entry` is th
   files: '(^|/)(utils?|helpers?|common)(\.py|/)'
 ```
 
-`language: fail` fails for every matching path and prints `entry`. `pygrep` fails on any matching line.
+`language: fail` fails
+  for every matching path and prints `entry`.
+  `pygrep` fails on any matching line.
 
 ## Fakes
 
-Shared fakes live in `tests/fakes/`, one module per port, and are imported as `tests.fakes`. Set
-`pythonpath = ["."]` in `[tool.pytest.ini_options]` and include `tests` in the ty check so ty verifies each fake
-against its `Protocol`. A fake needs no inheritance; structural typing is enough. An in-memory production adapter can
-serve as the fake instead of a copy. `monkeypatch` is the one patching tool allowed, for environment variables in
-settings tests.
+Shared fakes live in `tests/fakes/`,
+  one module per port,
+    and are imported as `tests.fakes`.
+  Set `pythonpath = ["."]` in `[tool.pytest.ini_options]`
+  and include `tests` in the ty check
+  so ty verifies each fake against its `Protocol`.
+  A fake needs no inheritance;
+  structural typing is enough.
+  An in-memory production adapter
+can serve as the fake instead of a copy.
+  `monkeypatch` is the one patching tool allowed,
+    for environment variables in settings tests.

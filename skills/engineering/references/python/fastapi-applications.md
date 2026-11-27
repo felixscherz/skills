@@ -1,9 +1,15 @@
 # FastAPI applications
 
-Use these patterns where the project does not already have a suitable convention. The important distinction is
-between adapters, use cases, focused domain behavior, and infrastructure, not the directory names. Any layout works that
-gives each of them one obvious place (see `../program-design.md`). The default splits by bounded context first and by
-layer inside each context, with the same layer names everywhere:
+Use these patterns
+where the project does not already have a suitable convention.
+The important distinction is between adapters,
+use cases, focused domain behavior, and infrastructure,
+not the directory names.
+Any layout works that gives each of them one obvious place
+(see `../program-design.md`).
+The default splits by bounded context first
+and by layer inside each context,
+with the same layer names everywhere:
 
 ```text
 src/<package>/
@@ -18,31 +24,66 @@ src/<package>/
 `-- app/                   settings, logging, lifecycle, mounting each context's router, error translation
 ```
 
-A change to one concept then stays in one directory, and import contracts can keep contexts apart (see
-`project-tooling.md`). A service with a single context still uses one context package, so a second
-context is an added directory rather than a reorganization. A layer may start as a module (`domain.py`) and become a
-package when it grows.
+A change to one concept then stays in one directory,
+and import contracts can keep contexts apart
+(see `project-tooling.md`).
+A service with a single context still uses one context package,
+so a second context is an added directory
+rather than a reorganization.
+A layer may start as a module (`domain.py`)
+and become a package when it grows.
 
 ## Keep the domain independent
 
-- Express domain concepts with the domain's vocabulary. Use immutable value objects for meaningful IDs and constrained
-  values, and plain Python entities and domain functions for business behavior. Keep FastAPI, `Depends`, Pydantic
-  transport DTOs, HTTP exceptions, database documents, and framework state out of domain code and use cases.
-- The domain decides, the use case does. Domain code answers "is this allowed, and what is the new state?" from
-  values it is given: it is synchronous, takes the time and new IDs as arguments, and never loads or saves. A use case
-  named for the intent loads through ports, lets the domain decide, saves, and owns the transaction and failure policy.
-  Run every rule before the first write, so a failed rule leaves nothing half done. See `../domain-driven-design.md`.
-- When a rule needs loaded data (a uniqueness check), the use case loads it and passes it in, or a store constraint
-  enforces it and the adapter translates the conflict into a domain error. Do not give the domain a port. A rule over
-  several aggregates is a pure domain function taking all of them.
-- Convert primitives and DTOs to domain types at input boundaries, and convert domain results to response DTOs at output
-  boundaries. Map persistence shapes separately; an HTTP schema or database document need not become the domain model.
-- Raise domain or use-case failures without HTTP dependencies. Translate them to status codes and response shapes at the
-  HTTP boundary. Keep async I/O async; do not block the event loop.
+- Express domain concepts
+  with the domain's vocabulary.
+  Use immutable value objects
+  for meaningful IDs and constrained values,
+  and plain Python entities
+  and domain functions for business behavior.
+  Keep FastAPI, `Depends`,
+  Pydantic transport DTOs,
+  HTTP exceptions, database documents,
+  and framework state out of domain code
+  and use cases.
+- The domain decides,
+  the use case does.
+  Domain code answers "is this allowed,
+  and what is the new state?"
+  from values it is given:
+  it is synchronous,
+  takes the time and new IDs as arguments,
+  and never loads or saves.
+  A use case named for the intent loads through ports,
+  lets the domain decide, saves,
+  and owns the transaction and failure policy.
+  Run every rule before the first write,
+  so a failed rule leaves nothing half done.
+  See `../domain-driven-design.md`.
+- When a rule needs loaded data (a uniqueness check),
+  the use case loads it and passes it in,
+  or a store constraint enforces it
+  and the adapter translates the conflict into a domain error.
+  Do not give the domain a port.
+  A rule over several aggregates is a pure domain function
+  taking all of them.
+- Convert primitives and DTOs to domain types at input boundaries,
+  and convert domain results to response DTOs at output boundaries.
+  Map persistence shapes separately;
+  an HTTP schema or database document
+  need not become the domain model.
+- Raise domain or use-case failures
+  without HTTP dependencies.
+  Translate them to status codes and response shapes
+  at the HTTP boundary.
+  Keep async I/O async;
+  do not block the event loop.
 
 ## Keep the domain pure
 
-The domain module of a context defines no repository and no service that loads or saves. An order context:
+The domain module of a context
+defines no repository and no service that loads or saves.
+An order context:
 
 ```python
 # orders/domain.py: decides. No ports, no I/O, no async
@@ -87,25 +128,49 @@ class CancelOrder:
 # orders/infrastructure/sql_orders.py implements OrderRepository on the database.
 ```
 
-- Pure does not mean only functions. Methods on entities (`order.cancel(now)`) are often the most readable form. What
-  makes code domain code is no I/O, and the time and new IDs arriving as arguments. Prefer returning a new frozen
-  entity; a method that mutates `self` is still domain code, but harder to test and reason about.
-- There is no `OrderService` holding a repository. Such a class decides and does in one place. Its loading and saving
-  move into use cases, its rules onto the entity or into domain functions.
-- A domain service is a pure function over several aggregates that neither can decide alone, such as
-  `allocate(order, stock) -> tuple[Order, Stock]`. It lives in the domain, takes both, and loads nothing.
-- When a rule needs data, the use case loads it. For "at most five open orders per customer", the use case calls
-  `orders.count_open(customer_id)` and passes the count into `place(..., open_orders=count)`; the domain checks the
-  number.
-- Domain tests need no fakes: build an `Order`, call `cancel`, assert. Only use-case tests need
-  `InMemoryOrderRepository` and a fake clock.
+- Pure does not mean only functions.
+  Methods on entities (`order.cancel(now)`)
+  are often the most readable form.
+  What makes code domain code is no I/O,
+  and the time and new IDs arriving as arguments.
+  Prefer returning a new frozen entity;
+  a method that mutates `self` is still domain code,
+  but harder to test and reason about.
+- There is no `OrderService` holding a repository.
+  Such a class decides and does in one place.
+  Its loading and saving move into use cases,
+  its rules onto the entity or into domain functions.
+- A domain service is a pure function
+  over several aggregates that neither can decide alone,
+  such as `allocate(order, stock) -> tuple[Order, Stock]`.
+  It lives in the domain, takes both,
+  and loads nothing.
+- When a rule needs data,
+  the use case loads it.
+  For "at most five open orders per customer",
+  the use case calls `orders.count_open(customer_id)`
+  and passes the count into `place(..., open_orders=count)`;
+  the domain checks the number.
+- Domain tests need no fakes:
+  build an `Order`,
+  call `cancel`, assert.
+  Only use-case tests
+  need `InMemoryOrderRepository`
+  and a fake clock.
 
 ## Inject ports through narrow Protocols
 
-Define each port in the `usecases/` of the context that consumes it, with only the operations that consumer needs. Type
-constructors against those ports rather than concrete repositories, other full-service interfaces, or HTTP clients. A
-port can represent a repository, an external lookup, an event publisher, or a callable operation. The application
-container supplies concrete implementations.
+Define each port in the `usecases/`
+of the context that consumes it,
+with only the operations that consumer needs.
+Type constructors against those ports
+rather than concrete repositories,
+other full-service interfaces,
+or HTTP clients.
+A port can represent a repository,
+an external lookup,
+an event publisher, or a callable operation.
+The application container supplies concrete implementations.
 
 ```python
 from dataclasses import dataclass
@@ -158,17 +223,30 @@ class CreateBooking:
         return booking
 ```
 
-Use real implementations at runtime and fakes in use-case tests (see `../test-behavior.md`). Protocols describe capabilities; they
-do not require inheritance or a general-purpose DI framework. If a workflow spans several writes or external effects,
-decide what commits together and what happens on partial failure before moving it. Extraction alone does not make a
-workflow atomic.
+Use real implementations at runtime and fakes
+in use-case tests
+(see `../test-behavior.md`).
+Protocols describe capabilities;
+they do not require inheritance
+or a general-purpose DI framework.
+If a workflow spans several writes or external effects,
+decide what commits together
+and what happens on partial failure
+before moving it.
+Extraction alone
+does not make a workflow atomic.
 
 ## Own the transaction in the use case
 
-A use case that writes more than once takes a unit of work instead of repositories. The protocol lives in the
-context's `usecases/`, lists only the repositories that commit together, and rolls back unless committed.
-Infrastructure implements it on a database session; wiring passes a factory, so every `execute` gets a fresh
-transaction.
+A use case
+that writes more than once takes a unit of work
+instead of repositories.
+The protocol lives in the context's `usecases/`,
+lists only the repositories that commit together,
+and rolls back unless committed.
+Infrastructure implements it on a database session;
+wiring passes a factory,
+so every `execute` gets a fresh transaction.
 
 ```python
 class BookingsUnitOfWork(Protocol):
@@ -199,10 +277,16 @@ class ReserveRoom:
 
 ## Cross contexts through ports the reader owns
 
-A use case may need data or behavior from another context. It does not import that context. Its own context defines a
-port in its own words, and an adapter in its `infrastructure/` implements the port by calling the other context's public
-API and translating the result. That adapter is the only file that imports the other context; list the import in the
-contract's `ignore_imports` with a comment, so every link between contexts is visible in one place.
+A use case
+may need data or behavior from another context.
+It does not import that context.
+Its own context defines a port in its own words,
+and an adapter in its `infrastructure/` implements the port
+by calling the other context's public API
+and translating the result.
+That adapter is the only file that imports the other context;
+list the import in the contract's `ignore_imports` with a comment,
+so every link between contexts is visible in one place.
 
 ```python
 # billing/usecases/ports.py: billing's view of bookings, only what billing needs
@@ -229,24 +313,48 @@ class BookingsStays:
         return StayToBill(booking_id=booking_id, nights=booking.nights)
 ```
 
-- Keep each pair of contexts one-directional. If billing reads from bookings, bookings reacts to billing through events,
-  not a port back. Calls in both directions mean the boundary is in the wrong place.
-- Do not stretch one transaction over two contexts. The context that owns the intent commits its change and records an
-  event (an outbox table makes this reliable), and the other context reacts in its own transaction. Only when two
-  contexts share a store and must change all or nothing does a coordinating use case above both, in its own top-level
-  package, own one unit of work over both. Needing that often means the contexts should merge.
-- A process that spans time (approvals, retries) is a use case triggered by events, with its own persisted state. Its
-  rules stay in the domain, for example `next_step(state, event) -> Command`.
+- Keep each pair of contexts one-directional.
+  If billing reads from bookings,
+  bookings reacts to billing through events,
+  not a port back.
+  Calls in both directions
+  mean the boundary is in the wrong place.
+- Do not stretch one transaction over two contexts.
+  The context that owns the intent
+  commits its change and records an event
+  (an outbox table makes this reliable),
+  and the other context reacts in its own transaction.
+  Only when two contexts share a store
+  and must change all or nothing
+  does a coordinating use case above both,
+  in its own top-level package,
+  own one unit of work over both.
+  Needing that often means the contexts should merge.
+- A process that spans time (approvals, retries)
+  is a use case triggered by events,
+  with its own persisted state.
+  Its rules stay in the domain,
+  for example `next_step(state, event) -> Command`.
 
 ## Make HTTP handlers adapters
 
-Each context's `api/` holds its router, request and response DTOs, and providers; `app/` mounts every router and
-registers the error translation. Routes never import `infrastructure/`. Use `Annotated[UseCase, Depends(provider)]` for
-a handler implementing a use case. The provider obtains it from the application container rather than constructing
-repositories or workflows per request. Keep handlers focused on parsing, domain conversion, invoking one use case, error
-translation, and response mapping. Two routes for the same intent can call the same use case with different domain
-inputs; neither route should coordinate several services. Existing simple operations need not be wrapped solely to
-satisfy a naming convention.
+Each context's `api/` holds its router,
+request and response DTOs, and providers;
+    `app/` mounts every router and registers the error translation.
+Routes never import `infrastructure/`.
+Use `Annotated[UseCase, Depends(provider)]`
+for a handler implementing a use case.
+The provider obtains it from the application container
+rather than constructing repositories
+or workflows per request.
+Keep handlers focused on parsing, domain conversion,
+invoking one use case,
+error translation, and response mapping.
+Two routes for the same intent
+can call the same use case with different domain inputs;
+neither route should coordinate several services.
+Existing simple operations need not be wrapped solely
+to satisfy a naming convention.
 
 ```python
 from typing import Annotated, cast
@@ -296,25 +404,46 @@ def register_exception_handlers(app: FastAPI) -> None:
     app.add_exception_handler(InvalidGuestError, invalid_guest)
 ```
 
-Register error translation once at the application boundary rather than catching domain errors in each route, so every
-route maps the same failure to the same status and a stable error shape. Expected domain failures need no stack trace;
-unexpected ones return a generic 500 and are logged once at the boundary.
+Register error translation once at the application boundary
+rather than catching domain errors in each route,
+so every route maps the same failure to the same status
+and a stable error shape.
+Expected domain failures need no stack trace;
+unexpected ones return a generic 500
+and are logged once at the boundary.
 
-For route tests, override `get_create_booking` through `app.dependency_overrides` and check the HTTP contract without
-starting real infrastructure. Test the use case through `execute()` with fakes for its ports. Test focused domain
-behavior without involving FastAPI.
+For route tests,
+override `get_create_booking` through `app.dependency_overrides`
+and check the HTTP contract
+without starting real infrastructure.
+Test the use case through `execute()` with fakes for its ports.
+Test focused domain behavior
+without involving FastAPI.
 
 ## Compose once at the application boundary
 
-Keep construction in a single composition root, for example a `Container` with `@cached_property` providers for shared
-settings, clients, repositories, services, and use cases. Providers make the dependency graph explicit. Share a
-container per app/process, not per request; do not use process-scoped instances for mutable request-specific state. Use
-local imports in providers only when needed to break import cycles.
+Keep construction in a single composition root,
+for example a `Container` with `@cached_property`
+providers for shared settings,
+clients, repositories, services, and use cases.
+Providers make the dependency graph explicit.
+Share a container per app/process, not per request;
+do not use process-scoped instances
+for mutable request-specific state.
+Use local imports in providers only when needed to break import cycles.
 
-Construct the container at bootstrap (or in the app factory), attach it to `app.state`, and use FastAPI lifespan for
-starting and stopping resources such as database clients, message consumers, and background work. Non-HTTP entry points
-use the same composition root directly, not FastAPI dependency resolution. Allow a container to be supplied to the app
-factory in tests. Keep FastAPI `Depends` and `Request` out of the container, use cases, and services.
+Construct the container at bootstrap (or in the app factory),
+attach it to `app.state`,
+and use FastAPI lifespan
+for starting and stopping resources
+such as database clients,
+message consumers, and background work.
+Non-HTTP entry points
+use the same composition root directly,
+not FastAPI dependency resolution.
+Allow a container to be supplied to the app factory in tests.
+Keep FastAPI `Depends` and `Request` out of the container,
+use cases, and services.
 
 ```python
 from collections.abc import AsyncIterator
@@ -359,23 +488,47 @@ def create_app(container: Container) -> FastAPI:
     return app
 ```
 
-The infrastructure adapter classes in this sketch are application-specific; construct `Container` with configured
-infrastructure at startup. Cache long-lived dependencies deliberately; manage request/transaction-scoped dependencies
-separately. Check the existing project's OpenAPI contract and test conventions when changing routes or DTOs.
+The infrastructure adapter classes in this sketch
+are application-specific;
+construct `Container` with configured infrastructure at startup.
+Cache long-lived dependencies deliberately;
+manage request/transaction-scoped dependencies separately.
+Check the existing project's OpenAPI contract
+and test conventions
+when changing routes or DTOs.
 
 ## Know how OpenAPI names schemas
 
-FastAPI names each component after its Pydantic class. When two models share a class name, both get the full module
-path instead (`psp__testspots__api__classification__Classification`), so moving a DTO or an enum to another module can
-rename its component and every `$ref` to it. When a model's validation and serialization schemas differ, for example
-because a field has a default or a computed value, FastAPI emits two components, `Model-Input` and `Model-Output`. Keep
-that split: it describes what the API accepts and what it returns more precisely than one merged schema. A change
-elsewhere can make the two schemas equal and collapse them into one component.
+FastAPI names each component after its Pydantic class.
+When two models share a class name,
+both get the full module path instead
+(`psp__testspots__api__classification__Classification`),
+so moving a DTO or an enum to another module
+can rename its component and every `$ref` to it.
+When a model's validation and serialization schemas differ,
+for example because a field has a default or a computed value,
+FastAPI emits two components,
+`Model-Input` and `Model-Output`.
+Keep that split:
+it describes what the API accepts
+and what it returns more precisely than one merged schema.
+A change elsewhere
+can make the two schemas equal
+and collapse them into one component.
 
-- Before moving models, decide whether component names are part of the contract. Generated clients use them as type
-  names, but a rename with unchanged fields, types, and requiredness is usually acceptable: regenerate the committed
-  schema and name the rename in the PR.
-- When a name must stay stable, give the class a unique name, or pin one with a named `TypeAliasType`. An alias does
-  not carry through generic models such as `Page[Model]`, which get a component of their own.
-- Diff the generated schema against the committed one after every move, and check that only names and references
-  changed.
+- Before moving models,
+  decide whether component names are part of the contract.
+  Generated clients use them as type names,
+  but a rename with unchanged fields, types, and requiredness
+  is usually acceptable:
+  regenerate the committed schema
+  and name the rename in the PR.
+- When a name must stay stable,
+  give the class a unique name,
+  or pin one with a named `TypeAliasType`.
+  An alias does not carry through generic models
+  such as `Page[Model]`,
+  which get a component of their own.
+- Diff the generated schema
+  against the committed one after every move,
+  and check that only names and references changed.
