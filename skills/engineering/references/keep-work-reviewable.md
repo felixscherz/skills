@@ -30,10 +30,13 @@ so checkpoint it for review as you go.
   so the reviewer can skim it
   and focus on the risk.
 - In markdown files,
-  put each sentence on its own line
+  break the line after each substantial unit of thought:
+  every sentence,
+  and within a long sentence each clause or phrase
   (semantic line breaks, sembr.org).
-  Editing a sentence then changes one line in the diff,
-  and a review comment or suggestion targets that sentence.
+  Editing a phrase then changes one line in the diff,
+  and a review comment or suggestion targets that phrase.
+  `sembr` (github.com/admk/sembr) does this automatically.
   Hard-wrapping at a fixed width
   reflows the whole paragraph
   on a one-word edit.
