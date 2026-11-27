@@ -24,15 +24,15 @@ An agent's first prompt is always run in `agents/<agent>/`, never in `agents/` o
 Holds what is true for every agent:
 that these folders are persistent agents,
 that each loads the `persistent-agent` skill,
-    and any house rules the user adds.
-    Keep it short;
+and any house rules the user adds.
+Keep it short;
 it is loaded on every boot.
 It does not list the agents.
 
 ## Per-agent `AGENTS.md`
 
 A stub from `templates/AGENTS.md`. It names the agent,
-    says it is a persistent agent,
+says it is a persistent agent,
 and tells it to load this skill and boot.
 Everything about the role goes in `ROLE.md`, not here.
 

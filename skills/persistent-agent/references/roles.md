@@ -7,7 +7,7 @@ if it thinks the role is wrong,
 it says so to the user.
 
 Start from `templates/ROLE.md`. Keep it under a screen;
-    it is read on every boot.
+it is read on every boot.
 
 - **Responsibility** -
   what this agent owns, in two or three lines,

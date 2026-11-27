@@ -38,8 +38,8 @@ Verbs matter as much as nouns:
 they become function names.
 
 Technical concepts stay out:
-    `repository`, `adapter`,
-    `retry`, `cache`.
+`repository`, `adapter`,
+`retry`, `cache`.
 Their names follow normal Python conventions,
 not the glossary.
 
@@ -74,7 +74,7 @@ A request for payment sent to a Customer for one or more Line Items.
 
 Optional lines: **Not to be confused with:**
 for neighbouring terms,
-    and **External names:**
+and **External names:**
 for what external systems call it (see below).
 
 ### Using terms in identifiers
@@ -134,8 +134,8 @@ and on their training data.
 Without a single source,
 each session picks a slightly different word,
 and after a few weeks the code says `client`,
-    `customer`, `account`,
-    and `user` for one concept.
+`customer`, `account`,
+and `user` for one concept.
 Every later reader, agent or human,
 then has to work out whether those are the same thing.
 Search stops working,

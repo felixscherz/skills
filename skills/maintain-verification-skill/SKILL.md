@@ -29,8 +29,8 @@ and ends in one of three outcomes:
 ## Scope
 
 Edit only the skill's own directory:
-    `SKILL.md`, `features/`,
-    and its `scripts/`.
+`SKILL.md`, `features/`,
+and its `scripts/`.
 Never change product code in this pass.
 When the app no longer does what a feature file describes,
 decide which it is:

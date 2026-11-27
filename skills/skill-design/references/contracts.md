@@ -59,9 +59,9 @@ or decides things it should not.
 
 A short "Who decides" section near the top works well.
 `create-verification-skill` has one:
-    the user picks the surface
+the user picks the surface
 when several are equally primary and anything needing credentials;
-    the agent picks the harness, the helpers,
+the agent picks the harness, the helpers,
 and which features to map first.
 
 ## Done

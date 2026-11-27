@@ -1,7 +1,6 @@
 ---
 name: groove
-description: Use when working in a Python repository whose AGENTS.md or CLAUDE.md says it follows Groove, or when the user asks to apply Groove, design a Python codebase for agentic coding, or turn a codebase convention into a CI check. Covers domain naming via a glossary, module boundaries, module naming, injecting time/randomness/IDs/I/O into a functional core, versioned persistent data, and codifying each rule with ruff, pyright, import-linter, and semgrep.
-disable-model-invocation: true
+description: Use before changing code in a Python repository whose AGENTS.md or CLAUDE.md says it follows Groove, and when the user asks to apply or adopt Groove, convert a module to Groove, structure a Python codebase so coding agents make the right decisions on their own, or turn one of its conventions into a CI check. Not for Python repositories that do not follow Groove, unless the user asks to apply it.
 ---
 
 # Groove
@@ -61,16 +60,6 @@ not up front.
     Read the relevant ADR
     before choosing an approach.
     Documentation content is reviewed by hand.
-- **Application CLI**
-  (`references/application-cli.md`).
-  Adding or changing service startup,
-  launch instructions, server options, or logging setup.
-  - The application owns its installed launch command,
-    such as `acme serve`,
-    rather than requiring users
-    to invoke Uvicorn or another server directly.
-    The startup path owns configuration and logging before application initialization.
-    Tests exercise the installed command.
 - **Application composition and lifecycle**
   (`references/application-composition.md`).
   Wiring a service, HTTP adapter, worker, or long-lived resource,
@@ -79,18 +68,6 @@ not up front.
     entry points receive them rather than building their own.
     Choose one lifecycle owner per resource,
     and supervise the service independently of HTTP when its job requires it.
-- **Releases**
-  (`references/releases.md`).
-  Setting up or changing package versioning,
-  changelogs, release commands,
-  or release CI.
-  - Default to `v<major>.<minor>.<patch>` tags,
-    hatch-vcs for the package version,
-    and git-cliff
-    for a committed `CHANGELOG.md`. Check, build, then publish from the tagged commit.
-    Keep the procedure in `docs/releases.md`;
-    choose publishing destinations for the project,
-    not for Groove.
 - **Module layout**
   (`references/module-layout.md`).
   Creating a module or file,
@@ -225,23 +202,11 @@ These questions cover the rest:
    unresolved choices, and implementation status?
    Did a changed decision get a new record
    that supersedes the old one?
-8. **Application CLI.** Do launch instructions and deployment commands
-   use the application's CLI?
-   Does that startup path configure logging
-   before initializing components,
-   without the server replacing it?
-   Are startup, verbosity,
-   and shutdown tested through the installed command?
-9. **Releases.** Does the version express the intended compatibility change,
-   rather than just accepting an automatic bump?
-   Do the release notes explain breaking changes?
-   Are artifacts built from the checked, clean tagged commit,
-   with downloads retained for as long as the release is supported?
-10. **Composition and lifecycle.** Do entry points use the same intended instances,
-    without hidden import-time construction?
-    Is each resource owned and supervised by exactly one lifecycle,
-    including partial startup and shutdown?
-    Where readiness is exposed, do it and the tests reflect the work the service can actually accept?
+8. **Composition and lifecycle.** Do entry points use the same intended instances,
+   without hidden import-time construction?
+   Is each resource owned and supervised by exactly one lifecycle,
+   including partial startup and shutdown?
+   Where readiness is exposed, do it and the tests reflect the work the service can actually accept?
 
 ## Report back
 
@@ -302,13 +267,6 @@ starting with the check command.
 Never add a tool or contract unprompted
 when the user has not asked to apply Groove:
 propose it instead.
-
-When release management is in scope,
-use `references/releases.md` as the default.
-Preserve an established release mechanism
-unless changing it is part of the task.
-The example project does not include release automation;
-adapt publishing to the repository's host and distribution needs.
 
 When asked to apply Groove in a repository
 without a check command,

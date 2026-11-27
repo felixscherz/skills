@@ -9,7 +9,7 @@ do not need it.
 
 A playbook encodes the workflow
 I expect an agent to follow for one kind of task:
-    the steps, in order, and where I stay in the loop.
+the steps, in order, and where I stay in the loop.
 When I hand an agent a task,
 the matching playbook
 should make it work the way I would want it to

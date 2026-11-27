@@ -2,8 +2,8 @@
 
 Done only when the user asks,
 in a session they started.
-    `<home>` is the agents home,
-    `<agent>` the new folder name.
+`<home>` is the agents home,
+`<agent>` the new folder name.
 
 1. Get from the user:
    the agent's name (kebab-case),
@@ -38,5 +38,5 @@ in a session they started.
    do not edit them yourself.
 
 `brief.md` and `report.md` are not copied;
-    agents read them from the skill
+agents read them from the skill
 when they write a message.

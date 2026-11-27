@@ -514,5 +514,5 @@ say so at the end of your reply.
 The user decides when the skill changes:
 never edit it unprompted.
 Changes go through the `reflect-on-engineering` skill
-        (`../reflect-on-engineering/SKILL.md`),
+(`../reflect-on-engineering/SKILL.md`),
 which also holds the conventions for editing this skill.

@@ -26,7 +26,7 @@ do not search for it.
 ## Message file
 
 Name:
-    `YYYY-MM-DD-HHMM-<from>-<slug>.md`, so the inbox sorts by time.
+`YYYY-MM-DD-HHMM-<from>-<slug>.md`, so the inbox sorts by time.
 
 ```markdown
 ---
@@ -40,7 +40,7 @@ date: 2026-11-16 14:05
 ```
 
 `from` and `to` are agent folder names,
-    or `user`.
+or `user`.
 
 ## Types
 

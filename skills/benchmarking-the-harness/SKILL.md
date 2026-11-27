@@ -16,9 +16,9 @@ and grade the outcomes blind.
 
 Benchmarks are [Harbor](https://harborframework.com)
 tasks and run with the `harbor` CLI,
-  so everything Harbor offers (jobs, retries,
-  `harbor view`, `harbor job regrade`,
-  `harbor lint`) works on them.
+so everything Harbor offers (jobs, retries,
+`harbor view`, `harbor job regrade`,
+`harbor lint`) works on them.
 This skill adds the method,
 an opencode base image
 every task builds on,
@@ -145,7 +145,7 @@ Benchmarks from private code,
 and every arena record,
 live in the user's private benchmarks directory
 (ask where; e.g.
-  `~/workspaces/personal/benchmarking`):
+`~/workspaces/personal/benchmarking`):
 
 ```
 <benchmarks>/
@@ -165,17 +165,17 @@ paths in the configs are relative to it.
 ## Environments start empty
 
 The base image has no skills and no instruction file.
-  A candidate gets only what its variant names:
-  `skills:`
-    (Harbor copies them to `~/.config/opencode/skills`)
-  and `kwargs.instructions` (installed as `~/.config/opencode/AGENTS.md`).
-    For the user's global setup,
-    snapshot it with `scripts/global-layer.sh layers/global`.
-  It resolves symlinks
+A candidate gets only what its variant names:
+`skills:`
+(Harbor copies them to `~/.config/opencode/skills`)
+and `kwargs.instructions` (installed as `~/.config/opencode/AGENTS.md`).
+For the user's global setup,
+snapshot it with `scripts/global-layer.sh layers/global`.
+It resolves symlinks
 and strips `benchmarking-the-harness`,
-  `create-benchmark`,
-  `benchmark-*` and `synced`
-    (Claude Code's eval tooling).
+`create-benchmark`,
+`benchmark-*` and `synced`
+(Claude Code's eval tooling).
 Copy the snapshot to build another layer,
 and edit the copy.
 
@@ -361,7 +361,7 @@ use the `create-benchmark` skill.
 ## Report
 
 Variable under test, control, constants, attempts per variant,
-  rubric, reward per key per variant,
+rubric, reward per key per variant,
 trace observations, your own reading
 where it differs from the judge, finding.
 Across the collection, report per task:

@@ -9,7 +9,7 @@ to drive the real app
 as a user would and prove behavior with evidence,
 plus a map of how to verify each feature.
 Her original:
-        [`pstack/skills/create-verification-skill`](https://github.com/cursor/plugins/tree/main/pstack/skills/create-verification-skill).
+[`pstack/skills/create-verification-skill`](https://github.com/cursor/plugins/tree/main/pstack/skills/create-verification-skill).
 Its companion, `maintain-verification-skill`,
 has its own README.
 

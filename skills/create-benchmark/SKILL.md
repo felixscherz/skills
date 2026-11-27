@@ -85,9 +85,9 @@ before writing any file:
   These become rubric criteria.
 
 Name the task after the work:
-  `<repo>-<short-task>`,
-  e.g.
-  `invoice-sync-retry-backoff`.
+`<repo>-<short-task>`,
+e.g.
+`invoice-sync-retry-backoff`.
 
 ## 2. Decide where it lives
 
@@ -109,9 +109,9 @@ cp <benchmarking-the-harness>/assets/judge.py <benchmarks>/tasks/<task>/tests/
 ```
 
 Replace every `REPO`,
-  `BASE_COMMIT`,
-  `START_TREE`
-  and `TEST_COMMAND` placeholder.
+`BASE_COMMIT`,
+`START_TREE`
+and `TEST_COMMAND` placeholder.
 
 ## 3. Build the fixture
 
@@ -283,12 +283,12 @@ In this order:
 6. **Trace expectations** - if any.
 
 In `task.toml`,
-  `artifacts` names the repository directory,
-  the verifier stays `separate`,
-  and `[verifier.env]` passes `JUDGE_MODEL`
+`artifacts` names the repository directory,
+the verifier stays `separate`,
+and `[verifier.env]` passes `JUDGE_MODEL`
 and the judge provider's key
 from the coordinator's environment.
-  Raise `agent.timeout_sec` to what the original work took,
+Raise `agent.timeout_sec` to what the original work took,
 with margin.
 
 ## 7. Validate

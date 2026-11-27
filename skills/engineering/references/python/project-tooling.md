@@ -48,8 +48,8 @@ test:
 ## Lint and type rules
 
 Select these Ruff rules on top of the usual `E`,
-  `F`, `I`, `B`, `UP`,
-  `ASYNC`, `ANN`:
+`F`, `I`, `B`, `UP`,
+`ASYNC`, `ANN`:
 
 | Rule | Why |
 | --- | --- |
@@ -61,11 +61,11 @@ Select these Ruff rules on top of the usual `E`,
 | `RUF100` | No unused `# noqa` |
 
 Use ty with `--error-on-warning`
-  and `unused-ignore-comment = "error"`.
-  Suppress with `# ty: ignore[<rule>]`,
-  never a bare ignore.
-  `# pragma: no cover` carries a reason:
-  `# pragma: no cover - process entrypoint`.
+and `unused-ignore-comment = "error"`.
+Suppress with `# ty: ignore[<rule>]`,
+never a bare ignore.
+`# pragma: no cover` carries a reason:
+`# pragma: no cover - process entrypoint`.
 
 ## Ban side effects outside adapters
 
@@ -211,20 +211,20 @@ whose `name` or `entry` is the fix-it message.
 ```
 
 `language: fail` fails
-  for every matching path and prints `entry`.
-  `pygrep` fails on any matching line.
+for every matching path and prints `entry`.
+`pygrep` fails on any matching line.
 
 ## Fakes
 
 Shared fakes live in `tests/fakes/`,
-  one module per port,
-    and are imported as `tests.fakes`.
-  Set `pythonpath = ["."]` in `[tool.pytest.ini_options]`
-  and include `tests` in the ty check
-  so ty verifies each fake against its `Protocol`.
-  A fake needs no inheritance;
-  structural typing is enough.
-  An in-memory production adapter
+one module per port,
+and are imported as `tests.fakes`.
+Set `pythonpath = ["."]` in `[tool.pytest.ini_options]`
+and include `tests` in the ty check
+so ty verifies each fake against its `Protocol`.
+A fake needs no inheritance;
+structural typing is enough.
+An in-memory production adapter
 can serve as the fake instead of a copy.
-  `monkeypatch` is the one patching tool allowed,
-    for environment variables in settings tests.
+`monkeypatch` is the one patching tool allowed,
+for environment variables in settings tests.

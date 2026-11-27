@@ -104,6 +104,6 @@ the review waits,
 and the reply holds the questions for the user or the author.
 
 The review in the reply,
-in the shape of `../references/review-output.md`. Nothing is posted without the user's go- ahead.
+in the shape of `../references/review-output.md`. Nothing is posted without the user's go-ahead.
 When the author or an agent acts on the review,
 the next playbook is Address feedback.

@@ -26,7 +26,7 @@ The generated skill has a narrow job.
 What the app is, what its features are,
 and where their code lives belong in the repository's `CONTEXT.md` (see `../engineering/references/context.md`).
 The verify skill names features the way `CONTEXT.md` does and holds only what `CONTEXT.md` should not:
-  how to run the app, drive each feature,
+how to run the app, drive each feature,
 and prove the result.
 
 ## Who decides
@@ -131,9 +131,9 @@ and remove it during cleanup.
 
 Write `.agents/skills/verify-<app>/SKILL.md`. Unlike this skill,
 it must be auto-invokable:
-  no `disable-model-invocation`,
-  no `opencode/autoinvoke`,
-  and no `agents/openai.yaml` policy.
+no `disable-model-invocation`,
+no `opencode/autoinvoke`,
+and no `agents/openai.yaml` policy.
 Agents should load it on their own
 whenever they need to see a change working.
 
@@ -149,7 +149,7 @@ such as unit tests.
 
 The body opens with one line:
 for what a feature does and where its code lives,
-  read `CONTEXT.md`;
+read `CONTEXT.md`;
 this skill covers only how to run, drive, and prove it.
 Then these sections,
 each filled with what you found,
@@ -218,12 +218,12 @@ Write one file per feature in `features/`,
 named after the feature,
 for the three to five features users rely on most,
 taken from `CONTEXT.md`.
-  Follow `references/feature-example.md`.
-  Each file says how to reach the feature as a user,
+Follow `references/feature-example.md`.
+Each file says how to reach the feature as a user,
 how to drive it with exact commands
 and the observable result of each step,
 what to keep as proof,
-  and the traps.
+and the traps.
 
 A feature file does not repeat what `CONTEXT.md` says about the feature or its code.
 When the seed data lacks something a step needs,

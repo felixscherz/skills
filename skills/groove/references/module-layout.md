@@ -111,7 +111,7 @@ src/acme/
   and entry points from outside that module;
   they are not exported from `__init__.py`.
   List each part of the composition root by name in the contracts
-  (see `architecture-boundaries.md` and `application-cli.md`).
+  (see `architecture-boundaries.md`).
 - **Moving API models
   can rename generated schemas.** FastAPI and Pydantic name
   an OpenAPI component after its class,
@@ -214,12 +214,12 @@ def issue_invoice(invoices: InvoiceRepository, clock: Clock, invoice_id: Invoice
 
 import-linter,
 configured in `pyproject.toml`.
-    One `layers` contract with `containers` applies
+One `layers` contract with `containers` applies
 the same layering inside every package module.
-    Parentheses mark a layer as optional,
-    since `checkout` has no domain.
-    Single-file modules are not listed:
-    they have no layers inside.
+Parentheses mark a layer as optional,
+since `checkout` has no domain.
+Single-file modules are not listed:
+they have no layers inside.
 
 ```toml
 [[tool.importlinter.contracts]]
@@ -244,9 +244,9 @@ the use case and pass the value in."""
 ```
 
 The ruff `TID251` ignore
-    and the semgrep I/O exclusion point
-    at `*/infrastructure/`,
-    so only adapters may touch the real world
+and the semgrep I/O exclusion point
+at `*/infrastructure/`,
+so only adapters may touch the real world
 (see `injected-external-factors.md`).
 That is also what keeps a single-file module honest:
 the first `open()` or `datetime.now()` in it fails the check,

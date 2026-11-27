@@ -150,6 +150,20 @@ visible in a signature.
 As with Lauren Tan's Dune,
 the shortcut should be the only correct path.
 
+Groove stands on its own.
+A project can adopt it
+without the `engineering` skill,
+and an agent working there
+gets everything Groove asks for from Groove alone.
+So Groove does not depend on `engineering`,
+and some guidance appears in both:
+`engineering` says what good looks like in any codebase,
+and Groove restates the parts it builds on
+in the stricter form it checks.
+A Groove reference may point to `engineering`
+for more depth,
+but only as optional reading.
+
 Agents take feedback differently from people,
 and Groove is built around that:
 

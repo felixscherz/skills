@@ -47,18 +47,6 @@ Record choices that future work needs to respect or that a later session
 would otherwise have to rediscover.
 Follow an existing repository's numbering and ADR format.
 
-Release commands,
-tag conventions, and pipeline behavior
-belong in `docs/releases.md`, linked from `CONTEXT.md`.
-Using hatch-vcs or git-cliff
-does not by itself need an ADR.
-Distribution, compatibility, or security choices
-with architectural consequences
-may need one,
-such as offline delivery,
-stored-data compatibility,
-or release signing.
-
 ## Why
 
 Agents read working instructions on every task,

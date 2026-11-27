@@ -1,15 +1,15 @@
 # skills
 
 My Agent Skills,
-    written to work across harnesses:
-    Claude Code, Codex, and opencode.
-    Each skill is a directory with a `SKILL.md` under `skills/`,
-    such as `skills/engineering/`.
-    Skills can be grouped,
+written to work across harnesses:
+Claude Code, Codex, and opencode.
+Each skill is a directory with a `SKILL.md` under `skills/`,
+such as `skills/engineering/`.
+Skills can be grouped,
 such as vendored skills
-    under `skills/<group>/<skill>/`,
+under `skills/<group>/<skill>/`,
 as long as no folder above a `SKILL.md` has one of its own.
-    Skill names must be unique across the whole repo,
+Skill names must be unique across the whole repo,
 because every skill is installed flat.
 
 ## Install
@@ -26,7 +26,7 @@ Remove them with `npx skills remove -g`.
 ## Change a skill
 
 This repo is the source of truth.
-    Edit skills here, never the installed copies in `~/.agents/skills/` or `~/.claude/skills/`,
+Edit skills here, never the installed copies in `~/.agents/skills/` or `~/.claude/skills/`,
 which the next update overwrites.
 
 1. Edit, commit, and push.

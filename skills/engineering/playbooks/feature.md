@@ -139,7 +139,7 @@ it maps each normative requirement to the check
 that proves it and lists each adaptation of unmarked guidance
 with its reason. Without one,
 it names any point where the build departed from the proposal and why.
-It lists what remains open or became a follow- up.
+It lists what remains open or became a follow-up.
 The next playbook,
 once a reviewer responds,
 is Address feedback (`address-feedback.md`).

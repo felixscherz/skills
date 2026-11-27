@@ -1,6 +1,6 @@
 ---
 name: author-skill
-description: How to author, edit, or move an Agent Skill (a SKILL.md) for broad agent compatibility. Use whenever creating or changing a skill, including fixing or updating an installed global skill under ~/.claude/skills or ~/.agents/skills, or when record-learnings decides a learning belongs in a skill. Covers where global and project-local skills live, the shared SKILL.md format, and harness-specific settings such as disabling auto-invocation.
+description: How to author, edit, or move an Agent Skill (a SKILL.md) for broad agent compatibility. Use whenever creating or changing a skill, including fixing or updating an installed global skill under ~/.claude/skills or ~/.agents/skills. Covers where global and project-local skills live, the shared SKILL.md format, and harness-specific settings such as disabling auto-invocation.
 ---
 
 # Authoring portable agent skills
@@ -96,5 +96,5 @@ leaves the harnesses behaving differently.
 The same applies to any other harness-level setting:
 check how each harness expresses it
 and set all of them.
-  `argument-hint` (Claude Code) shows a hint
+`argument-hint` (Claude Code) shows a hint
 when the user passes arguments.

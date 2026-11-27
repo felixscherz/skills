@@ -2,14 +2,14 @@
 
 A skill written for yourself
 can name the tool it uses:
-  `gh pr create`, the Jira MCP,
-  `~/workspaces/foo`.
+`gh pr create`, the Jira MCP,
+`~/workspaces/foo`.
 Once the skill is shared with a team or an organization,
 those names stop being true for everyone.
-  One repository uses GitLab, another GitHub.
+One repository uses GitLab, another GitHub.
 One developer keeps their checkouts in `~/src`,
 another in `~/work`.
-    One team tracks issues in Jira, another in Linear.
+One team tracks issues in Jira, another in Linear.
 
 The fix is the one code uses:
 write the skill against an interface
@@ -31,7 +31,7 @@ where the assumption stops holding.
 ## Write the interface in domain verbs
 
 The skill body names actions and things,
-  not tools:
+not tools:
 
 - "Publish the plan to the issue tracker",
   not "run `gh issue create`".
@@ -122,9 +122,9 @@ with the same four parts.
 ### Detection
 
 The agent works the binding out from the environment:
-  `git remote -v` for the forge,
-  the tools it has for an MCP server,
-  a `justfile` or `package.json` for how to run things.
+`git remote -v` for the forge,
+the tools it has for an MCP server,
+a `justfile` or `package.json` for how to run things.
 
 - **Fits:** capabilities and procedures
   whose answer is observable and unambiguous.

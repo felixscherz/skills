@@ -95,7 +95,7 @@ In chat,
 explain each stop by its number,
 so the user can match the explanation
 to the quickfix entry.
-    Keep notes under about 60 characters.
+Keep notes under about 60 characters.
 The explanation belongs in chat.
 
 When the user says "next" or asks about a specific stop,
@@ -206,9 +206,9 @@ so each finding can be found in the viewer.
 Use splits inside the tab
 for things that belong side by side,
 such as a caller and the function it calls:
-    `cmd 'vsplit path/to/other.lua'`,
-    then `cmd 'normal! 42Gzz'`
-    to place the cursor.
+`cmd 'vsplit path/to/other.lua'`,
+then `cmd 'normal! 42Gzz'`
+to place the cursor.
 Do not open more than two or three windows.
 The pane is narrower than a full screen.
 

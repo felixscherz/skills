@@ -65,7 +65,7 @@ but do not make the agent run that check every time the skill loads.
 In the normal case everything is there,
 and an upfront check costs time on every run to catch a rare problem.
 Assume the dependencies are present,
-    act, and give the skill a section on what to do
+act, and give the skill a section on what to do
 when something turns out to be missing
 (see `contracts.md`).
 A check script is useful there:

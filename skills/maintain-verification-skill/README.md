@@ -10,7 +10,7 @@ sorts what it finds into doc drift,
 harness gaps, and product bugs,
 and ships at most one PR of proven corrections.
 Her original:
-        [`pstack/skills/maintain-verification-skill`](https://github.com/cursor/plugins/tree/main/pstack/skills/maintain-verification-skill).
+[`pstack/skills/maintain-verification-skill`](https://github.com/cursor/plugins/tree/main/pstack/skills/maintain-verification-skill).
 
 How this version differs:
 

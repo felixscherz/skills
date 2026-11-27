@@ -120,12 +120,12 @@ the references stay as depth.
 ## Friction
 
 The references say what good looks like,
-    but an agent in the middle of a task
+but an agent in the middle of a task
 does not notice that it is violating one.
 It notices what it is doing:
 writing a patch, copying a transformation,
 editing a tenth file for a one-line change.
-    `references/friction.md` lists design signals in that form,
+`references/friction.md` lists design signals in that form,
 each pointing to the reference with the cure.
 
 What to do about friction
@@ -176,17 +176,17 @@ and the one that reads it share one definition.
 There is no implementation plan between the spec and the build.
 Current models are strong enough to choose their own steps from a spec,
 and slicing it into a fixed plan first takes that judgment away.
-    `plan-from-a-spec.md` was removed for this reason;
+`plan-from-a-spec.md` was removed for this reason;
 its one rule that is not about planning, slicing steps vertically,
 moved to `references/optimize-for-shipping.md`.
-    A spec too large for one agent goes through Orchestrate,
+A spec too large for one agent goes through Orchestrate,
 which splits the build into slices for subagents.
 
 ## Playbooks
 
 The list of playbooks, with when each applies,
 is the index in `SKILL.md`.
-    Three of them take a different posture from the rest:
+Three of them take a different posture from the rest:
 
 - **Investigate** is read-only and autonomous:
   the agent settles every fact itself

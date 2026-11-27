@@ -134,7 +134,7 @@ Difficulty writing a good test points at the design problem,
 and each fix cuts out a piece of the code
 that can be tested on its own.
 This loop replaces steps 3, 4, and 6;
-    steps 1, 2, 5, and 7 to 10
+steps 1, 2, 5, and 7 to 10
 still apply.
 
 1. Try to write a useful test

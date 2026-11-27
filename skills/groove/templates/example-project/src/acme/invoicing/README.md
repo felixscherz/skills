@@ -20,6 +20,6 @@ and charges the Customer in one step (`checkout`).
 
 Reads whether a Customer exists
 through its own `CustomerLookup` port.
-    `infrastructure/customer_lookup.py` is the only code in invoicing
+`infrastructure/customer_lookup.py` is the only code in invoicing
 that imports another module (`customers`),
 declared in `ignore_imports` of the layers contract.

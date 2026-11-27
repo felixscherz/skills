@@ -7,7 +7,7 @@ and where to read further for a given task.
 It lets an agent go from "the user means X"
 to the right code or document without searching the whole codebase.
 It is committed and shared with the team,
-  and `AGENTS.md` points to it.
+and `AGENTS.md` points to it.
 
 - Read the nearest `CONTEXT.md` before exploring the code,
   and follow only the links whose trigger matches the task.

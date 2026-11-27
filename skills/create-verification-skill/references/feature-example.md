@@ -1,12 +1,12 @@
 # Feature file example
 
 A feature file in `.agents/skills/verify-<app>/features/`
-        for a notes app
-        with a web UI and a CLI.
-        The app's `CONTEXT.md` lists the feature as "Create a note",
-        so the file is `features/create-a-note.md`.
-        The skill's helper is `scripts/notes-verify`,
-        documented in its `SKILL.md`.
+for a notes app
+with a web UI and a CLI.
+The app's `CONTEXT.md` lists the feature as "Create a note",
+so the file is `features/create-a-note.md`.
+The skill's helper is `scripts/notes-verify`,
+documented in its `SKILL.md`.
 
 The file has a title,
 one line on what proving it means,

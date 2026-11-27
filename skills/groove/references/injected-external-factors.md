@@ -220,10 +220,10 @@ def test_issue_sets_issued_at() -> None:
 ## Codify it
 
 ruff, configured in `pyproject.toml`.
-  `TID251` bans the direct calls
+`TID251` bans the direct calls
 with a message that names the port to use.
-  `B008` bans calls in default arguments,
-  which catches `clock: Clock = SystemClock()`:
+`B008` bans calls in default arguments,
+which catches `clock: Clock = SystemClock()`:
 
 ```toml
 [tool.ruff.lint]
@@ -248,7 +248,7 @@ select = ["E", "F", "I", "UP", "B", "DTZ", "TID251"]
 
 ruff's `banned-api`
 does not catch the `open` builtin,
-  so semgrep covers file I/O:
+so semgrep covers file I/O:
 
 ```yaml
 - id: io-outside-adapter

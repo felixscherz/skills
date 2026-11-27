@@ -17,7 +17,7 @@ while it is small
   or its single file,
   exports in `__all__`:
   its domain values and rules,
-use cases, ports, errors, and any fakes for its ports.
+  use cases, ports, errors, and any fakes for its ports.
   Adapters (`infrastructure/`)
   and entry points (`api/`, `cli/`)
   are not exported.
@@ -370,9 +370,9 @@ No workflow module is needed.
 
 import-linter,
 configured in `pyproject.toml`.
-    The `layers` contract declares the allowed direction between modules;
-    `|` marks modules in a layer as independent of each other,
-    and `ignore_imports` lists the adapters
+The `layers` contract declares the allowed direction between modules;
+`|` marks modules in a layer as independent of each other,
+and `ignore_imports` lists the adapters
 that read from a sibling:
 
 ```toml
@@ -402,9 +402,9 @@ request."""
 
 One `protected` contract per package module
 keeps everything below its `__init__.py` private.
-    A single-file module has nothing below it,
+A single-file module has nothing below it,
 so it needs none until it becomes a package.
-    `**` covers the layer subpackages.
+`**` covers the layer subpackages.
 The composition root is the one allowed importer from outside,
 so it can construct adapters and mount entry points:
 
@@ -446,7 +446,7 @@ Alternative:
 tach expresses the first two
 in one `tach.toml`,
 with an explicit `depends_on` allowlist per module
-    and `interfaces` for the public API.
+and `interfaces` for the public API.
 
 ## Review by hand
 

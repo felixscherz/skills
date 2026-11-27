@@ -67,7 +67,7 @@ and what to do about it.
 ## Why
 
 An agent works in a loop:
-  change, check, read the output, change again.
+change, check, read the output, change again.
 Whatever the check command enforces,
 the agent gets right within a few iterations,
 without having to remember it.

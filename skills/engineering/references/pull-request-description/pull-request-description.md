@@ -119,16 +119,16 @@ never use more than a few.
   ```
 
 - Interaction or data flow between components as a Mermaid diagram
-(GitHub and GitLab render it).
+  (GitHub and GitLab render it).
 
 - When the surrounding shape already exists
-and the point is what changed,
-write any of the above as a `diff`:
-unchanged lines as context,
-    `-` for what went away,
-    `+` for what replaced it.
-This is the most useful form
-for most changes to existing code:
+  and the point is what changed,
+  write any of the above as a `diff`:
+  unchanged lines as context,
+  `-` for what went away,
+  `+` for what replaced it.
+  This is the most useful form
+  for most changes to existing code:
 
   ```diff
    Procedure.run
