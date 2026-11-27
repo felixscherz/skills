@@ -19,6 +19,11 @@ hard once it has piled up, so checkpoint it for review as you go.
 - Separate mechanical changes from behavior changes. A rename, move,
   formatting pass, or preparatory refactor gets its own commit before the
   change that needs it, so the reviewer can skim it and focus on the risk.
+- In markdown files, put each sentence on its own line (semantic line breaks, sembr.org).
+  Editing a sentence then changes one line in the diff, and a review comment or suggestion targets that sentence.
+  Hard-wrapping at a fixed width reflows the whole paragraph on a one-word edit.
+  Where a repository already wraps differently, follow it, and rewrap only in a commit of its own.
+  This is for committed files only: GitHub and GitLab render a single newline in PR descriptions, comments, and issues as a line break.
 - Commit as you go. When a step passes its check, commit it before starting
   the next one. When uncommitted work starts to serve more than one purpose,
   commit what is done before going on. This matters most when working
