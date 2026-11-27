@@ -39,7 +39,7 @@ select = ["E", "F", "I", "UP", "B", "DTZ", "TID251"]
 "uuid.uuid4".msg = "Inject an IdGenerator (acme.ids) and call ids.new_id()."
 "os.environ".msg = "Read configuration in the composition root and pass a settings object in."
 "os.getenv".msg = "Read configuration in the composition root and pass a settings object in."
-"unittest.mock.patch".msg = "Pass the fake that ships with the port instead of patching."
+"unittest.mock.patch".msg = "Inject a fake or isolated real adapter instead of patching."
 
 # The only places that may touch the real world: adapters, port modules that hold
 # their real implementation, and the composition root. Every entry says why.

@@ -145,7 +145,9 @@ not up front.
   or any I/O.
   - A functional core in an imperative shell.
     External factors arrive through injected ports,
-    with fakes next to the port.
+    with fakes next to the port when useful.
+    An isolated real adapter can be a better test dependency
+    when its behavior is part of the contract.
     ruff bans the direct calls.
     Opaque domain IDs are string-backed, frozen value objects,
     not `NewType` aliases or `UUID` values.
@@ -201,8 +203,8 @@ These questions cover the rest:
    have a name that passes the check but says nothing?
 4. **Functional core.** Is new domain logic pure,
    given the same arguments always returning the same result?
-   Did you add a port without a fake,
-   or a `port: Port | None = None` fallback?
+   Do tests use a suitable fake or isolated real adapter for each port?
+   Did you add a `port: Port | None = None` fallback?
 5. **Persistent data.** Did a stored shape change?
    If so, is the version bumped,
    with a migration step and a new fixture?
@@ -335,8 +337,9 @@ Each step below ends in a working, committed state:
    Move the rules into `domain/`, pure,
    taking time and IDs as arguments.
 4. **Use cases and ports.** One use case per intent,
-   its ports and their fakes,
-   with deterministic tests through the fakes.
+   its ports and deterministic tests through suitable test dependencies.
+   Add fakes where useful,
+   or test against an isolated real adapter when its behavior matters.
 5. **Adapters.** Move persistence and other I/O
    into `infrastructure/`, translating their errors
    into the module's own.
@@ -355,7 +358,7 @@ A small module with no adapter and no entry point
 can become a single file instead:
 after step 1, move it into `orders.py` with `__all__`,
 in the order decide,
-then ports and fakes,
+then ports and any fakes,
 then do, move every outside importer onto it,
 and add it to the layers contract.
 The remaining steps wait until it needs an adapter.

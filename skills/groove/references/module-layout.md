@@ -52,7 +52,7 @@ src/acme/
   (see Codify it).
 - **The rules below hold in a single file too.** Domain functions stay pure
   and take the time and IDs as arguments,
-  ports and fakes still come in pairs,
+  useful fakes still live next to their ports,
   and use cases still decide first, then do.
   Only the checks differ:
   no contract sees the layers inside one file.
@@ -78,7 +78,7 @@ src/acme/
   lets the domain decide, saves, and owns the transaction boundary.
   Ports live in `usecases/ports.py`,
   because use cases are what consume them,
-  and their fakes in `usecases/fakes.py`.
+  and any fakes in `usecases/fakes.py`.
   A use case does not call another use case.
 - **Decide first, then do.** Inside a use case,
   run every rule on loaded values before the first write.
@@ -160,8 +160,9 @@ answers it with one question:
 does this code decide, do, or talk to the outside world?
 The answer is also what makes it testable:
 domain tests need no fakes at all,
-use-case tests
-need only the fakes next to the ports.
+use-case tests inject fakes next to the ports
+or isolated real adapters when their behavior matters
+(see `injected-external-factors.md`).
 
 Splitting decide from do is where codebases most often blur.
 A domain service that validates

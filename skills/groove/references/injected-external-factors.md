@@ -26,13 +26,20 @@ wrapped in an imperative shell.
   `IdGenerator`, repositories,
   gateways for external services,
   typed settings.
-- **Fakes ship with the port.** The module that defines a protocol also defines
-  and exports its fake (`FakeClock`,
-  `InMemoryInvoiceRepository`),
+- **Choose test dependencies for the contract.** Prefer fakes for factors
+  such as time or remote services when they make tests deterministic and fast.
+  When a fake is useful,
+  the module that defines the port also defines and exports it
   in `fakes.py` next to `ports.py`.
-  Tests use those fakes.
-  They do not write their own,
-  and they do not patch.
+  Reuse it rather than writing a new fake in each test.
+  Do not patch to replace dependencies.
+  An isolated real adapter is preferable when its behavior is part of the contract
+  and it is fast and reliable enough for the check command.
+  A port does not need a fake merely because it exists.
+  Keep tests independent of shared state, network services, and execution order;
+  give each test its own isolated resources and clean them up.
+  When both a fake and a real adapter implement the same contract,
+  run shared contract tests against both to catch drift.
 - **Adapters.** Real implementations (`SystemClock`,
   `JsonFileInvoiceRepository`)
   live in `infrastructure/` of the module that owns the port.
@@ -126,9 +133,17 @@ A pure core
 is also what an agent can change most safely:
 no hidden state, nothing to set up,
 and the type checker sees every input.
-Fakes next to the port mean one fake per factor,
-kept in sync with the protocol,
+Fakes next to the port give tests one reusable implementation
 instead of a slightly different hand-rolled stub in every test file.
+Some behavior cannot be established by a fake alone:
+an isolated SQLite database can exercise real transactions,
+foreign keys, and rollback in repository and use-case tests.
+Use a file-backed database when reopening, connection lifetimes,
+or file behavior matters.
+An in-memory fake would need to reproduce those guarantees
+and could silently diverge from the real adapter.
+Keep injected ports and test the pure domain separately;
+using SQLite in a test does not make domain code depend on it.
 
 Default arguments are banned
 because they turn the explicit path
@@ -222,7 +237,7 @@ select = ["E", "F", "I", "UP", "B", "DTZ", "TID251"]
 "random".msg = "Inject an Rng port and pass it in."
 "uuid.uuid4".msg = "Inject an IdGenerator (acme.ids) and call ids.new_id()."
 "os.environ".msg = "Read configuration in the composition root and pass a settings object in."
-"unittest.mock.patch".msg = "Pass the fake that ships with the port instead of patching."
+"unittest.mock.patch".msg = "Inject a fake or isolated real adapter instead of patching."
 
 # The only places that may touch the real world. Every entry says why.
 [tool.ruff.lint.per-file-ignores]
@@ -242,7 +257,7 @@ does not catch the `open` builtin,
   message: >-
     Direct file I/O outside an adapter. Define a port (a Protocol) in the
     use case's ports.py, implement it in the module's infrastructure/, and
-    pass it in. Tests use the module's fake.
+    pass it in. Tests inject a fake or isolated real adapter.
   pattern-either:
     - pattern: open(...)
     - pattern: $PATH.read_text(...)
@@ -285,9 +300,10 @@ and its value is a string, by hand.
   and touch nothing else?
   The checks catch known calls,
   not a new library that reads the clock.
-- For each new port:
-  does the module also export a fake,
-  and do the tests use it?
+- For each port:
+  do tests use a deterministic fake or a suitably isolated real adapter?
+  If both exist, do shared contract tests keep them aligned?
+  Does a real-adapter test cover the behavior a fake cannot establish?
 - Is each opaque domain ID a string-backed, frozen value object?
   Does its validation enforce established rules rather than assumptions?
   Outside the value object's own behavior,

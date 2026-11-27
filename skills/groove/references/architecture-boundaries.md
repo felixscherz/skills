@@ -17,7 +17,7 @@ while it is small
   or its single file,
   exports in `__all__`:
   its domain values and rules,
-  use cases, ports, errors, and the fakes for its ports.
+use cases, ports, errors, and any fakes for its ports.
   Adapters (`infrastructure/`)
   and entry points (`api/`, `cli/`)
   are not exported.
@@ -202,7 +202,7 @@ A port owned by the reader keeps the sibling's model
 out of the reader's use cases:
 a rename in customers breaks one adapter in invoicing,
 not its rules or tests,
-and the use case is tested with a fake
+and the use case can be tested with a fake
 instead of a real customers module.
 Naming an owner for every write puts its sequencing and failure handling
 in one use case,

@@ -22,7 +22,7 @@ rules:
     message: >-
       Direct file I/O outside an adapter. Define a port (a Protocol) in the
       use case's ports.py, implement it in the module's infrastructure/, and
-      pass it in. Tests use the module's fake.
+      pass it in. Tests inject a fake or isolated real adapter.
     pattern-either:
       - pattern: open(...)
       - pattern: $PATH.read_text(...)
